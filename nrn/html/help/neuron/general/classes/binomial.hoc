@@ -1,0 +1,15 @@
+//@code
+objref r, hist, g
+r = new Random()
+r.binomial(20, .5)
+
+g = new Graph()
+g.size(0, 20, 0, 100)
+hist = new Vector(20)
+hist.plot(g)
+for(i=0; i<500; i=i+1){
+	j = r.repick()
+	hist.x[j] = hist.x[j]+1
+	g.flush()
+	doNotify()
+}

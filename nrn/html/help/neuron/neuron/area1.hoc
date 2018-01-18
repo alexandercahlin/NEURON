@@ -1,0 +1,9 @@
+forall delete_section()
+//@code
+create a
+access a
+nseg = 10
+Ra = 100
+L=1000
+diam(0:1)=10:100
+for (x) print x, diam(x), area(x), PI*diam(x)*L/nseg, ri(x), .01*Ra*(L/2/nseg)/(PI*(diam(x)/2)^2)

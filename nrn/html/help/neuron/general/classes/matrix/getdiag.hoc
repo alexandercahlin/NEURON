@@ -1,0 +1,9 @@
+//@code
+objref m
+m = new Matrix(4,5)
+for i=0, m.nrow-1 for j=0, m.ncol-1 m.x[i][j] = 1 + 10*j + 100*i
+m.printf
+for i=-m.nrow+1, m.ncol-1 {
+	printf("diagonal %d: ", i)
+	m.getdiag(i).printf
+}

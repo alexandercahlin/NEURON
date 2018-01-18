@@ -1,0 +1,1168 @@
+<p>
+<h1><a name="Graph">Graph</a></h1>
+<pre>
+<a href="../../0nrn.html#classes">classes</a>
+   <a href="graph.html#addexpr">addexpr</a>        <a href="graph.html#erase_all">erase_all</a>      <a href="graph.html#line_info">line_info</a>      <a href="graph.html#unmap">unmap</a>          
+   <a href="graph.html#addobject">addobject</a>      <a href="graph.html#exec_menu">exec_menu</a>      <a href="graph.html#mark">mark</a>           <a href="graph.html#vector">vector</a>         
+   <a href="graph.html#addvar">addvar</a>         <a href="graph.html#family">family</a>         <a href="graph.html#menu_action">menu_action</a>    <a href="graph.html#vfixed">vfixed</a>         
+   <a href="graph.html#align">align</a>          <a href="graph.html#fastflush">fastflush</a>      <a href="graph.html#menu_remove">menu_remove</a>    <a href="graph.html#view">view</a>           
+   <a href="graph.html#axis">axis</a>           <a href="graph.html#fixed">fixed</a>          <a href="graph.html#menu_tool">menu_tool</a>      <a href="graph.html#view_count">view_count</a>     
+   <a href="graph.html#begin">begin</a>          <a href="graph.html#flush">flush</a>          <a href="graph.html#plot">plot</a>           <a href="graph.html#view_info">view_info</a>      
+   <a href="graph.html#beginline">beginline</a>      <a href="graph.html#getline">getline</a>        <a href="graph.html#printfile">printfile</a>      <a href="graph.html#view_size">view_size</a>      
+   <a href="graph.html#brush">brush</a>          <a href="graph.html#gif">gif</a>            <a href="graph.html#relative">relative</a>       <a href="graph.html#xaxis">xaxis</a>          
+   <a href="graph.html#color">color</a>          <a href="graph.html#glyph">glyph</a>          <a href="graph.html#save_name">save_name</a>      <a href="graph.html#xexpr">xexpr</a>          
+   <a href="graph.html#crosshair">crosshair</a>      <a href="graph.html#label">label</a>          <a href="graph.html#simgraph">simgraph</a>       <a href="graph.html#yaxis">yaxis</a>          
+   <a href="graph.html#erase">erase</a>          <a href="graph.html#line">line</a>           <a href="graph.html#size">size</a>           
+</pre>
+<h2>SYNTAX</h2>
+<code>g = new Graph()</code><br>
+<code>g = new Graph(0)</code><br>
+<h2>DESCRIPTION</h2>
+<p>
+An instance of the Graph class  manages a window on which  x-y plots can
+be drawn by calling various member functions.
+The first form immediately maps the window to the screen. With a 0 argument
+the window is not mapped but can be sized and placed with the <a href="graph.html#view">view</a> function.
+<p>
+<h2>EXAMPLES</h2>
+The most basic interpreter prototype for producing a plot follows:
+<p>
+<a href="graph1.hoc">execute following example</a>
+<blockquote><pre>
+objref g	//Creates an object reference "g" which can be made to
+		//point to any object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph instance
+			//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.size(0, 10, -1, 1)	// specify coordinate system for the canvas drawing area
+			// numbers refer to xmin, xmax, ymin, ymax respectively
+g.beginline()		//The next g.line command will move the drawing pen
+			// to the indicated point without drawing anything
+for(x=0; x&lt;=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.line(x, sin(x))	//States that the y values on the plot
+				//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+<p>
+The function <code>.line()</code>, however, only allows the user to plot one function
+per <code>for</code> loop, whereas the function <code>.plot()</code> can produce several
+plots per <code>for</code> loop and is therefore more effective in comparing plots.
+You must use <code>.begin()</code> and <code>.addvar()</code> or <code>.addexpr()</code> in 
+conjunction with the <code>.plot</code> function.
+<p>
+<a href="graph2.hoc">execute following example</a>
+<blockquote><pre>
+objref g
+g = new Graph()
+g.size(0, 10, -1, 1)
+g.addexpr("sin(x)")	//stores sin(x) as a function to be plotted in g
+g.addexpr("cos(x)")	//stores cos(x) for use with g
+g.addexpr("exp(-x)")	//stores exp(x) for use with g
+x=0
+g.begin()		//The next g.plot command will move the drawing pens
+			// for the three curves to indicated x position
+for(x=0; x&lt;=10; x=x+0.1){
+	g.plot(x)	// The x value used for each expression in the
+			// addexpr list
+}
+g.flush()
+</pre></blockquote>
+<p>
+The size in the above example is appropriate to show the sine waves nicely
+but the view of the exponential only shows the first few points before it
+goes out of view. Hold the right mouse button while the mouse in in the
+graph window and select the "View = plot" menu item to see the entire exponential.
+Selecting the "Whole Scene" menu item will return to the size specified
+in the size command.
+<p>
+<p><hr><p>
+<h1><a name="axis">axis</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+see <a href="graph.html#yaxis">yaxis</a>
+<p><hr><p>
+<h1><a name="xaxis">xaxis</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.xaxis()</code><br>
+<code>g.xaxis(mode)</code><br>
+<code>g.xaxis(<var>xstart</var>, <var>xstop</var>)</code><br>
+<code>g.xaxis(<var>xstart</var>, <var>xstop</var>, <var>ypos</var>, <var>ntic</var>, <var>nminor</var>, <var>invert</var>, <var>shownumbers</var>)</code><br>
+<h2>DESCRIPTION</h2>
+The single mode argument draws both x and y axes (no arg == mode 0).
+See <a href="graph.html#yaxis">yaxis</a> for a complete description of the arguments.
+<p>
+<p><hr><p>
+<h1><a name="yaxis">yaxis</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.yaxis()</code><br>
+<code>g.yaxis(mode)</code><br>
+<code>g.yaxis(<var>ystart</var>, <var>ystop</var>)</code><br>
+<code>g.yaxis(<var>ystart</var>, <var>ystop</var>, <var>ypos</var>, <var>ntic</var>, <var>nminor</var>, <var>invert</var>, <var>shownumbers</var>)</code><br>
+<h2>DESCRIPTION</h2>
+The single mode argument draws both x and y axes (no arg == mode 0).
+<dl>
+<dt> mode = 0
+<dd> view axes (axes in each view drawn dynamically)
+			when graph is created these axes are the default
+<dt> mode = 1
+<dd> fixed axes as in long form but start and stop chosen
+			according to first view size.
+<dt> mode = 2
+<dd> view box (box axes drawn dynamically)
+<dt> mode = 3
+<dd> erase axes	
+</dl>
+<dl>
+<dt> Arguments which specify the numbers on the axis are rounded,
+and the number of tic marks is chosen so that axis labels are short numbers 
+(eg. not 3.3333333... or the like).
+<dt> The <var>xpos</var> argument gives the location of the yaxis on the xaxis (default 0).
+<dt> Without the <var>ntic</var> argument (or <var>ntic</var>=-1),
+the number of tics will be chosen for you. 
+<dt> <var>nminor</var> is the number
+of minor tic marks. 
+<dt> <var>shownumbers</var>=0 will not draw the axis labels.
+<dt> <var>invert</var>=1 will invert the axes.
+</dl>
+<p>
+Note: 
+<p>
+It is easiest to control the size of the axes and the scale of 
+the graph through the graphical user interface.  Normally, when a 
+new graph is declared (eg. <code>g = new Graph()</code>), the y axis
+ranges from 20-180 and the x axis ranges from 50-250. 
+With the mouse arrow on the graph window, click on the right button
+and set the arrow on "View" at the top of the button window 
+column.  A second button 
+window will appear to the right of the first, and from this button window
+you can select several options.  Two of the most common are:
+<dl>
+<dt> 1)  view=plot
+<dd> Size the window to best-fit the plot which it contains.
+<dt> 2)  Zoom in/out
+<dd> Allows you to click on the left mouse button and perform the following
+tasks:
+</dl>
+<dl>
+<dt> move arrow to the right
+<dd> scale down the x axis (eg. 50 - 250 becomes 100 - 110)
+<dt> "shift" + move arrow to the right 
+<dd> view parts of the axis which are to the left of the original window
+<dt> -----
+<dt> move arrow to the left
+<dd> scale up the x axis (eg. 50 - 250 becomes -100 - 500)
+<dt> "shift" + move arrow to the left
+<dd> view parts of the axis which are to the right of the original window
+<dt> -----
+<dt> move arrow up
+<dd> scale down the y axis (eg. 20 - 180 becomes 57.5 - 62)
+<dt> "shift" + move arrow up
+<dd> view parts of the axis which are below the original window
+<dt> -----
+<dt> move arrow down
+<dd> scale up the y axis (eg. 20 - 180 becomes -10,000 - 5,000)
+<dt> "shift" + move arrow down
+<dd> view parts of the axis which are above the original window
+</dl>
+You can also use the size command to determine the size of what you view in the
+graph window.  Eg. <code>g.size(-1,1,-1,1)</code> makes both axes go from -1 to 1.
+<p>
+<p><hr><p>
+<h1><a name="addvar">addvar</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.addvar("<var>variable</var>")</code><br>
+<code>g.addvar("<var>variable</var>", <var>color_index</var>, <var>brush_index</var>)</code><br>
+<code>g.addvar("<var>label</var>", "<var>variable</var>")</code><br>
+<code>g.addvar("<var>label</var>", "<var>variable</var>", <var>color_index</var>, <var>brush_index</var>)</code><br>
+<h2>DESCRIPTION</h2>
+Add the variable to the list of items graphed when <code>g.plot(<var>x</var>)</code> is called.
+The address of the variable is computed so this is fast. The current
+color and brush is used if the optional arguments are not present. The name
+of the variable is
+also added to the graph as a label associated with the line. If the
+first two args are strings, then the first "label" arg is associated
+with the line on the
+graph whereas the second arg defines the variable.
+<p>
+<p><hr><p>
+<h1><a name="addexpr">addexpr</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.addexpr("<var>expression</var>")</code><br>
+<code>g.addexpr("<var>expression</var>", <var>color_index</var>, <var>brush_index</var>)</code><br>
+<code>g.addexpr("label", "expr", object, ....)</code><br>
+<h2>DESCRIPTION</h2>
+Add an expression (eg. sin(x), cos(x), exp(x)) to the list of items graphed when
+<code>g.plot(<var>x</var>)</code> is called.
+<p>
+The current
+color and brush is used if the optional arguments are not present. A label
+is also added to the graph that indicates the name of the variable.
+The expression is interpreted every time <code>g.plot(x)</code> is
+called so it is more general than <a href="graph.html#addvar">addvar</a> , but slower.
+<p>
+If the optional label is present that string will appear as the label instead
+of the expr string. If the optional object is present the expr will be
+evaluated in the context of that object.
+<h2>EXAMPLES</h2>
+<a href="addexpr1.hoc">execute following example</a>
+<blockquote><pre>
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+g.size(0,10,-1,1)	//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.addexpr("sin(x)")	//stores sin(x) as a function to be plotted in g graphs
+g.addexpr("cos(x)")	//stores cos(x) for use with g
+g.addexpr("exp(-x)")	//stores exp(x) for use with g
+x=0			// has to be defined prior to execution of expressions
+g.begin()		//Tells the interpreter that commands to plot 
+			//specific functions will follow.
+for(x=0; x&lt;=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.plot(x)	//States that the y values on the plot
+			//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="addobject">addobject</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.addobject(rangevarplot)</code><br>
+<code>g.addobject(rangevarplot, color, brush)</code><br>
+<h2>DESCRIPTION</h2>
+Adds the <a href="../../neuron/classes/rvarplt.html#RangeVarPlot">RangeVarPlot</a> to the list of items to be plotted on
+<a href="graph.html#flush">flush</a>
+<p>
+<p><hr><p>
+<h1><a name="begin">begin</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.begin()</code><br>
+<h2>DESCRIPTION</h2>
+Initialize the list of graph variables so the next <code>g.plot(x)</code>
+is the first point of each graph line.
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+			//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.addexpr("sin(x)")	//stores sin(x) as a function to be plotted in g graphs
+g.addexpr("cos(x)")	//stores cos(x) for use with g
+g.addexpr("-exp(x)")	//stores exp(x) for use with g
+x=0
+g.begin()		//Tells the interpreter that commands to plot 
+			//specific functions will follow.
+for(x=0; x&lt;=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.plot(x)	//States that the y values on the plot
+			//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="plot">plot</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.plot(<var>x</var>)</code><br>
+<h2>DESCRIPTION</h2>
+The abscissa value for each item in the list of graph lines. Usually
+used in a <code>for</code> loop.
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+			//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.addexpr("sin(x)")	//stores sin(x) as a function to be plotted in g graphs
+g.addexpr("cos(x)")	//stores cos(x) for use with g
+g.addexpr("cos(2*x)")	//stores cos(2*x) for use with g
+x=0
+g.begin()		//Tells the interpreter that commands to plot 
+			//specific functions will follow.
+for(x=0; x&lt;=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.plot(x)	//States that the y values on the plot
+			//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="xexpr">xexpr</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.xexpr("<var>expression</var>")</code><br>
+<code>g.xexpr("<var>expression</var>", <var>usepointer</var>)</code><br>
+<h2>DESCRIPTION</h2>
+Use this expression for plotting two-dimensional functions such as (x(<var>t</var>), y(<var>t</var>)), 
+where the x and y coordinates are separately dependent on a single variable <var>t.</var>
+This expression calculates the x value each time <code>.plot</code> is called, while functions 
+declared by <code>.addexpr</code> will calculate the y value when <code>.plot</code> is called.
+This can be used for phase plane plots, etc. Note that the normal argument to
+<code>.plot</code> is ignored when such an expression is invoked. When <code>usepointer</code>
+is 1 the expression must be a variable name and its address is used.
+<h2>EXAMPLES</h2>
+<a href="xexpr.hoc">execute following example</a>
+<blockquote><pre>
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+			//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.size(-4,4,-4,4)	//sizes the window to fit the graph
+t = 0		//Declares t as a possible variable
+g.addexpr("3*sin(t)")	//stores 3*sin(t) as a function to be plotted in g graphs
+g.color(3)		//the next graph will be drawn in blue
+g.addexpr("3*sin(2*t)") //stores 3*sin(2*t) as a function to be plotted
+g.xexpr("3*cos(t)")	//stores 3*cos(t) as the x function to be plotted in g graphs
+			//sin(x) becomes the y function
+g.begin()		//Tells the interpreter that commands to plot 
+			//specific functions will follow.
+for(t=0; t&lt;=2*PI+0.1; t=t+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.plot(t)	//States that the y values on the plot
+			//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+plots a black circle of radius=3 and a blue infinity-like figure, spanning from x=-3
+to x=3.
+<p>
+<p><hr><p>
+<h1><a name="flush">flush</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.flush()</code><br>
+<h2>DESCRIPTION</h2>
+	Actually draw what has been placed in the graph scene. (If
+you are continuing to compute you will also need to call <a href="../function/notify.html#doEvents">doEvents</a>
+	before you see the results on the screen.) This redraws all objects
+	in the scene and therefore should not be executed very much during
+	plotting of lines with thousands of points.
+<h2>BUGS</h2>
+Because Microsoft Windows is a second-class operating system, too many points, too close 
+together will not appear at all on a graph window.  You can, in such a case, zoom in to view
+selected parts of the function.
+<p>
+<p><hr><p>
+<h1><a name="fastflush">fastflush</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>	 .fastflush()</code><br>
+<h2>DESCRIPTION</h2>
+Flushes only the <a href="graph.html#plot">plot</a> (x) points since the last <a href="file.html#flush">flush</a>
+	(or <code>fastflush</code>).
+This is useful for seeing the progress of <a href="graph.html#addvar">addvar</a> plots during long
+	computations in which the graphlines contain many thousands of points.
+	Make sure you do a normal <code>.flush</code> when the lines are complete since
+	fastflush does not notify the system of the true size of the lines.  
+	In such cases, zooming, translation, and crosshairs do not always
+	work properly till after the <code>flush()</code> command has been given. 
+	(Note, this is most useful for time plots).
+<p>
+<a href="fastflush.hoc">execute following example</a>
+<blockquote><pre>
+objectvar g
+g = new Graph()
+g.size(0,4000, -1,1)
+
+g.addexpr("cos(x/100)")
+g.addexpr("cos(x/150)")
+g.addexpr("cos(x/200)")
+g.addexpr("cos(x/250)")
+g.addexpr("cos(x/300)")
+g.addexpr("cos(x/450)")
+
+proc pl() {
+	g.erase()
+	g.begin()
+	for (x=0; x &lt; 4000; x=x+1) {
+		g.plot(x)
+		if (x%10 == 0) {
+			g.fastflush()
+			doNotify()
+		}
+	}
+	g.flush()
+	doNotify()
+}
+
+pl()
+
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="family">family</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.family(<var>boolean</var>)</code><br>
+<code>g.family("varname")</code><br>
+<h2>DESCRIPTION</h2>
+	The first form is similar to the Keep Lines item in the graph menu of the 
+graphical user interface.
+<dl>
+<dt> 1
+<dd> equivalent to the sequence ---Erase lines; Keep Lines toggled on;
+		 use current graph color and brush when plotting the lines.
+<dt> 0 
+<dd> Turn off family mode. Original color restored to plot expressions;
+		Keep Lines toggled off.
+</dl>
+<p>
+With a string argument which is a variable name,
+the string is printed as a label and when keep lines
+is selected each line is labeled with the value of the variable.
+<p>
+When graphs are printed to a file in <a href="../../agui/gui.html#Ascii">Ascii</a> mode,
+the lines are labeled
+with these labels. If every line has a label and each line has the same size,
+then the file is printed in matrix form.
+<p>
+<p><hr><p>
+<h1><a name="vector">vector</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.vector(<var>n</var>, <var></var>&x[0], <var></var>&y[0])</code><br>
+<code>.vector("<var>namey</var>")</code><br>
+<h2>DESCRIPTION</h2>
+<dl>
+<dt> <code>.vector(<var>n</var>, &x[0], &y[0])</code>
+<dd> Rudimentary graphing of a y-vector vs. a fixed x-vector. The y-vector
+	is reread on each <code>.flush()</code> (x-vector is not reread). Cannot save
+	and cannot keep lines. 
+<p>
+	Notes:
+	
+	These vectors are assumed to be doubles and not vectors from
+	the Vector class.  The Vector class has its own functions
+<a href="vector/vect.html#plot">plot</a> , <a href="vector/vect.html#line">line</a> , <a href="vector/vect.html#mark">mark</a>
+for graphing vectors constructed in that class.
+	
+	A segmentation violation will result if
+	n is greater than the vector size.
+<p>
+<dt> <code>.vector("<var>namey</var>")</code>
+<dd> equivalent to <code>.vector(n, ..., &namey[0])</code> above with the advantage
+	that it is saved in a session (because the symbol name is known).
+	It is simpler in that the size n is obtained from the symbol but
+	the plot is vs. the index of the vector. Not implemented.
+</dl>
+<p>
+<p><hr><p>
+<h1><a name="getline">getline</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>thisindex = g.getline(previndex, xvec, yvec)</code><br>
+<h2>DESCRIPTION</h2>
+Copy a graph line into the <a href="../../stdrun/0stdrun.html#Vector">Vector</a> s xvec and yvec. Those vectors are
+resized to the number of points in the line. Also, if the line has a
+label, it is copied to the vector as well (see <a href="vector/vect.html#label">label</a> ).
+The index of the line is returned. To re-get the line at a later time
+(assuming no line has been inserted into the graphlist earlier than
+its index value --- new lines are generally appended to the list but
+if an earlier line has been removed, the indices of all later lines will
+be reduced) then use index-1 as the argument. Note that an argument of
+-1 will always return the first line in the Graph. If the argument is
+the index of the last line then -1 is returned and xvec and yvec are
+unchanged. Note that thisindex is not necessarily equal to previndex+1.
+<h2>EXAMPLES</h2>
+To iterate over all the lines in a Graph use:
+<blockquote><pre>
+objref xvec, yvec
+xvec = new Vector()
+yvec = new Vector()
+for (j=0 i=-1; (i = Graph[0].getline(i, xvec, yvec) != -1 ; j+=1 ) {
+	// xvec and yvec contain the line with Graph internal index i.
+	// and can be associated with the sequential index j.
+	print j, i, yvec.label
+	xline[j] = xvec.c
+	yline[j] = yvec.cl // clone label as well
+}
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="line_info">line_info</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>thisindex = g.line_info(previndex, Vector(5))</code><br>
+<h2>DESCRIPTION</h2>
+For the next line after the internal index, previndex, copy the label into the
+vector as well as colorindex, brushindex, label x location, label y location,
+and label style and return the index of the line. If the argument is the
+index of the last line then -1 is returned and Vector is unchanged.
+Note that an argument of -1 will always return the line info for the first
+polyline in the graph.
+<p>
+<p><hr><p>
+<h1><a name="erase">erase</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .erase()</code><br>
+<h2>DESCRIPTION</h2>
+	Erase only the drawings of graph lines.
+<p>
+<p><hr><p>
+<h1><a name="erase_all">erase_all</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>e.erase_all()</code><br>
+<h2>DESCRIPTION</h2>
+	Erase everything on the graph.
+<p>
+<p><hr><p>
+<h1><a name="size">size</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.size(<var>xstart</var>, <var>xstop</var>, <var>ystart</var>, <var>ystop</var>)</code><br>
+<code>g.size(1-4)</code><br>
+<code>g.size(&dbl[0])</code><br>
+<h2>DESCRIPTION</h2>
+<dl>
+<dt> .size(<var>xstart</var>, <var>xstop</var>, <var>ystart</var>, <var>ystop</var>)
+<dd> The natural size of the scene in model coordinates. The "Whole Scene"
+	menu item in the graphical user interface will change the view to this size. 
+Default axes are this size.
+<dt> .size(1-4)
+<dd> Returns left, right, bottom or top of first view of the scene. Useful for programming.
+<dt> .size(&dbl[0])
+<dd> Returns the xmin, xmax, ymin, ymax values of all marks and lines of more than two
+points in the graph in dbl[0],..., dbl[3] respectively. This allows
+convenient computation of a view size which will display everything on the
+graph. See <a href="../../agui/gui.html#View_equal_Plot">View_equal_Plot</a> . In the absence of any graphics, it gives
+the size as in the .size(1-4) prototype.
+</dl>
+<p>
+<p><hr><p>
+<h1><a name="label">label</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.label(<var>x</var>, <var>y</var>, "<var>label</var>")</code><br>
+<code>.label(x, y)</code><br>
+<code>.label("<var>label</var>")</code><br>
+<code>.label(x, y, "string", fixtype, scale, x_align, y_align, color)</code><br>
+<h2>DESCRIPTION</h2>
+<dl>
+<dt> <code>.label(<var>x</var>, <var>y</var>, "<var>label</var>")</code>
+<dd> Draw a label at indicated position with current color.
+<dt> <code>.label("<var>label</var>")</code>
+<dd> Add a label one line below the previous label
+<dt> <code>.label(x, y)</code>
+<dd> Next <code>label("string")</code> will be printed at this location
+</dl>
+<p>
+The many arg form is used by sessions to completely specify an individual
+label.
+<p>
+<p><hr><p>
+<h1><a name="fixed">fixed</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.fixed(<var>scale</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	Sizes labels. Future labels are by default
+	attached with respect to scene coordinates. The labels maintain
+	their size as the view changes.
+<p><hr><p>
+<h1><a name="vfixed">vfixed</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.vfixed(<var>scale</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	Sizes labels. Future labels are by default
+	attached with respect to relative view coordinates in which
+	(0,0) is the left,bottom and (1,1) is the right,top of the view.
+	Thus zooming and translation does not affect the placement of
+	the label.
+<p>
+<p><hr><p>
+<h1><a name="relative">relative</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .relative(<var>scale</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	I never used it so I don't know if it works. The most
+	useful labels are fixed in that they maintain their size as the
+	view is zoomed.
+<p>
+<p><hr><p>
+<h1><a name="align">align</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .align([<var>x_align</var>], [<var>y_align</var>])</code><br>
+<h2>DESCRIPTION</h2>
+	Alignment is a number between 0 and 1 which signifies which location
+	of the label is at the x,y position. .5 means centering. 0 means
+	left(bottom) alignment, 1 means right(top) alignment
+<h2>EXAMPLES</h2>
+<a href="align.hoc">execute following example</a>
+<blockquote><pre>
+objref g
+g = new Graph()
+g.align(0, 0)
+g.label(.5,.5, "left bottom at (.5,.5)")
+g.align(0, 1)
+g.label(.5,.5, "left top at (.5,.5)")
+g.align(1, 0)
+g.label(.5,.5, "right bottom at (.5,.5)")
+g.align(.5,2)
+g.label(.5,.5, "middle but twice height at (.5, .5)")
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="color">color</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.color(<var>index</var>)</code><br>
+<code>.color(<var>index</var>, "<var>colorname</var>")</code><br>
+<h2>DESCRIPTION</h2>
+Set the default color (starts at 1 == black). The default color palette
+	is:
+<pre>
+0 white
+1 black
+2 red
+3 blue
+4 green
+5 orange
+6 brown
+7 violet
+8 yellow
+9 gray
+</pre>
+<dl>
+<dt> <code>.color(index, "colorname")</code>
+<dd> Install a color in the Color Palette to be accessed with that index.
+	The possible indices are 0-100.
+</dl>
+The user may also use the colors/brushes button in the graphical user interface, which 
+is called by placing the mouse arrow in the graph window and pressing the right button.
+<p>
+<p><hr><p>
+<h1><a name="brush">brush</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.brush(<var>index</var>)</code><br>
+<code>.brush(<var>index</var>, <var>pattern</var>, <var>width</var>)</code><br>
+<h2>DESCRIPTION</h2>
+<dl>
+<dt> <code>.brush(<var>index</var>)</code>
+<dd> Set the default brush. 0 is the thinnest line possible, 1-4 are
+	thickness in pixel. Higher indices cycle through these line
+	thicknesses with different brush patterns.
+<dt> <code>.brush(index, pattern, width)</code>
+<dd> Install a brush in the Brush Palette to be accessed with the index.
+	The width is in pixel coords (< 1000). The pattern is a 31 bit pattern
+	of 1's and 0's which is used to make dash patterns. Fractional widths
+	work with postscript but not idraw. Axes are drawn with the
+	nrn.defaults property <code>*default_brush: 0.0</code>
+</dl>
+The user may also use the <a href="../../agui/gui.html#ChangeColor-Brush">ChangeColor-Brush</a> button in the graphical user interface, which
+is called by placing the mouse arrow in the graph window and pressing the right button.
+<p>
+<p><hr><p>
+<h1><a name="view">view</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .view(<var>mleft</var>, <var>mbottom</var>, <var>mwidth</var>, <var>mheight</var>, <var>wleft</var>,</code><br>
+<code> <var>wtop</var>, <var>wwidth</var>, <var>wheight</var>)</code><br>
+<code>  .view(2)</code><br>
+<h2>DESCRIPTION</h2>
+	Map a view of the Shape scene. <var>m</var> stands for model coordinates
+	within the window,
+	<var>w</var> stands for screen coordinates for placement and size of the
+	window. The placement of the window with respect to the screen
+	is intended to be precise and is with respect to pixel coordinates
+	where 0,0 is the top left corner of the screen.
+<p>
+	The single argument form maps a view in which the aspect ratio
+	between x and y axes is always 1. eg like a shape window.
+<p>
+<p><hr><p>
+<h1><a name="save_name">save_name</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .save_name("<var>objectvar</var>")</code><br>
+<code>  .save_name("<var>objectvar</var>", 1)</code><br>
+<h2>DESCRIPTION</h2>
+	The objectvar used to save the scene when the print window
+	manager is used to save a session.
+	If the second arg is present then info about the graph
+	is immediately saved to the open session file. This is used by objects
+	that create their own graphs but need to save graph information.
+<p>
+<p><hr><p>
+<h1><a name="beginline">beginline</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.beginline()</code><br>
+<code>.beginline(<var>color_index</var>, <var>brush_index</var>)</code><br>
+<code>.beginline("label")</code><br>
+<code>.beginline("label", color, brush)</code><br>
+<h2>DESCRIPTION</h2>
+State that the next <code>g.line(x)</code>
+is the first point of the next line to be graphed.
+This is a less general command than <code>.begin()</code> which prepares a graph for
+the <code>.plot()</code> command.
+The optional label argument labels the line.
+<h2>EXAMPLES</h2>
+Notice that the argument to <code>g.line()</code> is the expression sin(x)
+itself, whereas if you were using the <code>.plot()</code> command, the arguments
+would have to be specified before the <code>for</code> loop using <code>.addexpr()</code>
+commands. The addexpr/begin/plot method of plotting is preferred since it
+is capable of simultaneously plotting multiple lines.
+<blockquote><pre>
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+			//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.beginline()		//Tells the interpreter that commands to create a line for
+			//specific functions will follow.
+for(x=0; x&lt;=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.line(x, sin(x))	//States that the y values on the line
+				//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.
+</pre></blockquote>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="line">line</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .line(<var>x</var>, <var>y</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	Draw a line from the previous point to this point. This command is normally
+used inside of a <code>for</code> loop.  It is analogous to <code>.plot()</code> and the commands which
+go along with it.  In the case of <code>.line()</code> however, all arguments are given in 
+the line command itself.  Therefore, the line command only plots one line at a time, whereas
+the <code>.plot*()</code> command can plot several lines using the same for loop on the same graph.
+<p>
+This command takes arguments for both x and y values, so it can serve the same purpose of 
+the <code>.plot</code> command in conjunction with an <code>.addexpr()</code> command and an <code>.xexpr()</code> 
+command.
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+
+objref g	
+g = new Graph()		
+g.beginline()		
+for(t=0; t&lt;=2*PI+0.1; t=t+0.1){	
+	g.line(sin(t), cos(t))	
+}
+g.flush()
+	
+</pre></blockquote>
+<p>
+graphs a circle of radius=1, just as would the following code using <code>g.plot()</code>:
+<p>
+<blockquote><pre>
+
+objref g	
+g = new Graph()		
+t = 0		
+g.addexpr("sin(t)")	
+g.xexpr("cos(t)")	
+g.begin()		
+for(t=0; t&lt;=2*PI+0.1; t=t+0.1){	
+	g.plot(t)	
+}
+g.flush()	
+
+</pre></blockquote>
+<p>
+Note that the arguments to <code>g.line</code> are doubles, and not chars as they are in <code>g.plot()</code>.
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="mark">mark</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .mark(<var>x</var>, <var>y</var>)</code><br>
+<code>.mark(<var>x</var>, <var>y</var>, "<var>style</var>")</code><br>
+<code>.mark(<var>x</var>, <var>y</var>, "<var>style</var>", <var>size</var>)</code><br>
+<code>.mark(<var>x</var>, <var>y</var>, "<var>style</var>", <var>size</var>, <var>color</var>, <var>brush</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	Make a mark centered at the indicated position which does not
+	change size when window is zoomed or resized. The style is a single
+	character <code>+, o, s, t, O, S, T, |, - </code> where <code>o,t,s</code> stand for circle, triangle,
+	square and capitalized means filled. Default size is 12 points.
+	For the style, an integer index, 0-8, relative to the above list may
+	also be used.
+<p>
+<p><hr><p>
+<h1><a name="crosshair">crosshair</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.crosshair_action("<var>procedure_name</var>")</code><br>
+<code>.crosshair_action("<var>procedure_name</var>", vectorflag=0)</code><br>
+<code>.crosshair_action("")</code><br>
+<h2>DESCRIPTION</h2>
+	While the crosshair is visible (left mouse button pressed) one
+	can type any key and the procedure will be executed with
+	three arguments added:
+		<code>procedure_name(x, y, c)</code>
+	where x and y are the coordinates of the crosshair (in model
+	coordinates) and c is the ascii code for the key pressed.
+	
+The procedure will be executed in the context of the object
+	where <code>crosshair_action</code> was executed.
+	When the optional vectorflag argument is 1, then, just prior
+	to each call of the <var>procedure_name</var> due to a keypress,
+	two temporary <var>objectref</var>'s are created and assigned to a
+	new <code>Vector()</code> and the line coordinate data is copied to those Vectors.
+	With this form the call to the procedure has two args added:
+		<code>procedure_name(i, c, $o3, $o4)</code>
+	where <code>i</code> is the index of the crosshair into the Vector.
+<p>
+	If you wish the Vector data to persist then you can assign to
+	another objectvar before returning from the <code>procedure_name</code>.
+	Note that one can copy any line to a Vector with this method whereas
+	the interpreter controlled <code>Graph.dump("<var>expr</var>", <var>y_objectref</var>)</code> is
+	limited to the current graphline of an <code>addvar</code> or <code>addexpr</code>.
+<p>
+With an empty string arg, the existing action is removed.
+<h2>SEE ALSO</h2>
+<a href="../../agui/gui.html#PickVector">PickVector</a> <a href="graph.html#menu_tool">menu_tool</a>
+<p>
+<p><hr><p>
+<h1><a name="view_count">view_count</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .view_count()</code><br>
+<h2>DESCRIPTION</h2>
+	Returns number of views into this scene. (stdrun.hoc removes
+	scenes from the <code>flush_list</code> and <code>graphList[]</code> when this goes to
+	0. If no other <code>objectvar</code> points to the scene, it will be
+	freed.)
+<p>
+<p><hr><p>
+<h1><a name="unmap">unmap</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.unmap()</code><br>
+<h2>DESCRIPTION</h2>
+	Dismiss all windows that are a direct view into this scene.
+	(does not unmap boxes containing scenes.) <code>.unmap</code> is called
+	automatically when no hoc object variable references the Graph.
+<p>
+<p><hr><p>
+<h1><a name="printfile">printfile</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .printfile("<var>filename</var>")</code><br>
+<h2>DESCRIPTION</h2>
+Print the first view of the graph as an encapsulated post script
+file.
+<p>
+<p><hr><p>
+<h1><a name="menu_remove">menu_remove</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.menu_remove("item name")</code><br>
+<h2>DESCRIPTION</h2>
+Removes the named menu item from the Graph instance.
+<p>
+<p><hr><p>
+<h1><a name="exec_menu">exec_menu</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.exec_menu("item name")</code><br>
+<h2>DESCRIPTION</h2>
+Equivalent to by pressing and releasing one of the items in the
+Graph menu with the right mouse button. This executes an action for
+regular items, toggles for items like "Keep Lines", and specifies the
+left mouse tool for radio buttons. The "item name" must be identical to
+the string in the menu item, including spaces and case. Some items may
+not work unless the graph is mapped to the screen. Selection is with respect
+to the primary (first) view, eg selecting "View = plot" of a Grapher will
+always refer to the view in the Grapher tool as opposed to other views of
+the same graph created via the "NewView" menu item. Any items created
+with <a href="graph.html#menu_action">menu_action</a> or <a href="graph.html#menu_tool">menu_tool</a> are selectable with this
+function.
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+objref g
+g = new Graph()
+g.exec_menu("Keep Lines")
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="menu_action">menu_action</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .menu_action("label", "action")</code><br>
+<h2>DESCRIPTION</h2>
+Add a menu item to the Graph popup menu. When pressed, the action will be
+executed
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+objref g
+g = new Graph()
+g.menu_action("Print File", "g.printfile(\"temp.eps\")  system(\"lp temp.eps\")")
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="menu_tool">menu_tool</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .menu_tool("label", "procedure_name")</code><br>
+<code> .menu_tool("label", "procedure_name", "select_action")</code><br>
+<h2>DESCRIPTION</h2>
+Add a selectable tool menu item to the Graph popup menu or else, if an
+<a href="../function/panel.html#xpanel">xpanel</a> is open, an <a href="../function/panel.html#xradiobutton">xradiobutton</a> will be added to the panel having the
+same action. (note: all menu_tool radiobuttons whether in the graph menu
+or in a panel, are in the same telltalegroup, so selecting one deselects the
+previous selection.)
+<p>
+If the third arg exists, the select_action will be executed when
+the radioitem is pressed (if it is not already selected).
+<p>
+When selected, the item will be marked and the label will appear on
+the window title bar (but not if the Graph is enclosed in a <a href="vbox.html#VBox">VBox</a> ).
+When this tool is selected, pressing the left mouse
+button, dragging the mouse, and releasing the left button, will cause
+procedure_name to be called with four arguments: type, x, y, keystate.
+x and y are the scene (model) coordinates of the mouse pointer, and type is
+2 for press, 1 for dragging, and 3 for release. Keystate reflects the
+state of control (bit 1), shift (bit 2), and meta (bit 3) keys, ie control
+and shift down has a value of 3.
+<p>
+The rate of calls for dragging is of course dependent on the time it takes
+to execute the procedure name.
+<h2>EXAMPLES</h2>
+<a href="menutool.hoc">execute following example</a>
+<blockquote><pre>
+objref g
+g = new Graph()
+g.menu_tool("mouse events", "p")
+proc p() {
+	print $1, $2, $3, $4
+}
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="gif">gif</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.gif("file.gif")</code><br>
+<code>g.gif("file.gif", left, bottom, width, height)</code><br>
+<h2>DESCRIPTION</h2>
+Display the gif image in model coordinates with lower left corner at 0,0
+or indicated left, bottom coords. The width and height of the gif file are the
+desired width and height of the image in model coordinates, by default they
+are the pixel Width and Height of the gif file.
+<h2>EXAMPLES</h2>
+Suppose we have a gif with pixel width and height, wg and hg respectively.
+Also suppose we want the gif pixel point (xg0, yg0) mapped to graph
+model coordinate (x0, y0) and the gif pixel point (xg1, yg1) mapped to
+graph model coordinate (x1, y1). Then the last four arguments to
+g.gif should be:
+<blockquote><pre>
+left = x0 - xg0*(x1-x0)/(xg1-xg0)
+bottom = y0 - yg0*(y1-y0)/(yg1-yg0)
+width = wg*(x1-x0)/(xg1-xg0)
+height= hg*(y1-y0)/(yg1-yg0)
+
+</pre></blockquote>
+If, for example with xv, you have constructed a desired rectangle on the
+gif and the info (xv controls/Windows/Image Info)presented is
+Resolution: 377x420
+Selection: 225x279 rectangle starting at 135,44
+then use
+<blockquote><pre>
+{wg=377 hg=420}
+{xg0=135 yg0=420-(279+44) xg1=135+225 yg1=420-44}
+</pre></blockquote>
+<h2>BUGS</h2>
+In the single arg form, if the gif size is larger than the graph model
+coodinates, the graph is resized to the size of the gif. This prevents
+excessive use of memory and computation time when the graph size is on
+the order of a gif pixel.
+<p>
+<p><hr><p>
+<h1><a name="view_info">view_info</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>i = g.view_info()</code><br>
+<code>val = g.view_info(i, case)</code><br>
+<code>val = g.view_info(i, case, model_coord)</code><br>
+<h2>DESCRIPTION</h2>
+<p>
+Return information about the ith view.
+<p>
+With no args the return value is the view number where the mouse is.
+If the mouse was not last in a view of g, the return value is -1. Therefore
+this no arg function call should only be made on a mouse down event and
+saved for handling the other mouse events. Note that the two arg cases
+are generally constant between a mouse down and up event.
+<p>
+<blockquote><pre>
+	case 1: // width
+	case 2: // height
+	case 3: // point width
+	case 4: // point height
+	case 5: // left
+	case 6: // right
+	case 7: // bottom
+	case 8: // top
+	case 9: // model x distance for one point
+	case 10: // model y distance for one point
+The following cases (11 - 14) require a third argument
+relative location means (0,0) is lower left and (1,1) is upper right.
+	case 11: // relative x location (from x model coord)
+	case 12: // relative y location (from y model coord)
+	case 13: // points from left (from x model coord)
+	case 14: // points from top (from y model coord)
+		Note: this last is from the top, not from the bottom.
+	case 15: // height of font in points
+</pre></blockquote>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="view_size">view_size</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.view_size(i, left, right, bottom, top)</code><br>
+<h2>DESCRIPTION</h2>
+Specifies the model coordinates of the ith view of a Graph.
+It is possible to use this in a <a href="graph.html#menu_tool">menu_tool</a> callback procedure.
+<p>
+<p><hr><p>
+<h1><a name="glyph">glyph</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.glyph(glyphobject, x, y, scalex, scaley, angle, fixtype)</code><br>
+<h2>DESCRIPTION</h2>
+Add the <a href="glyph.html#Glyph">Glyph</a> object to the graph at indicated coordinates (the origin
+of the Glyph will appear at x,y) first scaling the Glyph and then
+rotating by the indicated angle in degrees. The last four arguments
+are optional and have defaults of 1,1,0,0 respectively. Fixtype
+refers to whether the glyph moves and scales with zooming and translation,
+moves only with translation but does not scale, or neither moves nor
+scales.
+<p>
+<p><hr><p>
+<h1><a name="simgraph">simgraph</a></h1>
+<pre>
+<a href="graph.html#Graph">Graph</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>g.simgraph()</code><br>
+<h2>DESCRIPTION</h2>
+Adds all the <a href="graph.html#addvar">addvar</a> lines to a list managed by <a href="../../neuron/classes/cvode.html#CVode">CVode</a> which
+allows the local variable time step method to properly graph the lines.
+See the implementation in share/lib/hoc/stdrun.hoc for usage.
+<p>
+<p><hr><p>
+<date>
+neuron/general/classes/graph.hel : Sep 21 09:30

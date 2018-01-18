@@ -1,0 +1,249 @@
+<p>
+<h1><a name="MechanismStandard">MechanismStandard</a></h1>
+<pre>
+<a href="../../1nrn.html#classes">classes</a>
+   <a href="mechstan.html#action">action</a>         <a href="mechstan.html#in">in</a>             <a href="mechstan.html#panel">panel</a>          
+   <a href="mechstan.html#count">count</a>          <a href="mechstan.html#name">name</a>           <a href="mechstan.html#save">save</a>           
+   <a href="mechstan.html#get">get</a>            <a href="mechstan.html#out">out</a>            <a href="mechstan.html#set">set</a>            
+</pre>
+<h2>SYNTAX</h2>
+<code>ms = new MechanismStandard("<var>name</var>")</code><br>
+<code>ms = new MechanismStandard("name", vartype)</code><br>
+<h2>DESCRIPTION</h2>
+With no vartype or vartype = 1, this provides
+storage for parameter values of a membrane mechanism or point process.
+This class is useful in maintaining a default set of parameters and can
+be used to specify values for a set of sections.
+<p>
+<var>name</var> is a density mechanism such as <code>hh</code> or a point process
+such as <code>VClamp</code>. A <code>MechanismStandard</code> instance, when created,
+contains default values for all parameters associated with the mechanism.
+<p>
+In combination with the
+<a href="mechtype.html#MechanismType">MechanismType</a> class it is possible to create generic graphical interface
+widgets that are independent of the particular mechanism and parameter names.
+<p>
+If vartype = 1, 2, or 3, the storage is for PARAMETER, ASSIGNED, or STATE
+variables respectively. If vartype = 0, the storage is for all three types.
+<p>
+If vartype = -1, the count and names (and array size)
+of the GLOBAL variables are accessible, but any other method will
+generate an error message.
+<p>
+<h2>EXAMPLES</h2>
+<a href="mstan1.hoc">execute following example</a>
+<blockquote><pre>
+objref ms1, ms2
+ms1 = new MechanismStandard("hh")
+ms2 = new MechanismStandard("AlphaSynapse")
+ms2.set("gmax", .3)
+ms1.panel()
+ms2.panel()
+</pre></blockquote>
+<p>
+The following example prints all the names associated with POINT_PROCESS
+and SUFFIX mechanisms.
+<a href="mstan3.hoc">execute following example</a>
+<blockquote><pre>
+create soma
+access soma
+
+objref ms, mt
+strdef s, msname
+proc pname() {local i, j, k
+	for i=-1,3 {
+		ms = new MechanismStandard($s1, i)
+		print "\n", $s1, "  vartype=", i
+		for j=0, ms.count()-1 {
+			k = ms.name(s, j)
+			print j, s, " size=", k
+		}
+	}
+}
+
+proc ptype() {local i, j
+	for i=0,1 {
+		mt = new MechanismType(i)
+		for j=0, mt.count-1 {
+			mt.select(j)
+			mt.selected(msname)
+print "\n\n", msname, " mechanismtype=", j
+			pname(msname)
+		}
+	}
+}
+
+ptype()
+
+</pre></blockquote>
+<h2>SEE ALSO</h2>
+<a href="mechtype.html#MechanismType">MechanismType</a>
+<p>
+<p><hr><p>
+<h1><a name="panel">panel</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.panel()</code><br>
+<code>ms.panel("string")</code><br>
+<h2>DESCRIPTION</h2>
+Popup a panel of parameters for this mechanism. It's a good idea to
+set the default values before generating the panel.
+<p>
+With no argument the first item in the panel will be the name of the
+mechanism. Otherwise the string is used as the first item label.
+<h2>SEE ALSO</h2>
+<a href="../function/nfunc.html#nrnglobalmechmenu">nrnglobalmechmenu</a> , <a href="../function/nfunc.html#nrnmechmenu">nrnmechmenu</a> , <a href="../function/nfunc.html#nrnpointmenu">nrnpointmenu</a>
+<p>
+<p><hr><p>
+<h1><a name="action">action</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.action("<var>statement</var>")</code><br>
+<h2>DESCRIPTION</h2>
+action to be executed when any variable is changed in the panel.
+The hoc variable hoc_ac_ is set to the index of the variable (0 to count-1).
+<h2>EXAMPLES</h2>
+<a href="mstan2.hoc">execute following example</a>
+<blockquote><pre>
+create soma, axon, dend[3]
+forsec "a" insert hh
+forsec "d" insert pas
+xpanel("Updated when MechanismStandard is changed")
+xvalue("dend[0].g_pas")
+xvalue("dend[1].g_pas")
+xvalue("dend[2].g_pas")
+xpanel()
+objref ms
+ms = new MechanismStandard("pas")
+ms.action("change_pas()")
+ms.panel()
+
+proc change_pas() {
+	forall if(ismembrane("pas")) {
+		ms.out()
+	}
+}
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="in">in</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.in()</code><br>
+<code>ms.in(x)</code><br>
+<code>ms.in(<var>pointprocess</var>)</code><br>
+<code>ms.in(<var>mechanismstandard</var>)</code><br>
+<h2>DESCRIPTION</h2>
+copies parameter values into this mechanism standard from ...
+<dl>
+<dt> <code>ms.in()</code>
+<dd>	the mechanism located in first segment of the currently accessed section.
+<dt> <code>ms.in(x)</code>
+<dd>	the mechanism located in the segment containing x of the currently accessed section.
+	(Note that x=0 and 1 are considered to lie in the
+0+ and 1- segments respectively so a proper iteration uses for(x, 0).
+See <a href="../../general/keywords/ockeywor.html#for">for</a> .
+<dt> <code>ms.in(<var>pointprocess</var>)</code>
+<dd>	the point process object
+<dt> <code>ms.in(<var>mechanismstandard</var>)</code>
+<dd>	another mechanism standard
+</dl>
+If the source is not the same type as the standard then nothing happens.
+<p>
+<p><hr><p>
+<h1><a name="out">out</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.out()</code><br>
+<code>ms.out(x)</code><br>
+<code>ms.out(<var>pointprocess</var>)</code><br>
+<code>ms.out(<var>mechanismstandard</var>)</code><br>
+<h2>DESCRIPTION</h2>
+copies parameter values from this mechanism standard to ...
+<dl>
+<dt> <code>ms.out()</code>
+<dd> the mechanism located in the currently accessed section (all segments).
+<dt> <code>ms.out(x)</code>
+<dd> the mechanism located in the currently accessed section in the segment
+containing x.(Note that x=0 and 1 are considered to lie in the
+0+ and 1- segments respectively)
+<dt> <code>ms.out(<var>pointprocess</var>)</code>
+<dd>	the point process argument
+<dt> <code>ms.out(<var>mechanismstandard</var>)</code>
+<dd>	another mechanism standard
+</dl>
+If the target is not the same type as the standard then nothing happens.
+<p>
+<p><hr><p>
+<h1><a name="set">set</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.set("<var>varname</var>", <var>val</var> [, arrayindex])</code><br>
+<h2>DESCRIPTION</h2>
+	sets the parameter in the standard to <var>val.</var> If the variable is
+an array, then the optional index can be specified.
+<p>
+<p><hr><p>
+<h1><a name="get">get</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>val = ms.get("<var>varname</var>" [, arrayindex])</code><br>
+<h2>DESCRIPTION</h2>
+	returns the value of the parameter. If the variable is acutually
+a POINTER and it is nil, then return -1e300.
+<p>
+<p><hr><p>
+<h1><a name="save">save</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code> .save("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+For saving the state of a MechanismStandard to a session file.
+The name will be the objectvar that the instance gets assigned to
+when the session file is read.
+See pointman.hoc for an example of usage.
+<p>
+<p><hr><p>
+<h1><a name="count">count</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>cnt = ms.count()</code><br>
+<h2>DESCRIPTION</h2>
+Returns the number of parameter names of the mechanism
+represented by the MechanismStandard.
+<p>
+<p><hr><p>
+<h1><a name="name">name</a></h1>
+<pre>
+<a href="mechstan.html#MechanismStandard">MechanismStandard</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>ms.name(strdef)</code><br>
+<code>size = ms.name(strdef, i)</code><br>
+<h2>DESCRIPTION</h2>
+The single arg form assigns the name of the mechanism to the strdef
+variable.
+<p>
+When the i parameter is present (i ranges from 0 to ms.count()-1) the
+strdef parameter gets assigned the ith name of the mechanism represented
+by the MechanismStandard. In addition the return value is the
+array size of that parameter (1 for a scalar).
+<p><hr><p>
+<date>
+neuron/neuron/classes/mechstan.hel : Sep 21 09:30

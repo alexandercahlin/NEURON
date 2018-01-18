@@ -1,0 +1,9 @@
+//@code
+objref m
+m = new Matrix(6, 6)
+m.ident
+m.x[0][5] = m.x[5][0] = 1
+for i=0, 5 {
+	print i
+	m.pow(i).printf
+}

@@ -1,0 +1,15 @@
+//@code
+objref vec, xvec, errvec
+objref g
+g = new Graph()
+g.size(0,100, 0,250)
+vec = new Vector()
+xvec = new Vector()
+errvec = new Vector()
+
+vec.indgen(0,200,20)
+xvec.indgen(0,100,10)
+errvec.copy(xvec)
+errvec.apply("sqrt")
+vec.ploterr(g, xvec, errvec, 10)
+vec.mark(g, xvec, "O", 5)

@@ -1,0 +1,10 @@
+//@code
+objref m, v1
+v1 = new Vector(100)
+v1.indgen(1,1)
+m = new Matrix(100, 100, 2) // sparse matrix
+// reverse permutation
+for i=0, 99 {
+	m.x[i][99 - i] = 1
+}
+m.mulv(v1).printf

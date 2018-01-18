@@ -1,0 +1,5 @@
+//@code
+objref m
+m = new Matrix(4,6)
+m.ident()
+m.printf()

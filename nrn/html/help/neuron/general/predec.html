@@ -1,0 +1,104 @@
+<h1><a name="predeclared-variables">predeclared-variables</a></h1>
+<pre>
+<a href="../0nrn.html#general">general</a>
+   <a href="predec.html#Constants">Constants</a>      <a href="predec.html#hoc_ac_">hoc_ac_</a>        <a href="predec.html#hoc_cross_y_">hoc_cross_y_</a>   
+   <a href="predec.html#float_epsilon">float_epsilon</a>  <a href="predec.html#hoc_cross_x_">hoc_cross_x_</a>   <a href="predec.html#hoc_obj_">hoc_obj_</a>       
+</pre>
+<p>
+<p><hr><p>
+<h1><a name="float_epsilon">float_epsilon</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>float_epsilon = 1e-11</code><br>
+<h2>DESCRIPTION</h2>
+The default value is 1e-11
+<p>
+Allows somewhat safer logical comparisons and integer truncation for
+floating point numbers. Most comparisons are treated as true if they are
+within float_epsilon of being true. eg.
+<p>
+<a href="float.hoc">execute following example</a>
+<blockquote><pre>
+for (i = 0; i &lt; 1; i += .1) {
+	print i, int(10*i)
+}
+float_epsilon = 0
+// two bugs due to roundoff
+for (i = 0; i &lt; 1; i += .1) {
+	print i, int(10*i)
+}
+</pre></blockquote>
+<h2>BUGS</h2>
+I certainly haven't gotten every floating comparison in the program to use
+float_epsilon but I have most of them including all interpreter logical
+operations, int, array indices, and Vector logic methods.
+<p><hr><p>
+<h1><a name="hoc_ac_">hoc_ac_</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+A variable used by the graphical interface to communicate with the
+interpreter. It is very volatile. It sometimes holds a value on a
+function call. If this value is needed by the user it should be
+copied to another variable prior to any other function call.
+<p><hr><p>
+<h1><a name="hoc_obj_">hoc_obj_</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>hoc_obj_[0]</code><br>
+<code>hoc_obj_[1]</code><br>
+<h2>DESCRIPTION</h2>
+When a line on a <a href="classes/graph.html#Graph">Graph</a> is picked with the <a href="../agui/gui.html#PickVector">PickVector</a> tool
+two new <a href="../stdrun/0stdrun.html#Vector">Vector</a> 's are created containing the y and x coordinates of the
+line. The y vector is referenced by hoc_obj_[0] and the x vector is
+referenced by hoc_obj_[1].
+<p><hr><p>
+<h1><a name="hoc_cross_x_">hoc_cross_x_</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>hoc_cross_x_</code><br>
+<h2>DESCRIPTION</h2>
+X coordinate value of the last <a href="../agui/gui.html#Crosshair">Crosshair</a> manipulation.
+<h2>SEE ALSO</h2>
+<a href="classes/graph.html#crosshair">crosshair</a>
+<p><hr><p>
+<h1><a name="hoc_cross_y_">hoc_cross_y_</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+<h2>DESCRIPTION</h2>
+Y coordinate value of the last <a href="../agui/gui.html#Crosshair">Crosshair</a> manipulation.
+<h2>SEE ALSO</h2>
+<a href="classes/graph.html#crosshair">crosshair</a>
+<p><hr><p>
+<h1><a name="Constants">Constants</a></h1>
+<pre>
+<a href="predec.html#predeclared-variables">predeclared-variables</a>
+</pre>
+The following mathematical and physical constants are built-in:
+<pre>
+        "PI",   3.14159265358979323846,
+        "E",    2.71828182845904523536,
+        "GAMMA",0.57721566490153286060, /* Euler */
+        "DEG", 57.29577951308232087680, /* deg/radian */
+        "PHI",  1.61803398874989484820, /* golden ratio */
+        "FARADAY", 96484.56,    /*coulombs/mole*/
+        "R", 8.31441,           /*molar gas constant, joules/mole/deg-K*/
+</pre>
+<h2>BUGS</h2>
+Constants are not treated specially by the interpreter and
+may be changed with assignment statements.
+<p>
+The FARADAY is a bit different than the faraday of the units database.
+The faraday in a .mod mechanism is 96520.
+<p>
+<p>
+<p><hr><p>
+<date>
+neuron/general/predec.hel : Sep 21 09:30

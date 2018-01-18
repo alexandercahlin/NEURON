@@ -1,0 +1,11 @@
+//@code
+objref m
+m = new Matrix(3,5)
+m
+for i=0,4 m.setcol(i,i)
+
+m.printf
+m.resize(7,7)
+m.printf()
+m.resize(4,2)
+m.printf()

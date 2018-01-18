@@ -1,0 +1,111 @@
+<h1><a name="SectionList">SectionList</a></h1>
+<pre>
+<a href="../../1nrn.html#classes">classes</a>
+   <a href="seclist.html#allroots">allroots</a>       <a href="seclist.html#children">children</a>       <a href="seclist.html#remove">remove</a>         <a href="seclist.html#unique">unique</a>         
+   <a href="seclist.html#append">append</a>         <a href="seclist.html#printnames">printnames</a>     <a href="seclist.html#subtree">subtree</a>        <a href="seclist.html#wholetree">wholetree</a>      
+</pre>
+<h2>SYNTAX</h2>
+<code>sl = new SectionList()</code><br>
+<h2>DESCRIPTION</h2>
+	Class for creating and managing a list of sections
+<h2>SEE ALSO</h2>
+<a href="secbrows.html#SectionBrowser">SectionBrowser</a> , <a href="../../stdrun/0stdrun.html#Shape">Shape</a> , <a href="../secspec.html#forsec">forsec</a> , <a href="rvarplt.html#list">list</a>
+<p>
+<p><hr><p>
+<h1><a name="append">append</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sl.append()</code><br>
+<h2>DESCRIPTION</h2>
+	append the currently accessed section to the list
+<p>
+<p><hr><p>
+<h1><a name="remove">remove</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = sl.remove()</code><br>
+<code>n = sl.remove(sectionlist)</code><br>
+<h2>DESCRIPTION</h2>
+remove the currently accessed section from the list
+If the argument is present then all the sections in sectionlist are
+removed from sl.
+Returns the number of sections removed.
+<p>
+<p><hr><p>
+<h1><a name="children">children</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sl.children()	</code><br>
+<h2>DESCRIPTION</h2>
+Appends the sections connected to the currently accessed section.
+Note that this includes children connected at position 0 of
+parent.
+<p>
+<p><hr><p>
+<h1><a name="subtree">subtree</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sl.subtree()	</code><br>
+<h2>DESCRIPTION</h2>
+Appends the subtree of the currently accessed section (including that one).
+<p>
+<p><hr><p>
+<h1><a name="wholetree">wholetree</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sl.wholetree()	</code><br>
+<h2>DESCRIPTION</h2>
+Appends all sections which have a path to the currently accessed section
+(including the currently accessed section). The section list has the
+important property that the sections are in root to leaf order.
+<p>
+<p><hr><p>
+<h1><a name="allroots">allroots</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sl.allroots()</code><br>
+<h2>DESCRIPTION</h2>
+Appends all the root sections. Root sections have no parent section.
+The number of root sections is the number
+of real cells in the simulation.
+<p>
+<p><hr><p>
+<h1><a name="unique">unique</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = sl.unique()	</code><br>
+<h2>DESCRIPTION</h2>
+Removes all duplicates of sections in the SectionList. I.e. ensures that
+no section appears more than once. Returns the number of sections references
+that were removed.
+<p>
+<p><hr><p>
+<h1><a name="printnames">printnames</a></h1>
+<pre>
+<a href="seclist.html#SectionList">SectionList</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  .printnames()</code><br>
+<h2>DESCRIPTION</h2>
+	print the names of the sections in the list.
+<p>
+	The normal usage of a section list involves efficiently iterating
+	over all the sections in the list with
+		forsec sectionlist {statement}
+<p><hr><p>
+<date>
+neuron/neuron/classes/seclist.hel : Sep 21 09:30

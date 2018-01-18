@@ -1,0 +1,10 @@
+//@code
+depvar x, y, z
+ proc equations() {
+   eqn x:: x + 2*y + z =  6
+   eqn y:: x - y + z   =  2
+   eqn z:: 2*x + y -z  = -3
+ }
+equations()
+solve()
+print x,y,z

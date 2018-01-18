@@ -1,0 +1,24 @@
+//@code
+objref r
+r = new Random()
+//r.uniform(0,1)
+r.negexp(1)
+//r.normal(0,1)
+mcell_ran4_init(1)
+r.MCellRan4(1)
+
+for i=0, 10 print i, r.repick
+
+r.MCellRan4(1)
+for i=0, 5 print i, r.repick
+idum = r.seq
+print "idum = ", idum
+for i=6, 10 print i, r.repick
+
+print "restarting"
+r.seq(idum)
+for i=6, 10 print i, r.repick
+
+print "restarting"
+r.seq(idum)
+for i=6, 10 print i, r.repick

@@ -1,0 +1,399 @@
+<h1><a name="Shape">Shape</a></h1>
+<pre>
+<a href="../../1nrn.html#classes">classes</a>
+   <a href="shape.html#action">action</a>         <a href="shape.html#flush">flush</a>          <a href="shape.html#observe">observe</a>        <a href="shape.html#show">show</a>           
+   <a href="shape.html#beginline">beginline</a>      <a href="shape.html#label">label</a>          <a href="shape.html#point_mark">point_mark</a>     <a href="shape.html#size">size</a>           
+   <a href="shape.html#color">color</a>          <a href="shape.html#len_scale">len_scale</a>      <a href="shape.html#point_mark_remove">point_mark_remove</a>  <a href="shape.html#unmap">unmap</a>      
+   <a href="shape.html#color_all">color_all</a>      <a href="shape.html#line">line</a>           <a href="shape.html#printfile">printfile</a>      <a href="shape.html#view">view</a>           
+   <a href="shape.html#color_list">color_list</a>     <a href="shape.html#mark">mark</a>           <a href="shape.html#push_selected">push_selected</a>  <a href="shape.html#view_count">view_count</a>     
+   <a href="shape.html#erase">erase</a>          <a href="shape.html#menu_action">menu_action</a>    <a href="shape.html#rotate">rotate</a>         
+   <a href="shape.html#erase_all">erase_all</a>      <a href="shape.html#menu_tool">menu_tool</a>      <a href="shape.html#save_name">save_name</a>      
+   <a href="shape.html#exec_menu">exec_menu</a>      <a href="shape.html#nearest">nearest</a>        <a href="shape.html#select">select</a>         
+</pre>
+	Class for making a Shape window for executing a user defined action
+	when a section is clicked on. (When the section mode is selected
+	from the mouse menu.) An argument of 0 will prevent default mapping
+	of the	window.
+	If the first arg is a SectionList (then a second arg of 0 will
+	prevent default mapping) then only the sections in the list are
+	drawn. Shape is redrawn automatically whenever length or diameter
+	of a section changes.
+<p><hr><p>
+<h1><a name="view">view</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .view(<var>mleft</var>, <var>mbottom</var>, <var>mwidth</var>, <var>mheight</var>, <var>sleft</var>, <var>stop</var>,</code><br>
+<code> <var>swidth</var>, <var>sheight</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	maps a view of the Shape scene. m stands for model coordinates,
+	s stands for screen pixel coordinates where 0,0 is the top left
+	corner of the screen.
+<p>
+<p><hr><p>
+<h1><a name="size">size</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .size(<var>mleft</var>, <var>mright</var>, <var>mbottom</var>, <var>mtop</var>)</code><br>
+<code>...</code><br>
+<h2>DESCRIPTION</h2>
+ Model coordinates for the scene.
+	This is the "whole scene" size.
+Since, the aspect ratio for shape views is unity, the bounding box expressed
+by the arguments may not fit exactly on the screen window. The scale factor
+is decreased so that the first view window displays the entire bounding box
+with the center of the bounding box in the center of the view.
+<p>
+See <a href="../../general/classes/graph.html#size">size</a> for other, more rarely use argument sequences.
+<p>
+<p><hr><p>
+<h1><a name="show">show</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>  shape.show(mode)</code><br>
+<h2>DESCRIPTION</h2>
+<dl>
+<dt> mode = 0
+<dd> displays diameters
+<dt> mode = 1
+<dd> displays centroid. ie line through all the 3d points.
+<dt> mode = 2
+<dd> displays schematic. ie line through 1st and last 2d points of each
+                section.
+</dl>
+<p><hr><p>
+<h1><a name="flush">flush</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .flush()</code><br>
+<h2>DESCRIPTION</h2>
+	Redraws all views into this scene.
+<p>
+<p><hr><p>
+<h1><a name="observe">observe</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>shape.observe()</code><br>
+<code>shape.observe(sectionlist)</code><br>
+<h2>DESCRIPTION</h2>
+Replace the list of observed sections in the Shape with the specified
+list. With no arguments, all sections are observed.
+<h2>EXAMPLES</h2>
+In the context of the pyramidal cell demo of neurondemo the following
+will change the Shape shown in the point process manager
+to show only the soma and the main part of the primary dendrite.
+<blockquote><pre>
+objref sl
+sl = new SectionList()
+soma sl.append()
+dendrite_1[8] sl.append()
+Shape[0].observe(sl)
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="view_count">view_count</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .view_count()</code><br>
+<h2>DESCRIPTION</h2>
+	Returns number of views into this scene. (stdrun.hoc removes
+	scenes from the <code>flush_list</code> and <code>graphList[]</code> when this goes to
+	0. If no other <code>objectvar</code> points to the scene, it will be
+	freed.)
+<p>
+<p><hr><p>
+<h1><a name="select">select</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .select()</code><br>
+<h2>DESCRIPTION</h2>
+	Colors red the currently accessed section.
+<p>
+<p><hr><p>
+<h1><a name="action">action</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .action("<var>command</var>")</code><br>
+<h2>DESCRIPTION</h2>
+	command is executed whenever the user clicks on a section.
+	The clicked section is pushed before execution and popped after.
+	<code>hoc_ac_ contains</code> the arc position 0 - 1 of the nearest node.
+<p>
+<p><hr><p>
+<h1><a name="color">color</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>section  shape.color(<var>i</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	colors the currently accessed section according to color index
+	(index same as specified in Graph class). If there are several
+	sections to color it is more efficient to make a SectionList and
+	use <code>.color_list</code>
+<p>
+<p><hr><p>
+<h1><a name="color_all">color_all</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .color_all(<var>i</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	colors all the sections
+<p>
+<p><hr><p>
+<h1><a name="color_list">color_list</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .color_list(<var>SectionList</var>, <var>i</var>)</code><br>
+<h2>DESCRIPTION</h2>
+	colors the sections in the list
+<p>
+<p><hr><p>
+<h1><a name="point_mark">point_mark</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.point_mark(<var>objvar</var>, <var>colorindex</var>)</code><br>
+<code>.point_mark(<var>objvar</var>, <var>colorindex</var>, <var>style</var>)</code><br>
+<code>.point_mark(<var>objvar</var>, <var>colorindex</var>, <var>style</var>, <var>size</var>)</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+	draw a little filled circle with indicated color where the point process
+	referenced by <code>objvar</code> is located. Note, if you subsequently relocate
+	the point process or destroy it the proper thing will happen to the
+	mark. (at least after a flush)
+<p>
+The optional arguments specify the style and size as in the
+<a href="../../general/classes/graph.html#mark">mark</a> method of <a href="../../general/classes/graph.html#Graph">Graph</a> . This extension was contributed
+by Yichun Wei <code>yichunwe@usc.edu</code>.
+<p>
+<p><hr><p>
+<h1><a name="point_mark_remove">point_mark_remove</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .point_mark_remove([<var>objvar</var>])</code><br>
+<h2>DESCRIPTION</h2>
+	With no arg, removes all the point process marks.
+<p>
+<p><hr><p>
+<h1><a name="save_name">save_name</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .save_name("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+	The <code>objectvar</code> used to save the scene when the print window
+	manager is used to save a session.
+<p>
+<p><hr><p>
+<h1><a name="unmap">unmap</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .unmap()</code><br>
+<h2>DESCRIPTION</h2>
+	dismisses all windows that are a direct view into this scene.
+	(does not unmap boxes containing scenes.) <code>unmap</code> is called
+	automatically when no hoc object variable references the Shape.
+<p>
+<p><hr><p>
+<h1><a name="printfile">printfile</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>   .printfile("<var>filename</var>")</code><br>
+<h2>DESCRIPTION</h2>
+ prints the first view of the graph as an encapsulated post script
+file
+<p><hr><p>
+<h1><a name="menu_action">menu_action</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#menu_action">menu_action</a>
+<p>
+<p><hr><p>
+<h1><a name="exec_menu">exec_menu</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#exec_menu">exec_menu</a>
+<p><hr><p>
+<h1><a name="erase">erase</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#erase">erase</a>
+<p><hr><p>
+<h1><a name="erase_all">erase_all</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>DESCRIPTION</h2>
+Erases everything in the Shape, including all PointMarks and Sections.
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#erase_all">erase_all</a> <a href="shape.html#observe">observe</a> <a href="shape.html#point_mark">point_mark</a>
+<p><hr><p>
+<h1><a name="beginline">beginline</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#beginline">beginline</a>
+<p><hr><p>
+<h1><a name="line">line</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#line">line</a>
+<p><hr><p>
+<h1><a name="mark">mark</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#mark">mark</a>
+<p><hr><p>
+<h1><a name="label">label</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#label">label</a>
+<p><hr><p>
+<h1><a name="menu_tool">menu_tool</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>s.menu_tool("label", "procname")</code><br>
+<h2>DESCRIPTION</h2>
+Same as <a href="../../general/classes/graph.html#menu_tool">menu_tool</a> for the <a href="../../agui/gui.html#Graph">Graph</a> class. When procname is
+called it is given four arguments: type, x, y, keystate. Type = 1,2,3 means
+move, press, release respectively and x and are in model coordinates.
+Keystate reflects the
+state of control (bit 1), shift (bit 2), and meta (bit 3) keys, ie 
+control and shift down has a value of 3.
+<p>
+<h2>SEE ALSO</h2>
+<a href="../../general/classes/graph.html#menu_tool">menu_tool</a> <a href="shape.html#nearest">nearest</a> <a href="shape.html#push_selected">push_selected</a>
+<h2>EXAMPLES</h2>
+The following example will work if executed in the context of the
+pyramidal cell demo of the neurondemo. It colors red the section
+you click nearest and prints the name and position of the selected section
+as well as the mouse distance the selection.
+<blockquote><pre>
+objref ss
+ss = Shape[0]
+proc p() {local d, a
+        if ($1 == 2) {
+                ss.color_all(1)
+                d = ss.nearest($2,$3) 
+                a = ss.push_selected()
+                if (a &gt;= 0) {
+                        ss.select()
+                        printf("%g from %s(%g)\n", d, secname(), a)
+                        pop_section()
+                }
+        }
+}
+ss.menu_tool("test", "p")
+ss.exec_menu("test")
+</pre></blockquote>
+<p><hr><p>
+<h1><a name="nearest">nearest</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>d = shape.nearest(x, y)</code><br>
+<h2>DESCRIPTION</h2>
+returns the distance (in model coordinates) to the nearest section.
+The section becomes the selected section of the Shape. It is NOT
+pushed onto the section stack and it is NOT colored. The nearest
+arc position of the selected section as well
+as the section is available from <a href="../secspec.html#push_section">push_section</a> .
+<p>
+<p><hr><p>
+<h1><a name="push_selected">push_selected</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>arc = shape.push_selected()</code><br>
+<code>if (arc >= 0) {</code><br>
+<code>	pop_section()</code><br>
+<code>}</code><br>
+<h2>DESCRIPTION</h2>
+If there is a selection for the Shape class, then it is pushed onto
+the section stack (becomes the currently accessed section) and the
+arc position (0 to 1) returned. If no section is selected the function
+returns -1 and no section is pushed.
+<p>
+Note that it is important that a pop_section be executed if a section
+is pushed onto the stack.
+<h2>BUGS</h2>
+The arc position is relevant only if the section was selected using
+<a href="shape.html#nearest">nearest</a> . Note, e.g., that <a href="shape.html#select">select</a> does not
+set the arc position.
+<p>
+<p><hr><p>
+<h1><a name="len_scale">len_scale</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>section shape.len_scale(scl)</code><br>
+<h2>DESCRIPTION</h2>
+The drawing of the section length (currently accessed section) in the Shape
+scene is scaled by the factor. Diameter is drawn normally.
+Note that this does not change the physical length of the section but
+only its appearance in this Shape instance.
+<p>
+<p><hr><p>
+<h1><a name="rotate">rotate</a></h1>
+<pre>
+<a href="shape.html#Shape">Shape</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>shape.rotate()</code><br>
+<code>shape.rotate(xorg, yorg, zorg, xrad, yrad, zrad)</code><br>
+<h2>DESCRIPTION</h2>
+With no args the view is in the xy plane.
+With args, incrementally rotate about the indicated origin by the
+amount given in radians around the current view coordinates (order is
+sequentially about x,y,z axes)
+<p>
+<p>
+<p><hr><p>
+<date>
+neuron/neuron/classes/shape.hel : Sep 21 09:30

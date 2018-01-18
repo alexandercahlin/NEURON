@@ -1,0 +1,17 @@
+//@code
+objref r, hist, g
+r = new Random()
+r.geometric(.8)
+hist = new Vector(1000)
+proc sample() {
+	hist = new Vector(1000)
+	hist.setrand(r)
+	hist = hist.histogram(0,100,1)
+	hist.plot(g)
+}
+g = new Graph()
+g.size(0,40,0,200)
+sample()
+xpanel("Resample")
+xbutton("Resample", "sample()")
+xpanel()

@@ -1,0 +1,9 @@
+//@code
+objref m
+m = new Matrix(2,2)
+m.x[0][1] = 20
+m.x[1][0] = 30
+m.printf()
+ex = 0
+mant = m.det(&ex)
+print mant*10^ex

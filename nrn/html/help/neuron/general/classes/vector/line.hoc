@@ -1,0 +1,8 @@
+//@code
+objref vec, g
+g = new Graph()
+g.size(0,10,-1,1)
+vec = new Vector()
+vec.indgen(0,10, .1)
+vec.apply("sin")
+for i=0,3 { vec.line(g, .1) vec.rotate(10) }

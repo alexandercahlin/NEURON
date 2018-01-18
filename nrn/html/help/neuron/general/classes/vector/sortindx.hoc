@@ -1,0 +1,11 @@
+//@code
+objref a, r, si
+r = new Random()
+r.uniform(0,100)
+a = new Vector(10)
+a.setrand(r)
+a.printf
+
+si = a.sortindex
+si.printf
+a.index(si).printf

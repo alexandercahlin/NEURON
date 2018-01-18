@@ -1,0 +1,12 @@
+objref v1, v2, v3
+v1 = new Vector(15)
+v1.indgen()
+v1.printf()
+v2 = new Vector(15)
+v2.indgen(10)
+v2.printf()
+//@code...
+v3 = new Vector()
+v3.copy(v1, 0, 0, -1, 2, 1)
+v3.copy(v2, 1, 0, -1, 2, 1)
+v3.printf

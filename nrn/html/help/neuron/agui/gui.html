@@ -1,0 +1,766 @@
+<h1><a name="GUI">GUI</a></h1>
+<pre>
+<a href="../0nrn.html#Reference">Reference</a>
+   <a href="gui.html#LookAndFeel">LookAndFeel</a>    <a href="../stdrun/0stdrun.html#NEURONMainMenu">NEURONMainMenu</a>  <a href="../stdrun/0stdrun.html#StandardRunTools">StandardRunTools</a>  
+</pre>
+Graphical User Interface Usage
+<p><hr><p>
+<h1><a name="LookAndFeel">LookAndFeel</a></h1>
+<pre>
+<a href="gui.html#GUI">GUI</a>
+   <a href="gui.html#Browser">Browser</a>        <a href="gui.html#Graph">Graph</a>          <a href="gui.html#Panel">Panel</a>          <a href="gui.html#Scene">Scene</a>          
+   <a href="gui.html#FieldEditor">FieldEditor</a>    <a href="gui.html#PWM">PWM</a>            <a href="pltshape.html#PlotShape">PlotShape</a>      
+</pre>
+<p>
+	The Print window manager gives special meaning to each mouse button
+	as described in the PrintWindowManager section.
+<p>
+	This interface is profligate in its use of windows. In the course
+	of a simulation it is expected that windows will be created and
+	destroyed freely. In OpenLook one dismisses a window merely by
+	pressing the right(menu) button in the window header area and
+	selecting dismiss. If your window manager does not support easy
+	dismissing of windows then you *MUST* invoke nrniv with the
+	automatic dismiss button feature. The default widget style is
+	MOTIF but openlook style can be selected. The relevant options are
+<p>
+		nrniv -dismissbutton -openlook ...
+<p>
+<p><hr><p>
+<h1><a name="Scene">Scene</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+   <a href="gui.html#NewView">NewView</a>        <a href="gui.html#Scene_equal_View">Scene_equal_View</a>  <a href="gui.html#View_equal_Plot">View_equal_Plot</a>  <a href="gui.html#ZoomInOut">ZoomInOut</a>  
+   <a href="gui.html#ObjectName">ObjectName</a>     <a href="gui.html#SetView">SetView</a>        <a href="gui.html#WholeScene">WholeScene</a>     <a href="gui.html#ZoomOut10">ZoomOut10</a>      
+   <a href="gui.html#RoundView">RoundView</a>      <a href="gui.html#Translate">Translate</a>      <a href="gui.html#ZoomIn10">ZoomIn10</a>       
+</pre>
+	Graphs and Shape windows are instances of views into a scene.<br>
+<a href="scene.hoc">execute following example</a>
+<blockquote><pre>
+// pop up an example of a scene
+</pre></blockquote>
+	A scene is defined as the space represented by the model
+	coordinate system. A view is defined as that portion of the scene
+	which is drawn in the window.
+	There can be many views into a scene and each scene has its own
+	menu selections but they can be different for different scenes.
+	Scenes use an openlook style in which the right(menu) mouse button
+	pops up menus from which one either selects an action to be performed
+	immediately, eg. Round or Whole Scene, or else selects a meaning for
+	the left(select) mouse button which will be used when the left mouse
+	button is pressed within any view of that particular scene. This can
+	be thought of as selecting a tool with the right button and wielding
+	that tool with the left button.
+	These menu items are like radio buttons in that only one is active at
+	a time. It is recommended that when you move into a view you quickly
+	pop up the menu so you can be certain of the meaning of the left button.
+	The middle button translates the view around the scene. All
+	scenes have a common View menu as the first menu item
+	with which one can create a new view, zoom in/out, round the view
+	or make the view correspond to the natural size of the scene.
+<p>
+<p><hr><p>
+<h1><a name="View_equal_Plot">View_equal_Plot</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+ 	View = plot: scale the view with respect to the variables being
+		plotted.
+<p>
+<p><hr><p>
+<h1><a name="ZoomOut10">ZoomOut10</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	10% Zoom out: View more of the scene keeping the center of the view
+		fixed.
+<p>
+<p><hr><p>
+<h1><a name="ZoomIn10">ZoomIn10</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	10% Zoom in: View less of the scene keeping the center of the view
+		fixed.
+<p>
+<p><hr><p>
+<h1><a name="NewView">NewView</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	New View: Mode for creation of new view windows.
+	Use the left mouse button to
+	draw a rectangle in the view which will become the interior of
+	a new view. Press the left mouse button at one corner of the desired
+	view and drag it to the opposite corner. The new view window can then be
+	resized and positioned using your window manager.
+<p>
+<p><hr><p>
+<h1><a name="ZoomInOut">ZoomInOut</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Zoom in/out: The location where the left mouse button is pressed is
+		the fixed point of zooming, ie doesn't change its position.
+		Dragging the mouse up and to the right zooms in. Dragging
+		the mouse down and to the left zooms out. Graph views have
+		independent scaling in the x and y directions. There is
+		a bias toward changing only one dimension corresponding to
+		the general drag direction.  Shape views
+		have a constant aspect ratio so only the x direction is used
+		for zooming.
+	
+<p><hr><p>
+<h1><a name="Translate">Translate</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Translate: Drag the scene around in the view. The middle mouse button
+		is always attached to this tool. There is a drag bias which
+		makes it easier to move in the horizontal or vertical direction
+		without change in the other dimension.
+<p>
+<p><hr><p>
+<h1><a name="RoundView">RoundView</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Round View: The header of each view window shows the size of the canvas
+		in model coordinates. Pressing this button rounds the view
+		so these numbers don't have so many decimal places.
+		The algorithm for rounding needs improvement.
+<p>
+<p><hr><p>
+<h1><a name="WholeScene">WholeScene</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Whole Scene: Adjusts the zoom and translation so the view is of the
+		entire scene with a  10% border.
+	
+<p><hr><p>
+<h1><a name="SetView">SetView</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Set View: Successive dialogs for x and y view size each require user to
+		enter two space separated numbers for the beginning and end
+		of axis. Default values are left, right, bottom, top of view
+		reduced by 10%. The view size is set to the entries and then
+		the view zooms out by 10%. ie accepting the default values
+		leaves the view unchanged.
+<p>
+<p><hr><p>
+<h1><a name="Scene_equal_View">Scene_equal_View</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+	Scene=View: Defines the size of the whole scene.
+		Sets the scene size to the size of the view. Subsequent
+		Whole Scene adjustments will return to this size.
+<p>
+<p><hr><p>
+<h1><a name="ObjectName">ObjectName</a></h1>
+<pre>
+<a href="gui.html#Scene">Scene</a>
+</pre>
+Prints the name by which the interpreter knows this object. Within this
+session the user can use this name to manipulate the object via interpreter
+commands.
+<p>
+<p><hr><p>
+<h1><a name="Browser">Browser</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+</pre>
+Browsers are visible lists.<br>
+<a href="browser.hoc">execute following example</a>
+<blockquote><pre>
+// pop up example of a browser
+</pre></blockquote>
+The list can be scrolled with a scroll bar but
+I think it is most convenient to drag the list up and down with the middle
+mouse button. Rate scrolling is controlled with the right mouse button.
+The left button highlights a selection. Double clicking generally executes
+the selection. Browsers are used to select files for printing,
+variables for plotting, etc. Sometimes, a browser has a field editor in which
+one can directly type an entry. Usually after an item has been selected you
+have to press an Accept or Cancel button to actually execute the selection.
+Browsers can be scrolled with d,u,j,k,n,p and others.
+<p>
+<p><hr><p>
+<h1><a name="FieldEditor">FieldEditor</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+</pre>
+See also <a href="gui.html#ValueEditor">ValueEditor</a> , a FieldEditor for floating point numbers.
+Field editors accept a string entered by the user.  The allowed strings
+are determined by the context.  In not all cases does typing the return
+key signal the execution of a selection (if not, press the accept
+button).  Field editors have an emacs-like syntax and typing characters
+inserts them at the cursor.  The left mouse button specifies the cursor
+location and dragging selects a portion of the string.  After selecting
+a portion of the string, typing a character will replace that portion
+with the character. 
+<pre>
+	^A beginning of line
+	^E end of line
+	^F forward one character
+	^B backward one character
+	^U select whole string
+	^W select from cursor to beginning of string
+	^D delete next character
+	^H delete previous character
+	return (normally accept)
+	escape, ^G (normally cancel)
+	and others
+</pre>
+<p>
+<p><hr><p>
+<h1><a name="Panel">Panel</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+   <a href="gui.html#Button">Button</a>         <a href="gui.html#DefaultValueEditor">DefaultValueEditor</a>  <a href="gui.html#Menu">Menu</a>      <a href="gui.html#ValueEditor">ValueEditor</a>    
+</pre>
+Panels: windows containing buttons, menus, and value editors. All mouse buttons
+	mean the same thing.
+<p>
+If the number of items in a vertically arranged single panel is greater
+than the number in the "*panel_scroll:" resource in the
+$(NEURONHOME)/lib/nrn.defaults file (default 12) then the panel items
+are shown in a scroll box so that they do not take up so much screen
+space.
+<p>
+See <a href="../general/function/panel.html#xpanel">xpanel</a> for hoc functions to generate panels
+<p>
+<a href="panel.hoc">execute following example</a>
+<blockquote><pre>
+// pop up example panel
+</pre></blockquote>
+<p>
+<p><hr><p>
+<h1><a name="Button">Button</a></h1>
+<pre>
+<a href="gui.html#Panel">Panel</a>
+</pre>
+Buttons: execute an action when the mouse button is pressed and released over
+	the button widget.
+<p><hr><p>
+<h1><a name="Menu">Menu</a></h1>
+<pre>
+<a href="gui.html#Panel">Panel</a>
+</pre>
+Menus: Drag the mouse to the desired item. If the menu fails to go away you
+	can press one item and then move the mouse away and release. This
+	should cause the menu to unmap without executing the item.
+<p><hr><p>
+<h1><a name="ValueEditor">ValueEditor</a></h1>
+<pre>
+<a href="gui.html#Panel">Panel</a>
+</pre>
+Value editor: A combination button with label and a field editor.
+	If a value is being entered the label is colored yellow
+	and there is
+	a cursor in the field editor. You might have a desired value in the
+	editor but if the label is yellow the computer will not know it. Make
+	sure values are accepted by pressing return or by pressing the button.
+	Arbitrary expressions may be entered into value editors. They will
+	be replaced by their value upon acceptance.
+	Pressing the middle/right mouse button over a digit will
+	increase/decrease the digit by 1. Dragging
+	will increase/decrease repeatedly.
+	(but don't forget to release the label button to accept
+	the value).
+<p><hr><p>
+<h1><a name="DefaultValueEditor">DefaultValueEditor</a></h1>
+<pre>
+<a href="gui.html#Panel">Panel</a>
+</pre>
+Default Value editor:
+	These value editors have an extra check box to the left of the value
+	field  which is marked when
+	the value is different from its creation value. One may toggle
+	between the default and most recent value by pressing the check box
+	with the left or middle mouse button.
+	The default value may be permanently changed by pressing the check
+	box with the right button.
+	On the right of the value field is a stepper
+	(little button with the	up arrow) that is used to change values in
+	lieu of typing a number.
+	The stepper works as follows:
+	  left mouse button: increase by the increment
+	  middle mouse button: decrease by the increment
+	  right mouse button: select the increment. Res stands for resolution
+	  and means the increment is the least significant digit in the value
+	  field. The only other increments are the decades between .001
+	  and 1000. When holding down the left or right mouse button, after
+	  a short time the stepper will repeatedly increment the value
+	  field. Every 20 steps, the increment will increase by a factor of
+	  10 but will return to its first step value on release. The repetition
+	  mode will not cross 0. To cross 0 release and re-press.
+	  Only on release of the mouse button will the action (if any)
+	  be executed and finally all value editors will be updated.
+	  The default increment starts at the least significant digit in the
+	  value field. Stepper delays use the resources:
+		*autorepeatStart: .05	//seconds
+		*autorepeatDelay: .02
+<p>
+<p>
+<p><hr><p>
+<h1><a name="PWM">PWM</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+   <a href="gui.html#Help">Help</a>           <a href="gui.html#PaperItem">PaperItem</a>      <a href="gui.html#PrintToFile">PrintToFile</a>    <a href="gui.html#Session">Session</a>        
+   <a href="gui.html#Other">Other</a>          <a href="gui.html#Print">Print</a>          <a href="gui.html#ScreenItem">ScreenItem</a>     
+</pre>
+Print & File Window Manager
+<p>
+Its primary purpose is to organize the windows onto a page for printing. 
+The manager contains two scenes representing the screen and a piece of
+paper.  The location and relative size of each hoc window appears on the
+screen scene. 
+<p>
+See <a href="../general/function/pwmplace.html#pwman_place">pwman_place</a> .
+<p><hr><p>
+<h1><a name="ScreenItem">ScreenItem</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+</pre>
+To specify which subset of windows is to be printed you click on the
+relevant rectangles in the screen scene.  A rectangle representing the
+relative location and size on the page will appear in the page scene. 
+<p>
+<p><hr><p>
+<h1><a name="PaperItem">PaperItem</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+</pre>
+Windows selected for printing may be manipulated in the page scene. 
+Place the mouse cursor over the desired window rectangle in the page
+scene and:
+<p>
+Right button --- remove the window from the page.  If one clicks again
+on that window in the screen scene then the window will return to the
+same location and relative size on the page as when it was removed. 
+<p>
+Middle button --- resize the window.  This resizes not the window on the
+screen but how large the window will appear on the page.  The window
+always maintains the same aspect ratio as the window on the console
+screen.  To resize, drag the mouse with the button down til the desired
+size is reached. 
+<p>
+Left button --- move the window.  Drag the mouse to the desired position
+and release the button. 
+<p>
+When the manager is iconified, all the windows disappear.  When the
+manager is redisplayed all the windows come back where they left off.
+(This is the case for openlook. Many window managers do not allow easy
+dismissing, moving, and resizing of transient windows and therefore
+require the use of top level windows which do not iconify as a group)
+<p>
+<p>
+<p><hr><p>
+<h1><a name="Help">Help</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+</pre>
+Help: Toggles the interface into help mode. In help mode
+the cursor changes to a "?" and a help message will be
+displayed for any button or menu item that is pressed while
+the question mark cursor is present. No actions are executed
+in help mode but sometimes dialog boxes may pop up which
+should be canceled in order for them not to do anything.
+Pressing the help button in help mode will return to
+the normal interface with an arrow cursor.
+<p>
+The help system requires a running Netscape process. If the system
+is not working properly on your machine, the help
+button can be removed by specifying "*pwm_help: off" in the
+nrn/lib/nrn.defaults file.
+<p>
+<p><hr><p>
+<h1><a name="Print">Print</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+</pre>
+Print: Sends the postscript images of the windows to a printer
+selected by the Other menu item, <a href="gui.html#SelectPrinter">SelectPrinter</a> .
+If no printer has been selected a printer
+dialog pops up. See <a href="gui.html#WindowTitlesPrinted">WindowTitlesPrinted</a> .
+<p>
+<p><hr><p>
+<h1><a name="PrintToFile">PrintToFile</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+   <a href="gui.html#Ascii">Ascii</a>          <a href="gui.html#Idraw">Idraw</a>          <a href="gui.html#PostScript">PostScript</a>     
+</pre>
+Print to File: Menu for saving windows to a printable file in the formats 
+<p>
+See <a href="../general/function/ocfunc.html#print_session">print_session</a> <a href="gui.html#WindowTitlesPrinted">WindowTitlesPrinted</a>
+<p><hr><p>
+<h1><a name="PostScript">PostScript</a></h1>
+<pre>
+<a href="gui.html#PrintToFile">PrintToFile</a>
+</pre>
+PostScript: Pops up dialogue requesting Filename for saving the postscript 
+	images of the windows appearing	in the page icon. A .ps suffix is recommended.
+<p><hr><p>
+<h1><a name="Idraw">Idraw</a></h1>
+<pre>
+<a href="gui.html#PrintToFile">PrintToFile</a>
+</pre>
+Idraw: Filename for saving an idraw format of graph windows appearing
+	in the page icon. Each graph is an idraw group. Idraw is an excellent
+	program for polishing graphs to publication quality.
+	A .id suffix is recommended.
+<p><hr><p>
+<h1><a name="Ascii">Ascii</a></h1>
+<pre>
+<a href="gui.html#PrintToFile">PrintToFile</a>
+</pre>
+Ascii: Filename for saving an ascii format of the lines in graph windows
+appearing in the page icon. <a href="../general/classes/graph.html#addvar">addvar</a> and <a href="../general/classes/graph.html#addexpr">addexpr</a>
+	lines in a Graph window are saved if there are some and there
+is no <a href="../general/classes/graph.html#family">family</a> label. If there are no addvar/addexpr lines
+	or if there is a family label then all lines on the graph with more
+	than two points are printed (along with their labels, if any).
+	If all the lines have the same number of points and they are all
+	labeled then the file is printed in matrix form (with the first column
+	being the x values). Header information is also printed that gives
+	a manifest of the lines and their sizes.
+<p>
+	Unlabeled lines are printed at the end of the file with the format
+<blockquote><pre>
+	number unlabeled
+	number points in first unlabeled line
+	x y pairs of point
+	number points in second unlabeled line
+	...
+</pre></blockquote>
+<p>
+See <a href="gui.html#FamilyLabel">FamilyLabel</a>
+<p>
+<p><hr><p>
+<h1><a name="Session">Session</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+   <a href="gui.html#Retrieve">Retrieve</a>       <a href="gui.html#SaveAll">SaveAll</a>        <a href="gui.html#SaveSelected">SaveSelected</a>   
+</pre>
+Session: Menu for savings windows for recall
+<p><hr><p>
+<h1><a name="Retrieve">Retrieve</a></h1>
+<pre>
+<a href="gui.html#Session">Session</a>
+</pre>
+Retrieve: Retrieves a saved session. Note that the saved values in the value
+	editors become the default values when retrieved.
+<p><hr><p>
+<h1><a name="SaveSelected">SaveSelected</a></h1>
+<pre>
+<a href="gui.html#Session">Session</a>
+</pre>
+SaveSelected: Saves size, location, and values of the panels, graphs,
+	and shapes (but not browsers) appearing on the paper icon in the
+	indicated file.	A .ses suffix is recommended. This is usually more
+	useful than saving all items on the screen since it is normally
+	the case that most of the user effort goes into specifying the
+	graphs and most of the other windows are generated by the interpreter.
+	The model coordinate size of all scenes is given by the view size
+	of the primary view window. Therefore after a retrieve, the 
+	"whole scene" menu operation will restore the view size when saved.
+<p><hr><p>
+<h1><a name="SaveAll">SaveAll</a></h1>
+<pre>
+<a href="gui.html#Session">Session</a>
+</pre>
+SaveAll: Saves all windows in the specified file.
+<p>
+See <a href="../general/function/ocfunc.html#save_session">save_session</a>
+<p><hr><p>
+<h1><a name="Other">Other</a></h1>
+<pre>
+<a href="gui.html#PWM">PWM</a>
+   <a href="gui.html#LandPort">LandPort</a>       <a href="gui.html#SelectPrinter">SelectPrinter</a>  <a href="gui.html#VirtualScreen">VirtualScreen</a>  
+   <a href="gui.html#Quit">Quit</a>           <a href="gui.html#Tray">Tray</a>           <a href="gui.html#WindowTitlesPrinted">WindowTitlesPrinted</a>  
+</pre>
+Other: Menu of other options
+<p>
+<p><hr><p>
+<h1><a name="SelectPrinter">SelectPrinter</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+SelectPrinter: Enter your normal system command for printing. The Print button will
+send post script to this command. for example:
+	lpr -Plp
+<p>
+Unix and Mswindows versions construct a print line of the form
+<pre>
+pwm_postscript_filter < temp_filename | PRINT_CMD ; rm temp_filename
+pwm_postscript_filter temp_filename printer_command
+</pre>
+respectively.
+In the mswindows version pwm_postscript_filter and printer_command may
+be set in the nrn.def(aults) file. The default printer command is
+" &GT prn"
+<p>
+In the unix version the printer command is found from the 
+"PRINT_CMD" environment variable.
+<p>
+<p><hr><p>
+<h1><a name="WindowTitlesPrinted">WindowTitlesPrinted</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+If checked, then window titles are printed when the windows are printed.
+Titles are always printed when <a href="../general/function/ocfunc.html#print_session">print_session</a> is executed.
+<p>
+<p><hr><p>
+<h1><a name="VirtualScreen">VirtualScreen</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+VirtualScreen: Useful for mswindows version when using low-resolution monitor.
+Also invoked under mswindows when the "F1" key is pressed when focus in
+any InterViews window.
+<p>
+Pops up a view of the print window manager's screen icon to allow moving
+of windows (select and drag with left mouse) and changing the center of the
+screen (click with middle button).
+<p>
+What makes this useful under mswindows is 1) the fact that it can
+be raised to the top of the window hierarchy (The print window manager
+can't since it is the parent to all InterViews windows) and 2) there is
+a scale button which can scale the window size so all windows will fit
+on the screen.
+<p>
+<p><hr><p>
+<h1><a name="LandPort">LandPort</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+LandPort
+Land/Port: The page will be printed in landscape or portrait mode.  The
+mode is indicated by the orientation of the page icon. 
+<p>
+<p><hr><p>
+<h1><a name="Tray">Tray</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+Tray: The windows on the page icon are collected into a single larger
+window consisting of a row of columns. The algorithm for doing this
+isn't too smart but you can get good trays by arranging the page window icons
+in a row of columns. When you dismiss a tray a dialog box pops up which asks
+if you want to dismiss the window or dissolve it into its original windows.
+Trays can be saved and retrieved but they cannot be subsequently dissolved.
+<p>
+<p><hr><p>
+<h1><a name="Quit">Quit</a></h1>
+<pre>
+<a href="gui.html#Other">Other</a>
+</pre>
+Quit: Pops up dialog to allow Exit from NEURON.
+On exit will ask if you want to save open editor buffers.
+<p>
+<p><hr><p>
+<h1><a name="Graph">Graph</a></h1>
+<pre>
+<a href="gui.html#LookAndFeel">LookAndFeel</a>
+   <a href="gui.html#AxisType">AxisType</a>       <a href="gui.html#Crosshair">Crosshair</a>      <a href="gui.html#FamilyLabel">FamilyLabel</a>    <a href="gui.html#PickVector">PickVector</a>     
+   <a href="gui.html#ChangeColor-Brush">ChangeColor-Brush</a>  <a href="gui.html#Delete">Delete</a>     <a href="gui.html#KeepLines">KeepLines</a>      <a href="gui.html#PlotRange">PlotRange</a>      
+   <a href="gui.html#ChangeText">ChangeText</a>     <a href="gui.html#Erase">Erase</a>          <a href="gui.html#MoveText">MoveText</a>       <a href="gui.html#PlotWhat">PlotWhat</a>       
+</pre>
+Graph
+<p><hr><p>
+<h1><a name="Crosshair">Crosshair</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+Crosshair: shows coordinates and enables access to all line data.
+	Press the left mouse button (LMB) near a line and drag the
+	mouse left or right. A cross hairs will appear with the x,y value in
+	model coordinates. The behaviour of the cross hairs makes it
+	convenient to find local maxima. On creation the crosshairs starts
+	at the nearest point on the line. On dragging it searches from the
+	last point for the nearest point but will stop searching if any point
+	becomes farther away. This makes it possible to easily follow
+	phase plane plots. Crosshairs may call a hoc function on a keypress.
+See <a href="../general/classes/graph.html#crosshair">crosshair</a> _action .
+<p>
+	If no crosshair action has been installed, any keypress will print
+	the x,y coordinates of the crosshair in the terminal window.
+<p>
+	Note that a crosshair_action can obtain all the x,y coordinate data
+for a line. Also the global variables <a href="../general/predec.html#hoc_cross_x_">hoc_cross_x_</a> and
+<a href="../general/predec.html#hoc_cross_y_">hoc_cross_y_</a> contain the last value of the crosshair coordinates.
+<p>
+<p><hr><p>
+<h1><a name="PlotWhat">PlotWhat</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Plot What?: Pops up a browser with which one can navigate to any
+	variable (double clicking) to enter it into the field
+	editor. Double clicking on object names or section names
+	will cause more names to appear in the adjacent browser and allows
+	one to quickly build a complete symbol name. Alternatively one
+	can directly type or edit the name in the field editor. When you
+	are satisfied with the name in the field editor type return or
+	press the accept button. The program will check if the name (or
+	arbitrary expression) is interpretable and, if so, will be added to
+	the list of expressions to be plotted in this graph whenever
+	Graph.plot(xvalue) is executed. Warning: some names in the
+	browsers are not interpretable or make no sense being plotted.
+	If there are inconveniently many names in the first browser,
+	you can use the Show menu to reduce the selection to only
+	variables, objectvars, sections, or objects. Note that the objects
+	allow plotting of variables which may otherwise not be accessible
+	to the interpreter because there is no objectvar that references
+	them. However, unfortunately, such graph lines cannot be saved in
+	a session.
+<p>
+	If a variable in the browser contains the word [all] in place of
+	an explicit index then the Graph will plot it as a function of
+its index. See <a href="../general/classes/graph.html#vector">vector</a> .
+<p>
+<p><hr><p>
+<h1><a name="PickVector">PickVector</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+When this tool is chosen, clicking the left mouse button near
+a graphed line will copy the y and x coordinates of the line
+into two new <a href="../stdrun/0stdrun.html#Vector">Vector</a> 's which are referenced by <a href="../general/predec.html#hoc_obj_">hoc_obj_</a> [0] and
+hoc_obj_[1] respectively. The vectors may be saved to a file by selecting
+the <a href="../stdrun/0stdrun.html#SavetoFile">SavetoFile</a> item from the Vector menu of the
+NEURONMainMenu
+<p>
+<p><hr><p>
+<h1><a name="PlotRange">PlotRange</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	If the graph is doing a space plot with a RangeVarPlot then
+	the PlotWhat item changes its style to request entry of another
+	range variable to plot using the same path. Also one can enter
+	an expression involving $1. The expression will be executed for
+	each section in the path for each arc position set to $1.
+<p>
+<p><hr><p>
+<h1><a name="ChangeColor-Brush">ChangeColor-Brush</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Change Color: Pops up a color and brush palette to select the
+	default color and brush style for the graph.
+	Clicking on text or lines will change the line/text to that style.
+	After the palette is dismissed it can be retrieved by clicking
+	on another radiomenu item and then clicking on this one again.
+	Note: Lines associated with labels always have the same color.
+	Kept lines are not associated with labels.
+	The number of selectable colors and brushes may be set by
+	changing the values in your ~/.nrn.defaults file (see CBWidget in
+	$NEURONHOME/lib/nrn.defaults)
+<p>
+<p><hr><p>
+<h1><a name="AxisType">AxisType</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+   <a href="gui.html#NewAxis">NewAxis</a>        <a href="gui.html#ViewAxis">ViewAxis</a>       <a href="gui.html#ViewBox">ViewBox</a>        
+</pre>
+	Axis Type:
+	Menu of View Axis, New Axis, View Box, and Erase Axis.
+<p><hr><p>
+<h1><a name="ViewAxis">ViewAxis</a></h1>
+<pre>
+<a href="gui.html#AxisType">AxisType</a>
+</pre>
+	View Axis:
+	Erases the old axis and draws a set of axes in the background.
+	The axes are sized dynamically with respect to the view coordinates.
+<p><hr><p>
+<h1><a name="NewAxis">NewAxis</a></h1>
+<pre>
+<a href="gui.html#AxisType">AxisType</a>
+</pre>
+	New Axis:
+	Erases the old axis and draws a new axis in a rounded view.
+	The new axis depends on the size of the view and is the same in
+	every view of the scene.
+<p><hr><p>
+<h1><a name="ViewBox">ViewBox</a></h1>
+<pre>
+<a href="gui.html#AxisType">AxisType</a>
+</pre>
+	View Box:
+	Erases the old axis and draws an axis box as a background
+	with clipping. The box is sized dynamically with respect to the
+	view coordinates.
+<p>
+<p><hr><p>
+<h1><a name="KeepLines">KeepLines</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Keep Lines: While checked, lines are saved. When not checked
+	the previous line is discarded every time
+	Graph.begin() is executed in preparation for plotting new lines.
+	A useful idiom to save a reference line is to toggle the Keep Lines
+	item on and then off.
+<h2>SEE ALSO</h2>
+<a href="../general/classes/graph.html#family">family</a> <a href="gui.html#FamilyLabel">FamilyLabel</a>
+<p><hr><p>
+<h1><a name="FamilyLabel">FamilyLabel</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Pops up a global (same for all Graph windows) symbol chooser
+which is used to select a label for <a href="gui.html#KeepLines">KeepLines</a> Function is
+identical to <a href="../general/classes/graph.html#family">family</a> . Ie. the label is used as a variable name
+and the value of the variable is used to actually label the kept lines.
+To get a compatible label (instead of an <a href="../general/classes/graph.html#addexpr">addexpr</a> label)
+for the last line, the KeepLines menu item should be toggled off.
+<p>
+If all lines are labeled and have the same size then <a href="gui.html#Ascii">Ascii</a>
+has a matrix format.
+<p>
+<p><hr><p>
+<h1><a name="Erase">Erase</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+ Lines are erased but not text or axes.
+<p>
+<p><hr><p>
+<h1><a name="MoveText">MoveText</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Move Text: One can drag text to another location in the scene.
+<p>
+<p><hr><p>
+<h1><a name="ChangeText">ChangeText</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+	Change Text: Clicking on existing text allows one to change it.
+		Clicking on an empty spot creates a label at that location.
+		One can change a plot expression. eg. to add a scale factor.
+		Labels for plot variables that use the more efficient
+		pointers cannot be changed. Labels can be marked as either
+		fixed with respect to scene/model coordinates or fixed
+		with respect to view/screen coordinates
+		
+<p><hr><p>
+<h1><a name="Delete">Delete</a></h1>
+<pre>
+<a href="gui.html#Graph">Graph</a>
+</pre>
+Delete: One can delete text or lines by pressing the left key while
+the mouse cursor is over the object.  If the text is associated with a
+line the line is deleted as well as its label.
+<p>
+<p><hr><p>
+<date>
+neuron/agui/gui.hel : Sep 21 09:30

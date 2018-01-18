@@ -1,0 +1,251 @@
+<p>
+<h1><a name="PWManager">PWManager</a></h1>
+<pre>
+<a href="../../0nrn.html#classes">classes</a>
+   <a href="pwman.html#close">close</a>          <a href="pwman.html#hide">hide</a>           <a href="pwman.html#leader">leader</a>         <a href="pwman.html#printfile">printfile</a>      
+   <a href="pwman.html#count">count</a>          <a href="pwman.html#iconify">iconify</a>        <a href="pwman.html#manager">manager</a>        <a href="pwman.html#save">save</a>           
+   <a href="pwman.html#deco">deco</a>           <a href="pwman.html#is_mapped">is_mapped</a>      <a href="pwman.html#map">map</a>            <a href="pwman.html#scale">scale</a>          
+   <a href="pwman.html#deiconify">deiconify</a>      <a href="pwman.html#jwindow">jwindow</a>        <a href="pwman.html#name">name</a>           <a href="pwman.html#snap">snap</a>           
+   <a href="pwman.html#group">group</a>          <a href="pwman.html#landscape">landscape</a>      <a href="pwman.html#paper_place">paper_place</a>    <a href="pwman.html#window_place">window_place</a>   
+</pre>
+<h2>SYNTAX</h2>
+<code>p = new PWManager()</code><br>
+<h2>DESCRIPTION</h2>
+A variety of hooks into the Print&FileWindowManager to allow program control
+of that tool. The implementation of the
+Window item of the NeuronMainMenu makes
+heavy use of this class. Note that the first window created is called
+the leader. It cannot be closed.
+<p>
+<p><hr><p>
+<h1><a name="count">count</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>cnt = p.count()</code><br>
+<h2>DESCRIPTION</h2>
+Returns number of "Printable" windows on the screen.
+<p><hr><p>
+<h1><a name="is_mapped">is_mapped</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>boolean = p.is_mapped(index)</code><br>
+<h2>DESCRIPTION</h2>
+Return 1 if the index'th window is visible.
+<p><hr><p>
+<h1><a name="map">map</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.map(index)</code><br>
+<h2>DESCRIPTION</h2>
+Makes the index'th window visible.
+<p><hr><p>
+<h1><a name="hide">hide</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.hide(index)</code><br>
+<h2>DESCRIPTION</h2>
+Unmaps the index'th window. The window is NOT closed.
+<p><hr><p>
+<h1><a name="close">close</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.close(index)</code><br>
+<h2>DESCRIPTION</h2>
+Closes the index'th window. This will destroy the window and decrement the
+reference count of the associated hoc object (if any).
+<p><hr><p>
+<h1><a name="iconify">iconify</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.iconify()</code><br>
+<h2>DESCRIPTION</h2>
+Hides all windows and iconifies the leader.
+<p><hr><p>
+<h1><a name="deiconify">deiconify</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.deiconify()</code><br>
+<h2>DESCRIPTION</h2>
+Un-iconifies the leader window and maps any windows not hidden before it was
+iconified.
+<p><hr><p>
+<h1><a name="leader">leader</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>index = p.leader()</code><br>
+<h2>DESCRIPTION</h2>
+Window index of the leader window.
+<p><hr><p>
+<h1><a name="manager">manager</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>index = p.manager()</code><br>
+<h2>DESCRIPTION</h2>
+Window index of the Print&FileWindowManager window.
+<p><hr><p>
+<h1><a name="save">save</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = p.save("filename", group_object, ["header"])</code><br>
+<code>n = p.save("filename", selected, ["header"])</code><br>
+<h2>DESCRIPTION</h2>
+Create a session file with the given filename
+consisting oo all windows associated with a
+particular group_object in a session file
+<p>
+If selected == 0 then all windows are saved. If selected==1 then only
+the windows on the paper icon are saved in the session file.
+<p>
+If the header argument exists, it is copied to the beginning of the file.
+<h2>SEE ALSO</h2>
+<a href="../function/ocfunc.html#save_session">save_session</a>
+<p><hr><p>
+<h1><a name="group">group</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>group_obj = p.group(index, group_obj)</code><br>
+<code>group_obj = p.group(index)</code><br>
+<h2>DESCRIPTION</h2>
+Associate the index'th window with the group object and returns the
+group object associated with that window.
+<p><hr><p>
+<h1><a name="snap">snap</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.snap()</code><br>
+<code>p.snap("filename")</code><br>
+<h2>DESCRIPTION</h2>
+Only works on the unix version.
+Puts the GUI in snapshot mode until the 'p' keyboard character is pressed.
+During this time the mouse can be used normally to pop up menus or drag
+rubberbands on graphs. When the p character is pressed all windows including
+drawings of the window decorations, menus, rubberband, and mouse arrow cursor is
+printed to a postscript file with the "filename" or filebrowser selection.
+<p><hr><p>
+<h1><a name="jwindow">jwindow</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>index = p.jwindow(hoc_owner, mapORhide, x, y, w, h)</code><br>
+<h2>DESCRIPTION</h2>
+Manipulate the position and size of a java window frame associated with the
+java object referenced by the hoc object. The mapORhide value may be 0
+or 1. The index of the window is returned. This is used by session file
+statements created by the java object in order to specify window attributes.
+<p><hr><p>
+<h1><a name="scale">scale</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.scale(x)</code><br>
+<h2>DESCRIPTION</h2>
+Works only under mswin.
+Immediately rescales all the windows (including font size) and their position
+relative to the top, left corner of the screen according to the absolute
+scale factor x.
+i.e, a scale value of 1 gives normal size windows.
+<p><hr><p>
+<h1><a name="name">name</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>strdef = p.name(index)</code><br>
+<h2>DESCRIPTION</h2>
+Returns the window title bar string of the index'th window.
+<p>
+<p><hr><p>
+<h1><a name="window_place">window_place</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.window_place(index, left, top)</code><br>
+<h2>DESCRIPTION</h2>
+moves the index window to the left,top pixel
+coordinates of the screen.
+<p>
+<p><hr><p>
+<h1><a name="paper_place">paper_place</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.paper_place(index, show)</code><br>
+<code>p.paper_place(index, left, bottom, scale)</code><br>
+<h2>DESCRIPTION</h2>
+Shows or hides the ith window on the
+paper icon. If showing, this constitutes adding this window to the list of
+selected windows.
+<p>
+The 4 arg form shows, places, and scales
+the index window on the paper icon. The scale and location only has an effect when
+the paper is printed in postscript mode.
+<p>
+<p><hr><p>
+<h1><a name="landscape">landscape</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.landscape(boolean)</code><br>
+<h2>DESCRIPTION</h2>
+Determines if postscript printing is in landscape
+or portrait mode.
+<p>
+<p><hr><p>
+<h1><a name="deco">deco</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.deco(mode)</code><br>
+<h2>DESCRIPTION</h2>
+When printing in postscript mode,
+0 print only the interior of the window.
+<p>
+1 print the interior and the title above each window
+<p>
+2 print the interior and all window decorations including the window title.
+<p>
+<p><hr><p>
+<h1><a name="printfile">printfile</a></h1>
+<pre>
+<a href="pwman.html#PWManager">PWManager</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>p.printfile("filename", mode, selected)</code><br>
+<h2>DESCRIPTION</h2>
+Print to a file in postcript, idraw, or ascii mode (mode=0,1,2) the selected windows
+or all the windows( selected=0,1)
+<p>
+<p>
+<p><hr><p>
+<date>
+neuron/general/classes/pwman.hel : Sep 21 09:30

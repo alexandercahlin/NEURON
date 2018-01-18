@@ -1,0 +1,7 @@
+//@code
+objref ms1, ms2
+ms1 = new MechanismStandard("hh")
+ms2 = new MechanismStandard("AlphaSynapse")
+ms2.set("gmax", .3)
+ms1.panel()
+ms2.panel()

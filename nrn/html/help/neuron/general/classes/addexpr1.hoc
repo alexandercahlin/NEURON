@@ -1,0 +1,20 @@
+//@code
+objref g	//Creates an object reference "g" which will
+		//point to the graph object.
+g = new Graph()		//Assigns "g" the role of pointing to a Graph
+g.size(0,10,-1,1)	//created from the Graph class, and produces
+			//a graph window with x and y axes on the 
+			//screen.
+g.addexpr("sin(x)")	//stores sin(x) as a function to be plotted in g graphs
+g.addexpr("cos(x)")	//stores cos(x) for use with g
+g.addexpr("exp(-x)")	//stores exp(x) for use with g
+x=0			// has to be defined prior to execution of expressions
+g.begin()		//Tells the interpreter that commands to plot 
+			//specific functions will follow.
+for(x=0; x<=10; x=x+0.1){	//States that x values to be plotted
+				//will go from 0 to 10 in increments
+				//of 0.1.
+	g.plot(x)	//States that the y values on the plot
+			//will be the sin of the x values.
+}
+g.flush()	//Actually draws the plot on the graph in the window.

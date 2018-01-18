@@ -1,0 +1,16 @@
+forall delete_section()
+//@code
+create a
+access a
+Ra=100
+nseg = 10
+pt3dclear()
+for i=0,30 {
+	x = PI*i/30
+	pt3dadd(200*sin(x), 200*cos(x), 0, 100*sin(4*x))
+}
+objref s
+s = new Shape()
+s.show(0)
+print L
+for (x) print x, diam(x), area(x), PI*diam(x)*L/nseg, ri(x), .01*Ra*(L/2/nseg)/(PI*(diam(x)/2)^2)

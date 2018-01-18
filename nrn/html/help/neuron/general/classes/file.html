@@ -1,0 +1,340 @@
+<h1><a name="File">File</a></h1>
+<pre>
+<a href="../../0nrn.html#classes">classes</a>
+   <a href="file.html#aopen">aopen</a>          <a href="file.html#getname">getname</a>        <a href="file.html#scanstr">scanstr</a>        <a href="file.html#vwrite">vwrite</a>         
+   <a href="file.html#chooser">chooser</a>        <a href="file.html#gets">gets</a>           <a href="file.html#scanvar">scanvar</a>        <a href="file.html#wopen">wopen</a>          
+   <a href="file.html#close">close</a>          <a href="file.html#isopen">isopen</a>         <a href="file.html#seek">seek</a>           <a href="file.html#xopen">xopen</a>          
+   <a href="file.html#dir">dir</a>            <a href="file.html#mktemp">mktemp</a>         <a href="file.html#tell">tell</a>           
+   <a href="file.html#eof">eof</a>            <a href="file.html#printf">printf</a>         <a href="file.html#unlink">unlink</a>         
+   <a href="file.html#flush">flush</a>          <a href="file.html#ropen">ropen</a>          <a href="file.html#vread">vread</a>          
+</pre>
+<h2>SYNTAX</h2>
+<code>fobj = new File()</code><br>
+<code>fobj = new File("filename")</code><br>
+<h2>DESCRIPTION</h2>
+This class allows you to open several files at once, whereas the top level
+functions, <a href="../function/io/ropen.html#ropen">ropen</a> and <a href="../function/io/ropen.html#wopen">wopen</a> ,
+allow you to deal only with one file at a time.  
+<p>
+The functionality of <a href="../function/io/ropen.html#xopen">xopen</a> is not implemented in this class so use
+<blockquote><pre>
+	strdef tstr
+	fobj.getname(tstr)
+	xopen(tstr)
+</pre></blockquote>
+to execute a sequence of interpreter commands in a file.
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+objref f1, f2, f3	//declare object references
+f1 = new File()		//state that f1, f2, and f3 are pointers to the File class
+f2 = new File()
+f3 = new File()
+f1.ropen("file1")	//open file1 for reading
+f2.wopen("file2")	//open file2 for writing
+f3.aopen("file3")	//open file3 for appending to the end of the file
+</pre></blockquote>
+opens file1, file2, and file3 for reading, writing, and appending (respectively).
+ 
+<h2>BUGS</h2>
+The mswindows/dos version must deal with the difference between
+binary and text mode files. The difference is transparent to the
+user except for one limitation. If you mix text and binary data
+and you write text first to the file, then you need to do a
+File.seek(0) to explicitly switch to binary mode just after opening the file
+and prior to the first File.printf. 
+An error message will occur if you
+read/write text to a file in text mode and then try to read/write a binary
+vector.  This issue does not arise with the unix version.
+<h2>SEE ALSO</h2>
+<a href="../function/io/printf.html#IO">IO</a> , <a href="file.html#ropen">ropen</a> , <a href="file.html#xopen">xopen</a> , <a href="file.html#wopen">wopen</a>
+<p><hr><p>
+<h1><a name="ropen">ropen</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.ropen()</code><br>
+<code>.ropen("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+ Open the file for reading. If the argument is
+		not present it opens (for reading) the last specified file.
+<p>
+<p><hr><p>
+<h1><a name="wopen">wopen</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.wopen()</code><br>
+<code>.wopen("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+Open the file for writing.  If the argument is
+not present it opens the last specified file.
+<p>
+<p><hr><p>
+<h1><a name="aopen">aopen</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.aopen()</code><br>
+<code>.aopen("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+Open the file for appending to the end of the file. If the argument is
+not present it opens the last specified file.
+<p>
+<p><hr><p>
+<h1><a name="xopen">xopen</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.xopen()</code><br>
+<code>.xopen("<var>name</var>")</code><br>
+<h2>DESCRIPTION</h2>
+Open the file and execute it. (not implemented)
+<p>
+Note: if instead of a "<var>name</var>", the number 0,1,or 2 is specified then
+		the stdin, stdout, or stderr is opened. (not implemented)
+<p>
+<p><hr><p>
+<h1><a name="close">close</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.close()</code><br>
+<h2>DESCRIPTION</h2>
+ Flush and close the file. This occurs automatically
+		whenever opening another file or destroying the object.
+<p>
+<p><hr><p>
+<h1><a name="mktemp">mktemp</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>boolean = f.mktemp()</code><br>
+<h2>DESCRIPTION</h2>
+Sets the name to a temporary filename in the /tmp directory (or other
+writable path for mswin and mac). Success returns 1.
+<p>
+<p><hr><p>
+<h1><a name="unlink">unlink</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>boolean = f.unlink()</code><br>
+<h2>DESCRIPTION</h2>
+Remove the file specified by the current name. A return value of
+1 means the file was removed (or at least it's link count was reduced by
+one and the filename no longer exists).
+<p>
+<p><hr><p>
+<h1><a name="printf">printf</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.printf("<var>format</var>", <var>args</var>, ...)</code><br>
+<h2>DESCRIPTION</h2>
+ As in standard C <code>printf</code> and the normal
+hoc <a href="../function/io/printf.html#printf">printf</a> .
+<p>
+<p><hr><p>
+<h1><a name="scanvar">scanvar</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.scanvar()</code><br>
+<h2>DESCRIPTION</h2>
+ Reads the next number as in the hoc function <code>fscan()</code> and
+		returns its value. 
+<p>
+Note: in order that .eof will return
+		true after the last number, the last digit of that number
+		should either be the last character in the file or
+		be followed by a newline which is the last character in the file.
+<p>
+<p><hr><p>
+<h1><a name="scanstr">scanstr</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.scanstr(<var>strdef</var>)</code><br>
+<h2>DESCRIPTION</h2>
+ Read the next string (delimited by whitespace) into
+		<code>strdef</code>. Returns the length of a string (if failure then returns
+		-1 and <code>strdef</code> is unchanged).
+<p>
+<p><hr><p>
+<h1><a name="gets">gets</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.gets(<var>strdef</var>) </code><br>
+<h2>DESCRIPTION</h2>
+Read up to and including end of line. Returns length of	string.
+If at the end of file, returns -1 and does not change the argument.
+<p>
+<p><hr><p>
+<h1><a name="getname">getname</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>strdef = file.getname()</code><br>
+<code>strdef = file.getname(<var>strdef</var>)</code><br>
+<h2>DESCRIPTION</h2>
+Return the name of the last specified file as a strdef.
+For backward compatibility, if the arg is present also copy it to that.
+<p>
+<p><hr><p>
+<h1><a name="dir">dir</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>strdef = file.dir()</code><br>
+<h2>DESCRIPTION</h2>
+Return the pathname of the last directory moved to in the chooser.
+If the <a href="file.html#chooser">chooser</a> has not been created, return the empty string.
+<p>
+<p><hr><p>
+<h1><a name="eof">eof</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.eof()</code><br>
+<h2>DESCRIPTION</h2>
+Return true if at end of ropen'd file.
+<p>
+<p><hr><p>
+<h1><a name="flush">flush</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.flush()</code><br>
+<h2>DESCRIPTION</h2>
+Flush pending output to the file.
+<p>
+<p><hr><p>
+<h1><a name="isopen">isopen</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.isopen()</code><br>
+<h2>DESCRIPTION</h2>
+Return true if a file is open.
+<p>
+<p><hr><p>
+<h1><a name="chooser">chooser</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.chooser()</code><br>
+<code>.chooser("<var>w</var>,<var>r</var>,<var>a</var>,<var>x</var>,<var>d</var> or nothing")</code><br>
+<code>.chooser("<var>w</var>,<var>r</var>,<var>a</var>,<var>x</var>,<var>d</var> or nothing", "<var>Banner</var>", "filter", "accept", "cancel", "path")</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+		File chooser interface for writing , reading, appending, or
+		just specifying a directory or filename without opening. The banner is
+		optional. The filter, eg. <code>"*.dat"</code> specifies the files shown
+		in the browser part of the chooser.
+		The "path" arg specifies the file or directory to use when the
+		browser first pops up.
+		The form with args sets the style of the chooser but
+		does not pop it up. With no args, the browser pops up and can
+		be called several times. Each time starting where it left
+		off previously.
+<p>
+		The "d" style is used for selecting a directory (in
+contrast to a file).
+		With the "d" style, three buttons are placed beneath the
+browser area with "Open" centered beneath the "Show", "Cancel" button pair.
+The "Open" button must be pressed for the
+dialog to return the name of the directory. The "Show" button merely
+selects the highlighted browser entry and shows the relevant directory
+contents. A returned directory
+string always has a final "/".
+<p>
+		The "<var>x</var>" style is unimplemented. Use
+<blockquote><pre>
+		f.chooser("", "Execute a hoc file", "*.hoc", "Execute")
+		if (f.chooser()) {
+			f.getname(<var>str</var>)
+			xopen(<var>str</var>)
+		}
+</pre></blockquote>
+	The following comes courtesy of Zach Mainen, zach@helmholtz.sdsc.edu.
+<p>
+<p><hr><p>
+<h1><a name="vwrite">vwrite</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.vwrite(<var></var>&x)</code><br>
+<code>.vwrite(<var>n</var>, <var></var>&x)</code><br>
+<h2>DESCRIPTION</h2>
+		Write binary doubles to a file from an array or variable
+		using <code>fwrite()</code>. The form with two arguments specifies the
+		number of elements to write and the address from which to
+		begin writing.  With one argument, <var>n</var> is assumed to be 1.
+		Must be careful that  <var>x</var>[] has at least <var>n</var>
+		elements after its passed address.
+ 
+<p><hr><p>
+<h1><a name="vread">vread</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.vread(<var></var>&x)</code><br>
+<code>.vread(<var>n</var>, <var></var>&x)</code><br>
+<h2>DESCRIPTION</h2>
+		Read binary doubles from a file into a pre-existing array
+		or variable using <code>fread()</code>.
+<h2>SEE ALSO</h2>
+<a href="file.html#vwrite">vwrite</a>
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="seek">seek</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.seek()</code><br>
+<code>.seek(<var>offset</var>)</code><br>
+<code>.seek(<var>offset</var>,<var>origin</var>)</code><br>
+<h2>DESCRIPTION</h2>
+		Set the file position.  Any subsequent file access will access
+		data beginning at the new position.  Without arguments, goes to
+		the beginning of file.  Offset is in characters and is measured
+		from the beginning of the file unless origin is 1 (measures from
+		the current position) or 2 (from the end of the file).  Returns
+		0 if successful, non-zero on error.  Used with .tell(). 
+<p>
+<p><hr><p>
+<h1><a name="tell">tell</a></h1>
+<pre>
+<a href="file.html#File">File</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>.tell()</code><br>
+<h2>DESCRIPTION</h2>
+Return the current file position or -1 on error.  Used with <code>.seek()</code>.
+<p><hr><p>
+<date>
+neuron/general/classes/file.hel : Sep 21 09:30

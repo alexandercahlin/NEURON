@@ -1,0 +1,16 @@
+//@code
+units(&t) // built in as "ms"
+units("t")
+units("ExpSyn.g") // built in as "uS"
+x = 1
+{units(&x, "mA/cm2")}	// declare units for variable x
+units(&x)		// prints mA/cm2
+proc p () {
+	xpanel("Panel")
+	xvalue("t")
+	xvalue("prompt for x", "x", 1)
+	xpanel()
+}
+p()		//shows units in panel
+units(0) 	// turn off units
+p()		// does not show units in panel

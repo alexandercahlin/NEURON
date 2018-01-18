@@ -1,0 +1,11 @@
+//@code
+objref g
+g = new Graph()
+g.align(0, 0)
+g.label(.5,.5, "left bottom at (.5,.5)")
+g.align(0, 1)
+g.label(.5,.5, "left top at (.5,.5)")
+g.align(1, 0)
+g.label(.5,.5, "right bottom at (.5,.5)")
+g.align(.5,2)
+g.label(.5,.5, "middle but twice height at (.5, .5)")

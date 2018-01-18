@@ -1,0 +1,19 @@
+//@code
+objref vec, g, r
+vec = new Vector(50)
+g = new Graph()
+g.size(0,50,0,100)
+r = new Random()
+r.poisson(.2)
+vec.plot(g)
+
+proc race() {local i
+        vec.fill(0)
+        for i=1,300 {
+                vec.addrand(r)
+                g.flush()
+                doNotify()
+        }
+}
+
+race() 

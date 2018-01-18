@@ -1,0 +1,81 @@
+<h1><a name="GUIMath">GUIMath</a></h1>
+<pre>
+<a href="../../0nrn.html#classes">classes</a>
+   <a href="guimath.html#d2line">d2line</a>         <a href="guimath.html#d2line_seg">d2line_seg</a>     <a href="guimath.html#feround">feround</a>        <a href="guimath.html#inside">inside</a>         
+</pre>
+<h2>SYNTAX</h2>
+<code>obj = new GUIMath()</code><br>
+<h2>DESCRIPTION</h2>
+Contains functions which calculate common relationships between graphics
+objects.
+<p>
+<p><hr><p>
+<h1><a name="d2line">d2line</a></h1>
+<pre>
+<a href="guimath.html#GUIMath">GUIMath</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>d = math.d2line(xpoint, ypoint, xline0, yline0, xline1, yline1)</code><br>
+<h2>DESCRIPTION</h2>
+Return distance between the point (xpoint,ypoint) and the (infinitely long)
+line defined by the 0 and 1 points.
+<p>
+<p><hr><p>
+<h1><a name="d2line_seg">d2line_seg</a></h1>
+<pre>
+<a href="guimath.html#GUIMath">GUIMath</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>d = math.d2line_seg(xpoint, ypoint, xline0, yline0, xline1, yline1)</code><br>
+<h2>DESCRIPTION</h2>
+Return distance between the point (xpoint,ypoint) and the line segment
+line defined by the 0 and 1 points.
+<p>
+<p><hr><p>
+<h1><a name="inside">inside</a></h1>
+<pre>
+<a href="guimath.html#GUIMath">GUIMath</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>boolean = math.inside(xpoint, ypoint, left, bottom, right, top)</code><br>
+<h2>DESCRIPTION</h2>
+return 1 if the point is inside the box, 0 otherwise
+<p>
+<p><hr><p>
+<h1><a name="feround">feround</a></h1>
+<pre>
+<a href="guimath.html#GUIMath">GUIMath</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mode = math.feround()</code><br>
+<code>lastmode = math.feround(mode)</code><br>
+<h2>DESCRIPTION</h2>
+Set the floating point rounding mode. Mode 1, 2, 3, 4 refers to
+FE_DOWNWARD, FE_TONEAREST, FE_TOWARDZERO, FE_UPWARD respectively.
+The default, and most accurate, mode is FE_TONEAREST.
+The mode is changed only if the argument is 1-4. If there is no
+support for this function the return value is 0.
+<p>
+This function is useful to determine if a simulation depends unduly
+on double precision round-off error.
+<h2>EXAMPLES</h2>
+<a href="feround.hoc">execute following example</a>
+<blockquote><pre>
+objref gm
+gm = new GUIMath()
+{printf("default rounding mode %d\n", gm.feround())}
+
+proc test_round() {local i, old, x  localobj gm
+        gm = new GUIMath()
+        old = gm.feround($1)
+        x = 0
+        for i=1, 1000000 x += 0.1
+        printf("rounding mode %d x=%25.17lf\n", $1, x)
+        gm.feround(old)
+}
+
+for i=1, 4 test_round(i)
+</pre></blockquote>
+<p><hr><p>
+<date>
+neuron/general/classes/guimath.hel : Sep 21 09:30

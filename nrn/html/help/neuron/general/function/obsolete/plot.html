@@ -1,0 +1,92 @@
+<h1><a name="axis">axis</a></h1>
+<pre>
+<a href="lw.html#obsolete">obsolete</a>
+</pre>
+See <a href="../../classes/graph.html#plot">plot</a>
+<p><hr><p>
+<h1><a name="plotx">plotx</a></h1>
+<pre>
+<a href="lw.html#obsolete">obsolete</a>
+</pre>
+<p><hr><p>
+<h1><a name="ploty">ploty</a></h1>
+<pre>
+<a href="lw.html#obsolete">obsolete</a>
+</pre>
+<p><hr><p>
+<h1><a name="regraph">regraph</a></h1>
+<pre>
+<a href="lw.html#obsolete">obsolete</a>
+</pre>
+See <a href="oldgrph.html#graph">graph</a>
+<p><hr><p>
+<h1><a name="plot">plot</a></h1>
+<pre>
+<a href="lw.html#obsolete">obsolete</a>
+</pre>
+<p>
+<h2>NAME</h2>
+plot, axis - plot relative to scale given by axes
+<p>
+<h2>SYNTAX</h2>
+<code><code>axis(<var>args</var>)</code></code><br>
+<code><code>plot(<var>mode</var>)</code></code><br>
+<code><var>inrange</var> = plot(<var>x</var>,<var>y</var>)</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+<code>Plot()</code> plots relative to the origin and scale defined by
+calls to axis.  The default x and y axes have relative units of 0 to 1 with the plot
+located in a 5x3.5 inch area.
+<p>
+<h2>OPTIONS</h2>
+<dl>
+<dt> <code>plot()</code>
+<dd> print parameter usage help lines.
+<dt> <code>plot(0)</code>
+<dd> subsequent calls will plot points.
+<dt> <code>plot(1)</code>
+<dd> next call will be a move, subsequent call will draw lines.
+<dt> <code>plot(<var>x</var>, <var>y</var>)</code>
+<dd> plots a point (or vector) relative to the axis scale.
+                Return value is 0 if the point is clipped (out of range).
+<dt> <code>plot(<var>mode</var>, <var>x</var>, <var>y</var>)</code>
+<dd> Like <code>plt()</code> but with scale and origin given by axis().
+<dt> <code>axis()</code>
+<dd> draw axes with label values. Closes plot device.
+<dt> <code>axis(<var>clip</var>)</code>
+<dd> points are not plotted if they are a factor clip off the axis scale.
+              Default is no clipping. Set clip to 1 to not plot out of axis region.
+              A value of 1.1 allows plotting slightly outside the axis boundaries.
+<dt> <code>axis(<var>xorg</var>, <var>xsize</var>, <var>yorg</var>, <var>ysize</var>)</code>
+<dd> Size and location of the plot region.
+                (Use the plt() absolute coordinates.)
+<dt> <code>axis(<var>xstart</var>, <var>xstop</var>, <var>nticx</var>, <var>ystart</var>, <var>ystop</var>, <var>nticy</var>)</code>
+<dd> Determines relative scale and origin.
+</dl>
+<p>
+Specification of the precision of axis tic labels is available by
+recompiling hoc/SRC/plot.c with <code>#define Jaslove 1+</code>. With this definition,
+the number of tics specified in the 3rd and 6th arguments of <code>axis()</code> should
+be of the form m.n. m is the number of tic marks, and n is the number of
+digits after the decimal point which are printed. This contribution was
+made by Stewart Jaslove.
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+proc plotsin() { /* plot the sin function from 0 to 10 radians */
+   axis(0, 10, 5, -1, 1, 2) /* setup scale */
+   plot(1)
+   for (x=0; x&lt;=10; x=x+.1) {
+      plot(x, sin(x)) /* plot the function */
+   }
+   axis() /* draw the axes */
+}
+</pre></blockquote>
+<p>
+<h2>SEE ALSO</h2>
+<a href="plt.html#plt">plt</a> , <a href="plt.html#setcolor">setcolor</a> , <a href="../../classes/graph.html#axis">axis</a>
+<p>
+<p>
+<p><hr><p>
+<date>
+neuron/general/function/obsolete/plot.hel : Sep 21 09:30

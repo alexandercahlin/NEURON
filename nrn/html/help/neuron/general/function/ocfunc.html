@@ -1,0 +1,432 @@
+<h1><a name="print_session">print_session</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>0 = print_session(useprinter, "name")</code><br>
+<code>0 = print_session(useprinter, "name", useselected)</code><br>
+<code>0 = print_session()</code><br>
+<h2>DESCRIPTION</h2>
+Print a postscript file consisting of certain windows on the screen.
+<p>
+If useprinter==1 postscript is piped to the filter given by "name"
+which should be able to deal with standard input (UNIX). If useprinter==0
+the postscript is saved in the file specified by "name".
+<p>
+If there is a third arg equal to 1 then the printed windows are those
+selected and arranged on the paper icon of the <a href="../../agui/gui.html#PWM">PWM</a> and calling this function
+is equivalent to pressing the <a href="../../agui/gui.html#Print">Print</a> button. Otherwise all
+printable windows are printed in landscape mode with a size such that
+the screen fits on the paper.
+<p>
+If there are no arguments then all the windows are printed in way that
+works for mac, mswin, and unix.
+<p><hr><p>
+<h1><a name="save_session">save_session</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>0 = save_session("filename")</code><br>
+<code>0 = save_session("filename", "header")</code><br>
+<h2>DESCRIPTION</h2>
+Save all the (saveable) windows on the screen to filename.
+This is equivalent to pressing the <a href="../../agui/gui.html#SaveAll">SaveAll</a> button
+on the Print and File Window Manager ( <a href="../../agui/gui.html#PWM">PWM</a> )
+If the header argument exists, it is copied to the beginning of
+the file.
+<h2>SEE ALSO</h2>
+<a href="../classes/pwman.html#save">save</a>
+<p><hr><p>
+<h1><a name="prmat">prmat</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Prints the form of the matrix defined by <a href="../keywords/ockeywor.html#eqn">eqn</a> statements. Each nonzero
+element is printed as an "*".
+<p><hr><p>
+<h1><a name="solve">solve</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Does one iteration of the non-linear system defined by <a href="../keywords/ockeywor.html#eqn">eqn</a> statements.
+Returns the linear norm of the difference between left and right hand sides
+plus the change in the dependent variables.
+<p><hr><p>
+<h1><a name="eqinit">eqinit</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Throws away previous dependent variable and equation specifications
+from <a href="../keywords/ockeywor.html#eqn">eqn</a> statements.
+<p><hr><p>
+<h1><a name="sprint">sprint</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>sprint(strdef, "format", args)</code><br>
+<h2>DESCRIPTION</h2>
+Prints to a string. See <a href="io/printf.html#printf">printf</a>
+<p><hr><p>
+<h1><a name="strcmp">strcmp</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>x = strcmp("string1", "string2")</code><br>
+<h2>DESCRIPTION</h2>
+return negative, 0, or positive value
+depending on how the strings compare lexicographically.
+0 means they are identical.
+<p><hr><p>
+<h1><a name="startsw">startsw</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Initializes a stopwatch with a resolution of 1 second or 0.01 second if
+gettimeofday system call is available. See <a href="ocfunc.html#stopsw">stopsw</a> .
+<p><hr><p>
+<h1><a name="stopsw">stopsw</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Returns the time since the stopwatch was last initialized with a <a href="ocfunc.html#startsw">startsw</a> .
+<blockquote><pre>
+startsw()
+for i=1,1000000 { x = sin(.2) ]
+stopsw()
+</pre></blockquote>
+<h2>BUGS</h2>
+Really the idiom
+<blockquote><pre>
+x = startsw()
+//...
+startsw() - x
+</pre></blockquote>
+should be used since it allows nested timing intervals.
+<p>
+<p><hr><p>
+<h1><a name="object_id">object_id</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>object_id(objref)</code><br>
+<code>object_id(objref, 1)</code><br>
+<h2>DESCRIPTION</h2>
+Returns 0 if the object reference does not point to an object instance.
+(Otherwise returns the pointer cast to a double, not a very useful number)
+<p>
+If the second argument is 1, it returns the index of the object name. Returns
+-1 if the object is the NULLObject.
+<p><hr><p>
+<h1><a name="allobjectvars">allobjectvars</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>allobjectvars()</code><br>
+<h2>DESCRIPTION</h2>
+Prints all the object references (objref variables) that have been
+declared along with the class type of the object they reference and the
+number of references.
+<h2>BUGS</h2>
+Instead of printing the address of the object in hex format, it ought
+also to print the object_id and/or the internal instance name.
+<p><hr><p>
+<h1><a name="allobjects">allobjects</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>allobjects()</code><br>
+<code>allobjects("templatename")</code><br>
+<code>nref = allobjects(objectref)</code><br>
+<h2>DESCRIPTION</h2>
+Prints the internal names of all class instances (objects) available
+from the interpreter along with the number of references to them.
+<p>
+With a templatename the list is restricted to objects of that class.
+<p>
+With an object variable, nothing is printed but the reference count
+is returned. The count is too large by one if the argument was of the
+form templatename[index] since a temporary reference is created while
+the object is on the stack during the call.
+<p><hr><p>
+<h1><a name="numarg">numarg</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = numarg()</code><br>
+<h2>DESCRIPTION</h2>
+Number of arguments passed to a user written hoc function.
+<h2>SEE ALSO</h2>
+<a href="../ocsyntax.html#arguments">arguments</a> <a href="ocfunc.html#argtype">argtype</a>
+<p>
+<p><hr><p>
+<h1><a name="argtype">argtype</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>itype = argtype(iarg)</code><br>
+<h2>DESCRIPTION</h2>
+The type of the ith arg. The return value is 0 for numbers, 1 for objref,
+2 for strdef, 3 for pointers to numbers, and -1 if the arg does not exist.
+<h2>SEE ALSO</h2>
+<a href="../ocsyntax.html#arguments">arguments</a> <a href="ocfunc.html#numarg">numarg</a>
+<p>
+<p><hr><p>
+<h1><a name="hoc_pointer_">hoc_pointer_</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>hoc_pointer_(&variable)</code><br>
+<h2>DESCRIPTION</h2>
+A function used by c and c++ implementations to request a pointer to
+the variable from its interpreter name. Not needed by the user.
+<p><hr><p>
+<h1><a name="execute">execute</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>execute("statement")</code><br>
+<code>execute("statement", objref)</code><br>
+<h2>DESCRIPTION</h2>
+ parse and execute the command in the context
+        of the object. If second arg not present then execute it at the
+        top level of the interpreter.
+        If command begins with a '~' then the tilda is removed and the rest
+        of the command is executed without enclosing it in {}. This allows
+        one to create a  func or proc dynamically.
+<h2>SEE ALSO</h2>
+<a href="ocfunc.html#execute1">execute1</a>
+<p><hr><p>
+<h1><a name="execute1">execute1</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>err = execute1("statement")</code><br>
+<code>err = execute1("statement", objref)</code><br>
+<code>err = execute1("statement", show_err_mes)</code><br>
+<code>err = execute1("statement", objref, show_err_mes</code><br>
+<h2>DESCRIPTION</h2>   
+Same as <a href="ocfunc.html#execute">execute</a> but returns 0 if there was an interpreter error
+during execution of the statement and returns 1 if successful.
+Does not surround the command with {}.
+<p>
+If the show_err_mes arg is present and equal to 0 then the normal
+interpreter error message printing is turned off for the scope of the
+statement.
+<p>
+Error messages can be turned on even inside the statement
+with <a href="ocfunc.html#show_errmess_always">show_errmess_always</a> .
+<p>
+Parse and execute the command in the context
+        of the object. If second arg not present then execute it at the
+        top level of the interpreter.
+<p>
+<h2>EXAMPLES</h2>
+Execute1 is heavily used in the construction of the fitter widgets.
+It is also useful to objects in gaining information about the outside with
+the idiom
+<blockquote><pre>
+sprint(cmd, "%s.var = outside_var", this)
+execute1(cmd)
+</pre></blockquote>
+Here, outside_var is unavailable from within the object and so
+a command is constructed which can be executed at the top level where that
+variable is available and sets the public var in the object.
+<p><hr><p>
+<h1><a name="load_proc">load_proc</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>load_proc("name1", ...)</code><br>
+<code>load_func("name1", ...)</code><br>
+<code>load_template("name1", ..._</code><br>
+<h2>DESCRIPTION</h2>
+Load the file containing a definition.
+<p>
+For each name in the list
+all the *.oc and *.hoc files will be searched and the first file that
+contains the appropriate proc, func, or begintemplate will be loaded.   
+Loading only takes place if the name has not previously been defined.
+The search path consists of the current working directory, followed by
+the paths in the environment variable HOC_LIBRARY_PATH (space separated),
+followed by $NEURONHOME/lib/hoc.
+Remember that only entire files are loaded-- not just the definition of
+the name. And nothing is loaded if the name is already defined.
+Inadvertent recursion will use up all the file descriptors.
+For efficiency, on the first load, all the names are cached in a
+temporary file and the file is scanned on subsequent loads for that session.
+<p>
+<h2>BUGS</h2>
+This command is very slow under mswindows. Therefore it is often
+useful to explicitly load the standard run library with the statement:
+<blockquote><pre>
+xopen("$(NEURONHOME)/lib/hoc/noload.hoc")
+</pre></blockquote>
+<p><hr><p>
+<h1><a name="load_file">load_file</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>load_file("filename")</code><br>
+<code>load_file("filename", "name")</code><br>
+<code>load_file(0or1, "filename")</code><br>
+<h2>DESCRIPTION</h2>
+Similar to <a href="ocfunc.html#load_proc">load_proc</a> but loads files and so does not have the
+search overhead. Suitable for loading packages of files.
+<p>
+The functionality is identical to <a href="../classes/file.html#xopen">xopen</a> except that the xopen takes
+place only if
+if a file of that name has not already been loaded with the load_file,
+<a href="ocfunc.html#load_proc">load_proc</a> , <a href="ocfunc.html#load_template">load_template</a> , or <a href="ocfunc.html#load_func">load_func</a> functions.
+The file is searched for in the current working
+directory, $HOC_LIBRARY_PATH (a colon or space separated list of directories),
+and $NEURONHOME/lib/hoc directories (in that order) for
+the file if there is no directory prefix.
+Before doing the xopen on the file the current working directory is
+temporarily changed to the directory containing the file so
+that it can xopen files relative to its location.
+<p>
+If the second string arg exists, the file is xopen'ed only if the
+name is not defined as a variable AND the file has not been loaded
+with load_file. This is useful in those cases where the package was
+first xopen'ed without going through the load_file function.
+<p>
+If the first arg is a number and is 1, then the file is loaded again even
+if it has already been loaded.
+<h2>DESCRIPTION</h2>
+<p><hr><p>
+<h1><a name="load_func">load_func</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+see <a href="ocfunc.html#load_proc">load_proc</a>
+<p><hr><p>
+<h1><a name="load_template">load_template</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+see <a href="ocfunc.html#load_proc">load_proc</a>
+<p><hr><p>
+<h1><a name="machine_name">machine_name</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>strdef name</code><br>
+<code>machine_name(name)</code><br>
+<h2>DESCRIPTION</h2>
+returns the hostname of the machine.
+<p><hr><p>
+<h1><a name="saveaudit">saveaudit</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Not completely implemented at this time. Saves all commands executed
+by the interpreter.
+<p><hr><p>
+<h1><a name="retrieveaudit">retrieveaudit</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Not completely implemented at this time. See <a href="ocfunc.html#saveaudit">saveaudit</a> .
+<p><hr><p>
+<h1><a name="coredump_on_error">coredump_on_error</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>coredump_on_error(1 or 0)</code><br>
+<h2>DESCRIPTION</h2>
+On unix machines, sets a flag which requests (1) a coredump in case
+of memory or bus errors.
+<p>
+<p><hr><p>
+<h1><a name="quit">quit</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+Exits the program. Can be used as the action of a button. If edit buffers
+are open you will be asked if you wish to save them before the final exit.
+<p><hr><p>
+<h1><a name="object_push">object_push</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>object_push(objref)</code><br>
+<h2>DESCRIPTION</h2>
+Enter the context of the object referenced by objref. In this context you
+can directly access any variables or call any functions, even those not
+declared as <a href="../oop.html#public">public</a> . Do not attempt to create any new symbol names!
+This function is generally used by the object itself to save its state
+in a session.
+<p><hr><p>
+<h1><a name="object_pop">object_pop</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>object_pop()</code><br>
+<h2>DESCRIPTION</h2>
+Pop the last object from an <a href="ocfunc.html#object_push">object_push</a> .
+<p><hr><p>
+<h1><a name="show_errmess_always">show_errmess_always</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>show_errmess_always(boolean)</code><br>
+<h2>DESCRIPTION</h2>
+Sets or turns off a flag which, if on, always prints the error message even
+if normally turned off by an <a href="ocfunc.html#execute1">execute1</a> statement or other call to the
+interpreter.
+<p><hr><p>
+<h1><a name="name_declared">name_declared</a></h1>
+<pre>
+<a href="../../0nrn.html#functions">functions</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>type = name_declared("name")</code><br>
+<code>type = name_declared("name", 1)</code><br>
+<h2>DESCRIPTION</h2>
+Return 0 if the name is not in the symbol table. The first form looks
+for names in the top level symbol table. The second form looks in the
+current object context.
+<p>
+If the name exists return
+<p>
+2 if an <a href="../oop.html#objref">objref</a> .
+<p>
+ 3 if a Section
+<p>
+4 if a <a href="../keywords/ockeywor.html#strdef">strdef</a>
+<p>
+5 if a scalar or <a href="../keywords/ockeywor.html#double">double</a> variable.
+<p>
+ 1 otherwise
+<p>
+Note that names can be (re)declared only if they do not already
+exist or are already of the same type.
+This is too useful to require the user to waste an objref in creating a
+<a href="../classes/strfun.html#StringFunctions">StringFunctions</a> class to use <a href="../classes/strfun.html#is_name">is_name</a>
+<blockquote><pre>
+name_declared("nrnmainmenu_")
+{object_push(nrnmainmenu_) print name_declared("ldfile", 0) object_pop()}
+{object_push(nrnmainmenu_) print name_declared("ldfile", 1) object_pop()}
+</pre></blockquote>
+<p>
+<p><hr><p>
+<date>
+neuron/general/function/ocfunc.hel : Sep 21 09:30

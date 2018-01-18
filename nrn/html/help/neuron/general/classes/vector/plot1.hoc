@@ -1,0 +1,11 @@
+//@code
+objref vec, g
+g = new Graph()
+g.size(0,10,-1,1)
+vec = new Vector()
+vec.indgen(0,10, .1)
+vec.apply("sin")
+vec.plot(g, .1)
+xpanel("")
+xbutton("run", "for i=0,vec.size()-1 { vec.rotate(1) g.flush() doNotify()}")
+xpanel()

@@ -1,0 +1,16 @@
+//@code
+objref r, data, hist, x, g
+
+r = new Random()
+r.normal(1, 2)
+
+data = new Vector(100)
+data.setrand(r)
+
+hist = data.sumgauss(-4, 6, .5, 1)
+x = new Vector(hist.size())
+x.indgen(-4, 6, .5)
+
+g = new Graph()
+g.size(-4, 6, 0, 30)
+hist.plot(g, x)

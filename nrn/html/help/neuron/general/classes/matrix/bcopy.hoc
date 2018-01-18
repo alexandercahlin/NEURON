@@ -1,0 +1,8 @@
+//@code
+objref m
+m = new Matrix(4,6)
+for i=0,m.nrow-1 for j=0,m.ncol-1 m.x[i][j] = 1 + 10*i + j
+m.printf
+m.bcopy(1,2,2,3).printf
+m.bcopy(1,2,2,3,2,3).printf
+m.bcopy(1,2,2,3,2,3, new Matrix(8,8)).printf

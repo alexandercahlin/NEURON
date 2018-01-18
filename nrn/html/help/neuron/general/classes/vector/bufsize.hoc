@@ -1,0 +1,10 @@
+//@code
+objref y
+y = new Vector(10)
+y.size()
+y.buffer_size()
+y.resize(5)
+y.size
+y.buffer_size()
+y.buffer_size(100)
+y.size()

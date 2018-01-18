@@ -1,0 +1,941 @@
+<p>
+<h1><a name="Matrix">Matrix</a></h1>
+<pre>
+<a href="../../../0nrn.html#classes">classes</a>
+   <a href="matrix.html#add">add</a>            <a href="matrix.html#getdiag">getdiag</a>        <a href="matrix.html#nrow">nrow</a>           <a href="matrix.html#spgetrowval">spgetrowval</a>    
+   <a href="matrix.html#bcopy">bcopy</a>          <a href="matrix.html#getrow">getrow</a>         <a href="matrix.html#pow">pow</a>            <a href="matrix.html#sprowlen">sprowlen</a>       
+   <a href="matrix.html#c">c</a>              <a href="matrix.html#getval">getval</a>         <a href="matrix.html#printf">printf</a>         <a href="matrix.html#svd">svd</a>            
+   <a href="matrix.html#cholesky_factor">cholesky_factor</a>  <a href="matrix.html#ident">ident</a>        <a href="matrix.html#resize">resize</a>         <a href="matrix.html#symmeig">symmeig</a>        
+   <a href="matrix.html#det">det</a>            <a href="matrix.html#inverse">inverse</a>        <a href="matrix.html#scanf">scanf</a>          <a href="matrix.html#to_vector">to_vector</a>      
+   <a href="matrix.html#exp">exp</a>            <a href="matrix.html#mulm">mulm</a>           <a href="matrix.html#setcol">setcol</a>         <a href="matrix.html#transpose">transpose</a>      
+   <a href="matrix.html#fprint">fprint</a>         <a href="matrix.html#muls">muls</a>           <a href="matrix.html#setdiag">setdiag</a>        <a href="matrix.html#x">x</a>              
+   <a href="matrix.html#from_vector">from_vector</a>    <a href="matrix.html#mulv">mulv</a>           <a href="matrix.html#setrow">setrow</a>         <a href="matrix.html#zero">zero</a>           
+   <a href="matrix.html#getcol">getcol</a>         <a href="matrix.html#ncol">ncol</a>           <a href="matrix.html#solv">solv</a>           
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = new Matrix(nrow, ncol)</code><br>
+<code>mobj = new Matrix(nrow, ncol, type)</code><br>
+<h2>DESCRIPTION</h2>
+A class for manipulation of two dimensional arrays of numbers. A companion
+to the <a href="../../../stdrun/0stdrun.html#Vector">Vector</a> class, Matrix contains routines for m*x=b, v1=m*v2, etc.
+<p>
+Individual element values are assigned and evaluated
+using the syntax:
+<blockquote><pre>
+	m.x[irow][icol]
+</pre></blockquote>
+which may appear anywhere in an expression or on the left hand side of
+an assignment statement. irow can range from 0 to m.nrow-1 and icol
+ranges from 0 to m.ncol-1 . ( See <a href="matrix.html#x">x</a> )
+<p>
+When possible, Matrix methods returning a Matrix use the form,
+mobj = m.f(args, [mout]), where mobj is a newly constructed matrix (m
+is unchanged) unless
+the optional last mout argument is present, in which case the return value
+is mout and mout is used to store the matrix.  This style seems most efficient
+to me since many matrix operations cannot be done in-situ. Exceptions to
+this rule, eg m.zero(), are noted in the individual methods.
+<p>
+Similarly, Matrix methods returning a Vector use the form,
+vobj = m.f(args, [vout]), where vobj is a newly constructed Vector unless
+the optional last vout is present for storage of the vector elements.
+Use of vout is extremely useful in those cases where the vector is graphed
+since the result of the matrix operation does not invalidate the pointers
+to the vector elements.
+<p>
+Note that the return value allows these operations to be used as members
+of a filter chain or arguments to other functions.
+<p>
+By default, a new Matrix is of type MFULL (= 1) and allocates storage for
+all nrow*ncol elements. Scaffolding is in place for matrices of storage
+type MSPARSE (=2) and MBAND (=3) but not many methods have been interfaced
+to the meschach library at this time. If a method is called on a matrix type
+whose method has not been implemented, an error message will be printed.
+It is intended that implemented methods will be transparent to the user, eg
+m*x=b (<code>x = m.solv(b)</code> ) will solve the linear system
+regardless of the type of m and
+v1 = m*v2 (<code>v1 = m.mulv(v2)</code> ) will perform the vector multiplication.
+<p>
+Matrix is implemented using the
+<a href="http://www.math.uiowa.edu/~dstewart/meschach/meschach.html">
+meschach c library by David E. Stewart </a>
+(discovered at <a href="http://www.netlib.org/c/index.html">
+http://www.netlib.org/c/index.html</a>) which contains a large collection
+of routines for sparse, banded, and full matrices. Many of the useful
+routines  have not
+been interfaced with the hoc interpreter but can be easily added on request
+or you can add it yourself
+by analogy with the code in <code>nrn/src/ivoc/(matrix.c ocmatrix.[ch])</code>
+At this time the MFULL matrix type is complete enough to do useful work
+and MSPARSE can be used to multiply a matrix by a vector and solve
+Mx=b.
+<p>
+<p><hr><p>
+<h1><a name="x">x</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>val = m.x[irow][icol]</code><br>
+<code>m.x[irow][icol] = val</code><br>
+<code>expr(m.x[irow][icol])</code><br>
+<code>      &m.x[irow][icol]</code><br>
+<h2>DESCRIPTION</h2>
+Individual element values are assigned and evaluated
+using the syntax:
+<blockquote><pre>
+	m.x[irow][icol]
+</pre></blockquote>
+which may appear anywhere in an expression or on the left hand side of
+an assignment statement. irow can range from 0 to m.nrow-1 and icol
+ranges from 0 to m.ncol-1 .
+<p>
+For functions that require the address of a double value one may write
+<blockquote><pre>
+	&amp;m.x[irow][icol]
+</pre></blockquote>
+but one must be on guard for the case in which matrix storage is freed
+while another object holds a pointer to one of its elements. (Matrix
+does not currently notify the interpreter when storage has been freed.)
+<p>
+For sparse matrices an invocation of x[i][j] will create it if the
+element does not exist. Therefore if you wish to access every element
+use <a href="matrix.html#getval">getval</a> to avoid creating a very inefficient full matrix!
+<h2>EXAMPLES</h2>
+<a href="x1.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(3,4)
+for i=0,m.nrow-1 {
+	for j=0, m.ncol-1 {
+		m.x[i][j] = 10*i + j
+		print i, j, m.x[i][j]
+	}
+}
+m.printf
+xpanel("m")
+xvalue("m(1,3) interpret", "m.x[1][3]", 1, "m.printf")
+xpvalue("m(1,3) address", &amp;m.x[1][3], 1, "m.printf")
+xpanel()
+</pre></blockquote>
+<h2>BUGS</h2>
+When dealing with sparse matrices, be careful when using the m.x[][] notation
+since the mere act of evaluating a zero element will create it if it does not
+exist. In this case it is better to use the <a href="matrix.html#getval">getval</a> function.
+<p><hr><p>
+<h1><a name="nrow">nrow</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = m.nrow</code><br>
+<h2>DESCRIPTION</h2>
+returns the row dimension of the matrix. Row indices range from 0 to m.nrow-1
+<p><hr><p>
+<h1><a name="ncol">ncol</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+n = m.ncol
+<h2>DESCRIPTION</h2>
+returns the column dimension of the matrix. Column indices range
+from 0 to m.ncol-1
+<p>
+<p><hr><p>
+<h1><a name="resize">resize</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest(nrow, ncol)</code><br>
+<h2>DESCRIPTION</h2>
+Change the size of the matrix. As many as possible of the former elements
+are preserved. New elements are assigned the value of 0. New memory may
+not have to be allocated depending on the size history of the matrix.
+<h2>EXAMPLES</h2>
+<a href="fresize.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(3,5)
+m
+for i=0,4 m.setcol(i,i)
+
+m.printf
+m.resize(7,7)
+m.printf()
+m.resize(4,2)
+m.printf()
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p>
+<p><hr><p>
+<h1><a name="c">c</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mdest = msrc.c()</code><br>
+<h2>DESCRIPTION</h2>
+Copy the matrix. msrc is unchanged.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p>
+<p><hr><p>
+<h1><a name="bcopy">bcopy</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mdest = msrc.bcopy(i0, j0, n, m [, mout])</code><br>
+<code>mdest = msrc.bcopy(i0, j0, n, m, i1, j1 [, mout])</code><br>
+<h2>DESCRIPTION</h2>
+Copy selected piece of a matrix. msrc is unchanged.
+Copies the n x m submatrix with top-left (row i0, col j0) coordinates
+to the corresponding submatrix of destination with top-left coordinates
+(i1, j1). Out is resized if necessary.
+<h2>EXAMPLES</h2>
+<a href="bcopy.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,6)
+for i=0,m.nrow-1 for j=0,m.ncol-1 m.x[i][j] = 1 + 10*i + j
+m.printf
+m.bcopy(1,2,2,3).printf
+m.bcopy(1,2,2,3,2,3).printf
+m.bcopy(1,2,2,3,2,3, new Matrix(8,8)).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p>
+<p><hr><p>
+<h1><a name="getval">getval</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>val = m.getval(irow, jcol)</code><br>
+<h2>DESCRIPTION</h2>
+Returns the value of the matrix element. If m is sparse and the element
+does not exist then 0 is returned without creating the element.
+<p>
+<p><hr><p>
+<h1><a name="sprowlen">sprowlen</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>n = m.sprowlen(i)</code><br>
+<h2>DESCRIPTION</h2>
+Returns the number of existing(usually nonzero)
+elements in the ith row of the sparse
+matrix. Useful for iterating over a elements of a sparse matrix.
+This function works only for sparse matrices.
+See <a href="matrix.html#spgetrowval">spgetrowval</a>
+<p>
+<p><hr><p>
+<h1><a name="spgetrowval">spgetrowval</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>x = m.spgetrowval(i, jx, &j)</code><br>
+<h2>DESCRIPTION</h2>
+Returns the existing element value and the column index (third pointer arg)
+of the ith row and jx item. The latter ranges from 0 to m.sprowlen(i)-1
+This function works only for sparse matrices (created with a third argument
+of 2)
+<h2>EXAMPLES</h2>
+To print the elements of a sparse matrix.
+<a href="spprint.hoc">execute following example</a>
+<blockquote><pre>
+proc sparse_print() { local i, j, jx, x
+	print $o1
+	for i=0, $o1.nrow-1 {
+		printf("%d  ", i)
+		for jx = 0, $o1.sprowlen(i)-1 {
+			x = $o1.spgetrowval(i, jx, &amp;j)
+			printf("  %d:%g", j, x)
+		}
+		printf ("\n")
+	}
+}
+
+objref m
+m = new Matrix(4, 5, 2)
+m.x[0][2] = 1.2
+m.x[0][4] = 2.4
+m.x[1][1] = 3.1
+for i=0, 4 { m.x[3][i] = i/10 }
+sparse_print(m)
+</pre></blockquote>
+<p><hr><p>
+<h1><a name="printf">printf</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>0 = m.printf</code><br>
+<code>0 = m.printf("element_format")</code><br>
+<code>0 = m.printf("element_format", "row_format")</code><br>
+<h2>DESCRIPTION</h2>
+Print the matrix to the standard output with a default %-8g element format
+and a default "\n" row format.
+<h2>BUGS</h2>
+Needs a separate implementation for sparse and banded matrices.
+<p><hr><p>
+<h1><a name="fprint">fprint</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>0 = m.fprint(fileobj)</code><br>
+<code>0 = m.fprint(fileobj, "element_format")</code><br>
+<code>0 = m.fprint(fileobj, "element_format", "row_format")</code><br>
+<code>0 = m.fprint(0, fileobj [,...])</code><br>
+<h2>DESCRIPTION</h2>
+Same as <a href="../file.html#printf">printf</a> but prints to the File object (must be open for writing)
+with a first line consisting of the two integers, nrow ncol.
+Print the matrix to the open file object with a default %-8g element format
+and a default "\n" row format.
+Because of the "nrow ncol" first line, such a file can be read with <a href="matrix.html#scanf">scanf</a> .
+If the first arg is a 0, then the nrow ncol pair of numbers will not
+be printed.
+<h2>BUGS</h2>
+Needs a separate implementation for sparse and banded matrices.
+<p><hr><p>
+<h1><a name="scanf">scanf</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>0 = m.scanf(File_object)</code><br>
+<code>0 = m.scanf(File_object, nrow, ncol)</code><br>
+<h2>DESCRIPTION</h2>
+Read a file, including sizes, into a Matrix. The File_object is
+an object of type <a href="../file.html#File">File</a> and must be opened for reading prior to
+the scanf. If nrow,ncol arguments are not present,
+the first two numbers in the file must be nrow and mcol
+respectively. In either case those values are used to resize the matrix.
+The following nrow*mcol
+numbers are row streams, eg it is often natural to have one row on a single line
+or else to organize the file as a list of row vectors with only one number
+per line. Strings in the file that cannot be parsed as numbers are ignored.
+<p>
+<blockquote><pre>
+objref m, f
+f = new File("filename")
+f.ropen()
+m = new Matrix()
+m.scanf(f)
+print m.nrow, m.ncol
+</pre></blockquote>
+<h2>BUGS</h2>
+Works only for full matrix types
+<h2>SEE ALSO</h2>
+<a href="../vector/vect.html#scanf">scanf</a> , <a href="../../function/io/read.html#fscan">fscan</a>
+<p><hr><p>
+<h1><a name="mulv">mulv</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vobj = msrc.mulv(vin)</code><br>
+<code>vobj = msrc.mulv(vin, vout)</code><br>
+<h2>DESCRIPTION</h2>
+Multiplication of a Matrix by a Vector, vobj = msrc*vin.
+Returns a new vector of dimension msrc.nrow. Optional Vector
+vout is used for storage of the result. Vector
+vin must have dimension msrc.ncol. vin and vout can be the same vector
+if the matrix is square.
+<h2>EXAMPLES</h2>
+<a href="mulv.hoc">execute following example</a>
+<blockquote><pre>
+print "v1", v1
+v1.printf
+print "m", m
+m.printf
+print "m*v1"
+m.mulv(v1).printf
+</pre></blockquote>
+A sparse example
+<a href="smulv.hoc">execute following example</a>
+<blockquote><pre>
+objref m, v1
+v1 = new Vector(100)
+v1.indgen(1,1)
+m = new Matrix(100, 100, 2) // sparse matrix
+// reverse permutation
+for i=0, 99 {
+	m.x[i][99 - i] = 1
+}
+m.mulv(v1).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full and sparse matrices.
+<p><hr><p>
+<h1><a name="getrow">getrow</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vobj = msrc.getrow(i)</code><br>
+<code>vobj = msrc.getrow(i, vout)</code><br>
+<h2>DESCRIPTION</h2>
+Return the i'th row of the matrix in a new vector (or use the storage
+in vout if that arg is present). Range of i is from 0 to msrc.nrow-1.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="getcol">getcol</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vobj = msrc.getcol(i)</code><br>
+<code>vobj = msrc.getcol(i, vout)</code><br>
+<h2>DESCRIPTION</h2>
+Return the i'th column of the matrix in a new vector (or use the storage
+in vout if that arg is present). Range of i is from 0 to msrc.ncol-1.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="getdiag">getdiag</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vobj = msrc.getdiag(i)</code><br>
+<code>vobj = msrc.getdiag(i, vout)</code><br>
+<h2>DESCRIPTION</h2>
+Return the i'th diag of the matrix in a new vector (or use the storage
+in vout if that arg is present) of size msrc.nrow.
+Range is from -(msrc.nrow-1) to msrc.ncol-1
+with 0 being the main diagonal, positive i refers to upper diagonals, and
+negative i refers to lower diagonals. Upper diagonals fill the Vector
+starting at position 0 and remaining elements are unused.
+Lower diagonals fill the Vector ending at msrc.nrow-1 and the first
+elements are unused.
+<h2>EXAMPLES</h2>
+<a href="getdiag.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,5)
+for i=0, m.nrow-1 for j=0, m.ncol-1 m.x[i][j] = 1 + 10*j + 100*i
+m.printf
+for i=-m.nrow+1, m.ncol-1 {
+	printf("diagonal %d: ", i)
+	m.getdiag(i).printf
+}
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="solv">solv</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vx = msrc.solv(vb)</code><br>
+<code>vx = msrc.solv(vb, vout and/or 1 in either order)</code><br>
+<h2>DESCRIPTION</h2>
+Solves the linear system msrc*vx = vb by LU factorization. msrc must be
+a square matrix and vb must have size equal to msrc.nrow. The answer
+will be returned in a new Vector of size msrc.nrow.
+msrc is not changed.
+The LU factorization is stored in case it
+is desired for later reuse with a different vb. Re-use of the LU factorization
+will actually take place only if the second or third argument is 1 and
+msrc has not changed in size.
+<p>
+Note: if the LUfactor is used, changes to the actual values of msrc would
+not affect the solution on subsequent calls to solv.
+<p>
+<h2>EXAMPLES</h2>
+<a href="fsolv.hoc">execute following example</a>
+<blockquote><pre>
+objref m, b
+b = new Vector(3)
+b.indgen(1,1)
+m = new Matrix(3, 3)
+for i=0, m.nrow-1 for j=0, m.ncol-1 m.x[i][j] = i*j + 1
+print "b"
+b.printf
+print "m"
+m.printf
+print "solution of m*x = b"
+m.solv(b).printf
+</pre></blockquote>
+<a href="ssolv.hoc">execute following example</a>
+<blockquote><pre>
+objref m, b, x
+
+m = new Matrix(1000, 1000, 2) // sparse type
+m.setdiag(0, 3)
+m.setdiag(-1, -1)
+m.setdiag(1, -1)
+b = new Vector(1000)
+b.x[500] = 1
+x = m.solv(b)
+x.printf("%8.3f", 475, 525)
+
+b.x[500] = 0
+b.x[499] = 1
+m.solv(b,1).printf("%8.3f", 475, 535)
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full and sparse matrices.
+<p><hr><p>
+<h1><a name="det">det</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mantissa = m.det(&base10exponent)</code><br>
+<h2>DESCRIPTION</h2>
+Determinant of matrix m. Returns mantissa in range from -1 to 1 and 
+integer base10exponent.
+<h2>EXAMPLES</h2>
+<a href="det.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(2,2)
+m.x[0][1] = 20
+m.x[1][0] = 30
+m.printf()
+ex = 0
+mant = m.det(&amp;ex)
+print mant*10^ex
+</pre></blockquote>
+<p><hr><p>
+<h1><a name="mulm">mulm</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrc.mulm(m)</code><br>
+<code>mobj = msrc.mulm(m, mout)</code><br>
+<h2>DESCRIPTION</h2>
+Multiplication of a Matrix by a Matrix, mobj = msrc*m. msrc and m are
+unchanged. A new matrix is returned with size msrc.nrow x m.ncol.
+msrc.ncol and m.nrow must be the same. If mout is present, that storage is
+used for the result.
+<h2>EXAMPLES</h2>
+<a href="fmulm.hoc">execute following example</a>
+<blockquote><pre>
+objref m1, m2, v1
+m1 = new Matrix(6, 6)
+for i=-1,1 {
+	if (i == 0) {
+		m1.setdiag(i, 2)
+	}else{
+		m1.setdiag(i, -1)
+	}
+}
+m2 = m1.inverse()
+print "m1"
+m1.printf
+print "m2"
+m2.printf(" %8.5f")
+print "m1*m2"
+m1.mulm(m2).printf(" %8.5f")
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="add">add</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = m1srcdest.add(m2src)</code><br>
+<h2>DESCRIPTION</h2>
+Return m1srcdest + m2src. The matrices must have the same rank.
+This is one of those functions that modifies the source matrix (unless the
+last optional mout arg is present) instead of
+putting the result in a new destination matrix.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="muls">muls</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.muls(scalar)</code><br>
+<h2>DESCRIPTION</h2>
+Multiply the matrix by a scalar in place and return the matrix reference.
+This is one of those functions that modifies the source matrix instead of
+putting the result in a new destination matrix.
+<h2>EXAMPLES</h2>
+<a href="fmuls.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,4)
+m.ident()
+m.muls(-10)
+m.printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="setrow">setrow</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.setrow(i, vin)</code><br>
+<code>mobj = msrcdest.setrow(i, scalar)</code><br>
+<h2>DESCRIPTION</h2>
+Fill the ith row of the msrcdest matrix with the values of the Vector vin.
+The vector must have size msrcdest.ncol
+<p>
+Otherwise fill the matrix row with a constant.
+<h2>BUGS</h2>
+Implemented only for full matrices and sparse.
+<p><hr><p>
+<h1><a name="setcol">setcol</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.setcol(i, vin)</code><br>
+<code>mobj = msrcdest.setcol(i, scalar)</code><br>
+<h2>DESCRIPTION</h2>
+Fill the ith column of the msrcdest matrix with the values of the Vector vin.
+The vector must have size msrcdest.mrow
+<p>
+Otherwise fill the matrix column with a constant.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="setdiag">setdiag</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.setdiag(i, vin)</code><br>
+<code>mobj = msrcdest.setdiag(i, scalar)</code><br>
+<h2>DESCRIPTION</h2>
+Fill the ith diagonal of the msrcdest matrix with the values of the
+Vector vin. The vector must have size msrcdest.mrow. The ith diagonal
+ranges from -(mrow-1) to mcol-1. For positive diagonals, the starting
+position of vector elements is 0 and trailing elements are ignored.
+For negative diagonals, the ending position of the vector elements is
+nrow-1 and beginning elements are ignored.
+<p>
+Otherwise fill the matrix diagonal with a constant.
+<h2>EXAMPLES</h2>
+<a href="fsetdiag.hoc">execute following example</a>
+<blockquote><pre>
+objref v1, m
+m = new Matrix(5,7)
+v1 = new Vector(5)
+for i=-4,6 {
+	m.setdiag(i, i)
+}
+m.printf
+for i=-4,6 {
+	v1.indgen(1,1)
+	m.setdiag(i, v1)
+}
+m.printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full and sparse matrices.
+<p><hr><p>
+<h1><a name="zero">zero</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.zero()</code><br>
+<h2>DESCRIPTION</h2>
+Fills the matrix with 0.
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="ident">ident</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.ident()</code><br>
+<h2>DESCRIPTION</h2>
+Fills the principal diagonal with 1. All other elements are set to 0.
+<h2>EXAMPLES</h2>
+<a href="fident.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,6)
+m.ident()
+m.printf()
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p><hr><p>
+<h1><a name="exp">exp</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrc.exp()</code><br>
+<code>mobj = msrc.exp(mout)</code><br>
+<h2>DESCRIPTION</h2>
+Returns a new matrix which is e^msrc. ie 1 + m + m*m/2 + m*m*m/6 + ...
+<h2>EXAMPLES</h2>
+<a href="fexp.hoc">execute following example</a>
+<blockquote><pre>
+objref m, v1
+m = new Matrix(8,8)
+v1 = new Vector(8)
+for i=-1,1 { v1.fill(2 - 3*abs(i))  m.setdiag(i, v1) }
+
+m.exp().printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices. But doesn't really make sense for
+any other type since the result would normally be full.
+<p><hr><p>
+<h1><a name="pow">pow</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrc.pow(i)</code><br>
+<code>mobj = msrc.pow(i, mout)</code><br>
+<h2>DESCRIPTION</h2>
+Raise a matrix to a non-negative integer power.
+Returns a new matrix which is msrc^i.
+<h2>EXAMPLES</h2>
+<a href="fpow.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(6, 6)
+m.ident
+m.x[0][5] = m.x[5][0] = 1
+for i=0, 5 {
+	print i
+	m.pow(i).printf
+}
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices. But doesn't really make sense for
+any other type since the result would normally be full.
+<p><hr><p>
+<h1><a name="inverse">inverse</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrc.inverse()</code><br>
+<code>mobj = msrc.inverse(mout)</code><br>
+<h2>DESCRIPTION</h2>
+Return 1/msrc in a new matrix. mobj*msrc = msrc*mobj = identity
+<h2>EXAMPLES</h2>
+<a href="finverse.hoc">execute following example</a>
+<blockquote><pre>
+objref m, v1, minv
+m = new Matrix(7,7)
+v1 = new Vector(7)
+for i=-1,1 { v1.fill(2 - 3*abs(i))  m.setdiag(i, v1) }
+minv = m.inverse()
+m.printf
+minv.printf
+m.mulm(minv).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices. But doesn't really make sense for
+any other type since the result would normally be full.
+<p>
+<p><hr><p>
+<h1><a name="svd">svd</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>dvec = msrc.svd()</code><br>
+<code>dvec = msrc.svd(umat, vmat)</code><br>
+<h2>DESCRIPTION</h2>
+Singular value decomposition of a rectangular n x m matrix.
+On return ut*d*v = m where u is an orthogonal n x n matrix,
+v is an orthogonal m x m matrix, and d is a diagonal n x m matrix
+(represented as a vector) whose elements are non-negative and sorted
+by decreasing value.
+Note that if m*x = b  then
+vmat.mulv(x).mul(dvec) = umat.mulv(b)
+<h2>EXAMPLES</h2>
+<a href="fsvd.hoc">execute following example</a>
+<blockquote><pre>
+objref a, umat, vmat, dvec, dmat
+
+proc svdtest() {
+	umat = new Matrix()
+	vmat = new Matrix()
+	dvec = $o1.svd(umat, vmat)
+	dmat = new Matrix($o1.nrow, $o1.ncol)
+	dmat.setdiag(0, dvec)
+	print "dvec"  dvec.printf
+	print "dmat"  dmat.printf
+	print "umat"  umat.printf
+	print "vmat"  vmat.printf
+	print "input ", $o1 $o1.printf()
+	print "ut*d*v"
+	umat.transpose.mulm(dmat).mulm(vmat).printf
+}
+
+a = new Matrix(5, 3)
+a.setdiag(0, a.getdiag(0).indgen.add(1))
+svdtest(a)
+
+a = new Matrix(6, 6)
+objref r
+r = new Random()
+r.discunif(1,10)
+for i=0, a.nrow-1 {
+	a.setrow(i, a.getrow(i).setrand(r))
+}
+svdtest(a)
+
+a = new Matrix(2,2)
+a.setrow(0, 1)
+a.setrow(1, 2)
+svdtest(a)
+
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices. umat and vmat are also full.
+<p>
+<p><hr><p>
+<h1><a name="transpose">transpose</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mdest = msrc.transpose()</code><br>
+<h2>DESCRIPTION</h2>
+Return new matrix which is the transpose of the source matrix.
+<h2>EXAMPLES</h2>
+<a href="transpose.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(1,5)
+for i=0, 4 m.x[0][i] = i
+m.printf
+m.transpose.printf
+m.transpose.mulm(m).printf
+m.mulm(m.transpose).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p>
+<p><hr><p>
+<h1><a name="symmeig">symmeig</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>veigenvalues = msrc.symmeig(eigenvectors)</code><br>
+<h2>DESCRIPTION</h2>
+Returns the eigenvalues and eigenvectors of a real symmetric matrix.
+On exit the eigenvalues are returned  in a new vector and the
+eigenvectors are returned as an orthogonal matrix.
+Note that the i'th column of the eigenvector matrix is the eigenvector
+for the i'th element of the eigenvalue vector.
+<h2>EXAMPLES</h2>
+<a href="symmeig.hoc">execute following example</a>
+<blockquote><pre>
+objref m, q, e
+m = new Matrix(5,5)
+m.setdiag(0, 2)
+m.setdiag(-1, -1)
+m.setdiag(1, -1)
+m.printf
+
+q = new Matrix(1,1)
+e = m.symmeig(q)
+print "eigenvectors"
+q.printf
+
+print "eigenvalues"
+e.printf
+
+print "qt*m*q"
+q.transpose.mulm(m).mulm(q).printf
+
+print "qt*q"
+q.transpose.mulm(q).printf
+
+</pre></blockquote>
+<p>
+<h2>BUGS</h2>
+Implemented only for full matrices.
+<p>
+msrc must be symmetric but that fact is not checked.
+<p>
+<p><hr><p>
+<h1><a name="to_vector">to_vector</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>vobj = msrc.to_vector()</code><br>
+<code>vobj = msrc.to_vector(vout)</code><br>
+<h2>DESCRIPTION</h2>
+Copies the matrix elements into a vector in column order.
+i.e the jth column starts
+at vobj.x[msrc.nrow*j] .
+The vector is sized to nrow*ncol.
+<h2>EXAMPLES</h2>
+<a href="tovector.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,5)
+m.from_vector(m.to_vector().indgen).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Works for sparse matrices but the output vector will still be size
+nrow*ncol.
+Not very efficient since vobj and msrc do not share memory.
+<p>
+<p><hr><p>
+<h1><a name="from_vector">from_vector</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mobj = msrcdest.from_vector(vec)</code><br>
+<h2>DESCRIPTION</h2>
+Copies the vector elements into the matrix in column order. I.e
+m[i][j] = v[j*nrow + i].
+The size of vec must be equal to msrcdest.nrow()*msrcdest.ncol().
+<h2>EXAMPLES</h2>
+<a href="fromvector.hoc">execute following example</a>
+<blockquote><pre>
+objref m
+m = new Matrix(4,5)
+m.from_vector(m.to_vector().indgen).printf
+</pre></blockquote>
+<h2>BUGS</h2>
+Works for sparse matrices but all elements will exist so not really sparse.
+<p>
+<p><hr><p>
+<h1><a name="cholesky_factor">cholesky_factor</a></h1>
+<pre>
+<a href="matrix.html#Matrix">Matrix</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>mc = msrcdest.cholesky_factor()</code><br>
+<h2>DESCRIPTION</h2>
+Cholesky factorization in place. msrcdest must be a symetric positive
+definite matrix. On return, it is a lower triangular matrix, L, such that
+L*Ltranspose = msrc
+<h2>EXAMPLES</h2>
+<a href="cholesky.hoc">execute following example</a>
+<blockquote><pre>
+</pre></blockquote>
+<h2>SEE ALSO</h2> cholesky_solve
+<p>
+<p><hr><p>
+<date>
+neuron/general/classes/matrix/matrix.hel : Sep 21 09:30

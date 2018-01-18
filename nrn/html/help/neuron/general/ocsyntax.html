@@ -1,0 +1,311 @@
+<h1><a name="syntax">syntax</a></h1>
+<pre>
+<a href="../0nrn.html#general">general</a>
+   <a href="ocsyntax.html#arguments">arguments</a>      <a href="ocsyntax.html#expression">expression</a>     <a href="ocsyntax.html#iterator">iterator</a>       <a href="ocsyntax.html#proc">proc</a>           
+   <a href="ocsyntax.html#comments">comments</a>       <a href="ocsyntax.html#func">func</a>           <a href="ocsyntax.html#obfunc">obfunc</a>         <a href="ocsyntax.html#statement">statement</a>      
+</pre>
+<p>
+<p><hr><p>
+<h1><a name="comments">comments</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>SYNTAX</h2>
+<code>/*...*/</code><br>
+<code>//...</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+Comments are similar in style to C++. Enclose any text in /*...*/ (but
+do not nest them).	The rest of a line after // is a comment.
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="expression">expression</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<h2>DESCRIPTION</h2>
+ An expression has a double precision value.  It usually appears as the left
+hand side of an assignment statement.  An expression may be a number,
+variable, function call, or combination of simpler expressions.
+ 
+<h2>OPTIONS</h2>
+The ways in which expressions can be combined are listed below
+in order of precedence. e stands for any expression, v stands for any variable
+and operators are
+left associative except for assignment operators which are right associative.
+<dl> 
+<dt> <code>(<var>e</var>)</code>
+<dd> grouping
+<dt> <code><var>e</var>^<var>e</var></code> 
+<dd> exponentiation
+<dt> <code>-<var>e</var></code> 
+<dd> negation
+<dt> <code>e*e  e/e  e%e</code>
+<dd> multiplication, division, modulus
+<dt> <code>e+e  e-e</code>
+<dd> addition, subtraction
+<dt> <code>e==e  e!=e  e<e  e<=e  e>e  e>=e</code>
+<dd> logical equal, unequal, less than, less than or equal, greater than,
+greater than or equal. These expressions have the numerical
+value 1 (true) or 0 (false). The expression is considered true if it is
+within <code>float_epsilon</code> of being mathematically exact. See
+<a href="predec.html#float_epsilon">float_epsilon</a> .
+<p>
+Special logical expressions of the form objref1 == objref2 (and obj != obj)
+are also allowed and return 1 (0) if the object references label the same
+object. This makes the former comparison idiom using
+<a href="function/ocfunc.html#object_id">object_id</a> obsolete. Logical expressions of the strdef1 == strdef2
+cannot be directly compared because of parser consistency reasons. However
+obj1.string1 == obj2.string2 will return true if the strings are identical
+in the sense of <a href="function/ocfunc.html#strcmp">strcmp</a> .
+<p>
+<p>
+<dt> <code>e&&e</code>
+<dd> Logical and. Both expressions
+are always evaluated. A subexpression is considered false if it is within
+<code>float_epsilon</code> of 0 and true otherwise. If the entire expression is true
+its value is 1.
+<dt> <code>e||e</code>
+<dd> Logical or. Both expressions are always evaluated.
+A subexpression is considered false if it is within
+<code>float_epsilon</code> of 0 and true otherwise. If the entire expression is true
+its value is 1.
+<dt> <code>v=e  v+=e  v-=e  v*=e  v/=e</code>
+<dd> assignment. others are equivalent to <code>v = (v + e)</code>,
+<code>v = (v - e)</code>,
+<code>v = (v * e)</code>,
+<code>v = (v / e)</code>, respectively.
+</dl>
+<p>
+<h2>SEE ALSO</h2>
+<a href="predec.html#float_epsilon">float_epsilon</a>
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="statement">statement</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>SYNTAX</h2>
+<code><var>stmt</var></code><br>
+<code>{<var>stmt</var>}</code><br>
+<code>{<var>stmt</var> <var>stmt</var> ...<var>stmt</var>}</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+A statement is something executable that does not have a value, eg.
+for loops, procedure calls, or a compound statement between braces.
+An expression may be used anywhere a statement is required. 
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+i = 0	//initialize i
+j = 0	//initialize j
+if(vec.x[i] &lt;= 10 &amp;&amp; i &lt; vec.size()){	//In the parentheses is an expression:
+					//if the value of the ith element in vec
+					//is less than or equal to 10, and
+					//if i is an index within vec
+					//
+					//Between the braces is/are statement(s):
+	vec1.x[j] = vec.x[i]		
+	i = i+1				//increment i by 1
+	j = j+1				//increment j by 1
+} else{					
+					//Here is also a statement
+	i = i+1				//simply go to the next element of vec
+}
+</pre></blockquote>
+Statements exist between the braces following the <code>if</code> and <code>else</code> commands.
+The parentheses after the <code>if</code> command contain an expression.
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="proc">proc</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>SYNTAX</h2>
+<code>proc name() <var>stmt</var></code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+Introduce the definition of a procedure. A procedure does not return a value.
+You should always try to distill your programs into small, manageable
+procedures and functions. 
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+proc printsquare() {local x
+   x = $1
+   print x*x
+ }
+printsquare(5)
+</pre></blockquote>
+prints the square of 5. 
+<p>
+Procedures can also be called within other procedures.
+The code which produces the interactive examples for the <a href="classes/random.html#Random">Random</a> class contains procedures
+for both creating the buttons which allow you to select parameters as well as for creating
+the histograms which appear on the screen.
+<p>
+<p>
+<p><hr><p>
+<h1><a name="func">func</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>SYNTAX</h2>
+<code>func() {stmt1, stmt2, stmt3...}</code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+Introduce the definition of a function. 
+A function returns a double precision value.
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+ func tan() { 
+	return sin($1)/cos($1) 
+ }
+ tan(PI/8)
+</pre></blockquote>
+creates a function <code>tan()</code> which takes one argument (floating point
+or whole number), and contains one
+statement.  
+<p>
+<p>
+<p><hr><p>
+<h1><a name="obfunc">obfunc</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<h2>SYNTAX</h2>
+<code>obfunc name() { statements }</code><br>
+<h2>DESCRIPTION</h2>
+Introduce the definition of a function returning an objref
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+obfunc last() { // arg is List
+	return $o1.object($o1.count - 1)
+}
+</pre></blockquote>
+<h2>SEE ALSO</h2>
+<a href="keywords/ockeywor.html#localobj">localobj</a> <a href="keywords/ockeywor.html#return">return</a>
+<p>
+<p><hr><p>
+<h1><a name="iterator">iterator</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>SYNTAX</h2>
+<code>iterator name() <var>stmt</var></code><br>
+<code></code><br>
+<h2>DESCRIPTION</h2>
+Define a looping construct to be used subsequently in looping
+over a statement.
+<p>
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+iterator case() {local i
+	for i = 2, numarg() {		//must begin at 2 because the first argument is
+					//in reference to the address
+		$&amp;1 = $i		//what is at the address will be changed
+		<var>iterator_statement</var>	//This is where the iterator statement will
+					//be executed.
+	}
+}
+</pre></blockquote>
+In this case
+<blockquote><pre>
+x=0
+for case (&amp;x, 1,2,4,7,-25) {
+	print x			//the iterator statement
+}
+</pre></blockquote>
+will print the values 1, 2, 4, 7, -25
+<p>
+The body of the <code>for name(..) statement</code> is executed in the same
+context as a normal for statement. The name is executed in the same
+context as a normal procedure but should use only variables local to the
+iterator.
+<p>
+<p>
+<p>
+<p><hr><p>
+<h1><a name="arguments">arguments</a></h1>
+<pre>
+<a href="ocsyntax.html#syntax">syntax</a>
+</pre>
+<p>
+<h2>DESCRIPTION</h2>
+Arguments to functions and procedures are retrieved positionally.
+<code>$1, $2, $3</code> refer to the first, second, and third scalar arguments
+respectively.  
+<p>
+If "<code>i</code>" is declared as a local variable, <code>$i</code> refers 
+to the scalar argument in the position given by the value of <code>i</code>. 
+The value of <code>i</code> must be in the
+range {1...numarg()}. 
+<p>
+The normal idiom is
+	<code>for i=1, numarg()  {print $i} </code>
+Scalar arguments use call by value so the variable in the calling
+statement cannot be changed. 
+<p>
+If the calling statement has a '&' 
+prepended to the variable then it is passed by reference and must 
+be retrieved with the
+syntax <code>$&1, $&2, ..., $&i</code>. If the variable passed by reference
+is a one dimensional array then <code>$&1</code> refers to the first (0th) element
+and index i is denoted <code>$&1[i]</code>. Warning, NO array bounds checking is
+done and the array is treated as being one-dimensional. A scalar or
+array reference may be passed to another procedure with
+<code>&$&1</code>. To save a scalar reference use the <a href="classes/pointer.html#Pointer">Pointer</a> class.
+<p>
+Retrieval of strdef arguments uses the syntax: <code>$s1, $s2, ..., $si</code>.
+Retrieval of objref arguments uses the syntax: <code>$o1, $o2, ..., $oi</code>.
+Arguments of type <code>strdef</code> and <code>objref</code> use call by reference so the calling
+value may be changed.
+<h2>EXAMPLES</h2>
+<blockquote><pre>
+func mult(){
+	return $1*$2
+}
+</pre></blockquote>
+defines a function which multiplies two arguments.
+Therefore <code>mult(4,5)</code> will return the value 20.
+<blockquote><pre>
+proc pr(){
+	print $s3
+	print $1*$2
+	print $o4
+}
+</pre></blockquote>
+defines a procedure which first prints the string defined in 
+position 3, then prints the product of the two numbers in 
+positions 1 and 2, and finally prints the pointer reference to an
+object in position 4.
+<p>
+For a string '<code>s</code>' which is defined as <code>s = "hello"</code>, and an 
+objref '<code>r</code>', <code>pr(3,5,s,r)</code> will return
+<blockquote><pre>
+hello
+15
+Graph[0]  
+</pre></blockquote>
+assuming <code>r</code> refers to the first graph.
+<h2>SEE ALSO</h2>
+<a href="ocsyntax.html#func">func</a> , <a href="ocsyntax.html#proc">proc</a> , <a href="oop.html#objref">objref</a> , <a href="keywords/ockeywor.html#strdef">strdef</a> , <a href="classes/pointer.html#Pointer">Pointer</a> , <a href="function/ocfunc.html#numarg">numarg</a> , <a href="function/ocfunc.html#argtype">argtype</a>
+<p>
+<p>
+<p>
+<p>
+<p><hr><p>
+<date>
+neuron/general/ocsyntax.hel : Sep 21 09:30

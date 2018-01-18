@@ -1,0 +1,4 @@
+//@code
+objref m
+m = new Matrix(4,5)
+m.from_vector(m.to_vector().indgen).printf

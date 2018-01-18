@@ -1,0 +1,9 @@
+//@code
+objref vec
+vec = new Vector()
+vec.indgen(1,5,1)
+vec.printf
+vec.c.rotate(2).printf
+vec.c.rotate(2, 0).printf
+vec.c.rotate(-2).printf
+vec.c.rotate(-2, 0).printf

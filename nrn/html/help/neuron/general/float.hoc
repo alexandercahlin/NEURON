@@ -1,0 +1,9 @@
+//@code
+for (i = 0; i < 1; i += .1) {
+	print i, int(10*i)
+}
+float_epsilon = 0
+// two bugs due to roundoff
+for (i = 0; i < 1; i += .1) {
+	print i, int(10*i)
+}

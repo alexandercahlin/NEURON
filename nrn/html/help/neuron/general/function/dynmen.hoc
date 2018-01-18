@@ -1,0 +1,18 @@
+//@code
+load_file("nrngui.hoc")
+xpanel("test")
+xmenu("dynamic", "make()")
+xpanel()
+
+strdef s1, s2
+n = 0
+
+proc make() {local i
+   n += 1
+   for i=1, n {
+      sprint(s1, "label %d", i)
+      sprint(s2, "print %d", i)
+      xbutton(s1, s2)
+   }
+}
+

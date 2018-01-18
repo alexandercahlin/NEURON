@@ -1,0 +1,21 @@
+objref g
+g = new Graph()
+g.size(0,10,0,100)
+
+//@code
+//...
+objref xs, ys, xd, yd
+xs = new Vector(10)
+xs.indgen()
+ys = xs.c.mul(xs)
+ys.line(g, xs, 1, 0) // black reference line
+
+xd = new Vector()
+
+xd.indgen(-.5, 10.5, .1)
+yd = ys.c.interpolate(xd, xs)
+yd.line(g, xd, 3, 0) // blue more points than reference
+
+xd.indgen(-.5, 13, 3)
+yd = ys.c.interpolate(xd, xs)
+yd.line(g, xd, 2, 0) // red fewer points than reference

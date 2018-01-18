@@ -1,0 +1,16 @@
+//@code
+proc a() {
+    print $1
+}
+
+strdef label, cmd
+
+xpanel("panel")
+    xmenu("menu")
+    for i =1, 10 {
+        sprint(label, "item %d", i)
+        sprint(cmd, "a(%d)", i)
+        xradiobutton(label, cmd)
+    }
+    xmenu()
+xpanel()

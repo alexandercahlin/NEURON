@@ -1,0 +1,42 @@
+objref box, g1, g2, g3
+objref v1, v2, v3
+
+proc setup_gui() {
+        box = new VBox()
+        box.intercept(1)
+        xpanel("", 1)
+                xradiobutton("sin   ", "c=0  p()")
+                xradiobutton("cos   ", "c=1  p()")
+                xvalue("freq (waves/domain)", "f", 1, "p()")
+        xpanel()
+        g1 = new Graph()
+        g2 = new Graph()
+	g3 = new Graph()
+        box.intercept(0)
+        box.map()
+        g1.size(0,N, -1, 1)
+        g2.size(0,N, -N, N)
+        g3.size(0,N, -N, N)
+}
+//@code...	//define a gui for this example
+
+N=16	// should be power of 2
+c=1	// 0 -> sin   1 -> cos
+f=1	// waves per domain, max is N/2
+setup_gui() // construct the gui for this example
+
+proc p() {
+        v1 = new Vector(N)
+        v1.sin(f, c*PI/2, 1000/N)
+        v1.plot(g1)
+                
+        v2 = new Vector()
+        v2.fft(v1, 1)		// forward
+        v2.plot(g2)
+        
+	v3 = new Vector()
+	v3.fft(v2, -1)		// inverse
+	v3.plot(g3)		// amplitude N/2 times the original 
+}
+        
+p()
