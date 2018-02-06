@@ -1,0 +1,40 @@
+{load_file("nrngui.hoc")}
+objectvar save_window_, rvp_
+objectvar scene_vector_[3]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(0,0,0)}
+
+//Begin MulRunFitter[0]
+{
+load_file("mulfit.hoc", "MulRunFitter")
+}
+{
+ocbox_ = new MulRunFitter(1)
+}
+{object_push(ocbox_)}
+{
+version(6)
+ranfac = 2
+fspec = new File("mrftutorial.ft1")
+fdat = new File("mrftutorial.fd1")
+read_data()
+build()
+}
+opt.set_optimizer("MulfitPraxWrap")
+{object_push(opt.optimizer)}
+{
+nstep = 0
+}
+{object_pop()}
+{p.gengui(0, 280, 138, 293.4, 340.2)}
+{p.showargs(62, 62, 225.9, 144)}
+{object_pop()}
+{
+ocbox_.map("MulRunFitter[0]", 121, 627, 337.5, 221.4)
+}
+objref ocbox_
+//End MulRunFitter[0]
+
+objectvar scene_vector_[1]
+{doNotify()}
