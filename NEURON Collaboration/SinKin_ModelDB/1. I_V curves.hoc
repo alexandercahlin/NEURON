@@ -222,18 +222,4 @@ g_i.size(0, tstop, y_min, 0.1)
 vbox2.intercept(0)
 vbox2.map("Soma clamp current", 520, 20, 600, 450)
 
-// graph for plotting the function to fit to, and our function
-load_file("curvefitting.ses.fd1")
-load_file("curvefitting.ses.ft1")
-load_file("curvefitting.ses")
-
-objref g	//Creates an object reference "g" which will
-		//point to the graph object.
-g = new Graph()		//Assigns "g" the role of pointing to a Graph
-			//created from the Graph class, and produces
-			//a graph window with x and y axes on the
-			//screen.
-	g.plot(ina)	//States that the y values on the plot
-			//will be the sin of the x values.
-}
-g.flush()	//Actually draws the plot on the graph in the window.
+load_file("parameteradjustment.ses")
