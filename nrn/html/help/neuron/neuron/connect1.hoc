@@ -1,9 +1,0 @@
-//@code
- create soma, axon, dendrite[3]
- connect axon(0), soma(0)
- soma for i=0,2 {
-   connect dendrite[i](0), 1
- }
- topology()
- objref s
- s = new Shape()

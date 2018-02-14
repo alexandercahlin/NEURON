@@ -1,0 +1,9 @@
+ParmFitness: Unnamed multiple run protocol
+	FitnessFunction: logistic_function
+		1/(1 + exp((-1/k)*($1-V50)))
+		RegionFitness:
+
+	Parameters:
+		"k", -6.7376, -1e+06, 1e+06, 1, 0
+		"V50", -64.2603, -1e+06, 1e+06, 1, 0
+End ParmFitness

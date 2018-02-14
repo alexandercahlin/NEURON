@@ -1,9 +1,0 @@
-objref g
-g = new Graph()
-g.label("here is some text")
-g.beginline()
-g.line(100, 50)
-g.line(200, 100)
-g.flush()
-//@code
-// pop up an example of a scene

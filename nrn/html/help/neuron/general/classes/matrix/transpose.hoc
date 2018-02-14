@@ -1,8 +1,0 @@
-//@code
-objref m
-m = new Matrix(1,5)
-for i=0, 4 m.x[0][i] = i
-m.printf
-m.transpose.printf
-m.transpose.mulm(m).printf
-m.mulm(m.transpose).printf

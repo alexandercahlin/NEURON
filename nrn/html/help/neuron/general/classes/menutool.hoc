@@ -1,7 +1,0 @@
-//@code
-objref g
-g = new Graph()
-g.menu_tool("mouse events", "p")
-proc p() {
-	print $1, $2, $3, $4
-}

@@ -1,3 +1,0 @@
-//@code
-	load_file("grapher.hoc")	// reads this file
-	makegrapher(1)			// pop up a new grapher

@@ -1,0 +1,9 @@
+ParmFitness: Unnamed multiple run protocol
+	FitnessFunction: Unnamed Function Fitness
+		1/(1 + exp(-(1/k1)*($1-d1)))
+		RegionFitness:
+
+	Parameters:
+		"k1", 7.46602, -1e+006, 1e+006, 1, 0
+		"d1", -23.149, -1e+006, 1e+006, 1, 0
+End ParmFitness
