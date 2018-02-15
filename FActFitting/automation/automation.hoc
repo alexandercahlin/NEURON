@@ -1,0 +1,11 @@
+load_file("nrngui.hoc")
+
+getcwd()
+chdir("C:\Users\Alexander\Desktop\NEURONProjects\FActFitting\automation")
+load_file("act1.dat") //not sure we need this
+
+
+objref f
+f = new File()
+f.ropen("act1.dat") //to read the txt file to a file of Neuron
+print f
