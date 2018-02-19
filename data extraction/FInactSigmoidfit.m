@@ -1,4 +1,4 @@
-function [fitresult, gof] = sigmoidfit(x1, y1)
+function [fitresult, gof] = FInactSigmoidfit(x1, y1)
 %CREATEFIT(X1,Y1)
 %  Create a fit.
 %
@@ -21,7 +21,8 @@ function [fitresult, gof] = sigmoidfit(x1, y1)
 ft = fittype( '1./(1+exp((x-vhalf)*(-1/k)))', 'independent', 'x', 'dependent', 'y' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.StartPoint = [1 -30];
+opts.StartPoint = [-5 -60];
+opts.Upper = [0 0];
 
 % Fit model to data.
 [fitresult, gof] = fit( xData, yData, ft, opts );

@@ -1,4 +1,4 @@
-function [fitresult, gof] = sigmoidfit(x1, y1)
+function [fitresult, gof] = ActSigmoidfit(x1, y1)
 %CREATEFIT(X1,Y1)
 %  Create a fit.
 %
