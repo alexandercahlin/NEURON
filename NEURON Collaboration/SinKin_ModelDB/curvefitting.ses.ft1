@@ -1,7 +1,0 @@
-ParmFitness: Unnamed multiple run protocol
-	FitnessFunction: Unnamed Function Fitness
-		exp(-$1)
-		RegionFitness:
-
-	Parameters:
-End ParmFitness

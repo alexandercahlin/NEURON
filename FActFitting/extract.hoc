@@ -1,4 +1,0 @@
-load_file("nrngui.hoc")
-load_file("testfit1curve.ses.fd1")
-load_file("testfit1curve.ses.ft1")
-load_file("testfit1curve.ses")
