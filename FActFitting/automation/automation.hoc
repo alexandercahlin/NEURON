@@ -16,27 +16,24 @@ load_file("mulfit.hoc")
   print MRF
   print MRF.p
 
-
-
   objref f1, orig_data
   	orig_data = new Matrix()
   	f1 = new File()
   	f1.ropen("act1.dat")
   	orig_data.scanf(f1)
 
-    for i = 0,1 {hoc_obj_[i] = new Vector()}
-  	hoc_obj_[0].copy(orig_data.getcol(1))	// y data
+    for i = 0,1 {
+    hoc_obj_[i] = new Vector()
+    }
+
+    hoc_obj_[0].copy(orig_data.getcol(1))	// y data
   	hoc_obj_[1].copy(orig_data.getcol(0))	// x data
+//MRF.p.pf.generatorlist.object(0).gen.efun()
 
-print MRF.p.pf.generatorlist.object(0).gen // HERE
-//.fitnesslist.object(0).clipboard_data()
-
+print MRF.p.pf.generatorlist.object(0).gen.fitness()
+print "hello"
 
     f1.close()
-  	// orig_data.printf()	// uncomment to test data import success
-
-
-
     load_file("params.hoc")
 
     objref xobj, proxies
