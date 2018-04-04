@@ -1,0 +1,12 @@
+k = 1
+vhalf = 1
+
+proc init() {
+  finitialize(v_init)
+  if (cvode.active()) {
+    cvode.re_init()
+  } else {
+    fcurrent()
+  }
+  frecord_init()
+}

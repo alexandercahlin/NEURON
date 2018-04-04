@@ -1,0 +1,390 @@
+function str_feval (fun, str)
+
+global vars handles
+
+if (nargin==2)
+  switch (sum(str))
+    case 1700
+      feval(fun, vars.HH_user1.gmax);
+    case 2632
+      feval(fun, handles.HH_user1.gate2.beta.c);
+    case 2226
+      feval(fun, handles.HH_K.gate1.beta.s);
+    case 1920
+      feval(fun, vars.HH_K.gate2.beta.c);
+    case 1888
+      feval(fun, handles.HH_user1.ion);
+    case 2424
+      feval(fun, handles.HH_Na.gate2.beta.fn);
+    case 2535
+      feval(fun, handles.HH_K.gate2.exponent);
+    case 2752
+      feval(fun, handles.HH_user1.gate1.beta.th);
+    case 2647
+      feval(fun, handles.HH_user1.gate1.beta.s);
+    case 2279
+      feval(fun, handles.button_HH_user1);
+    case 2331
+      feval(fun, handles.HH_K.gate1.beta.th);
+    case 2311
+      feval(fun, handles.HH_Na.gate2.beta.c);
+    case 2634
+      feval(fun, handles.HH_Na.gate1.exponent);
+    case 2538
+      feval(fun, handles.HH_Na.gate2.alpha.th);
+    case 1738
+      feval(fun, vars.HH_user1.gate2);
+    case 2025
+      feval(fun, vars.HH_K.gate1.alpha.c);
+    case 634
+      feval(fun, vars.EK);
+    case 1858
+      feval(fun, handles.button_HH_K);
+    case 2147
+      feval(fun, vars.HH_K.gate2.alpha.th);
+    case 2453
+      feval(fun, vars.HH_user1.gate1.beta.fn);
+    case 1597
+      feval(fun, vars.HH_user1.ion);
+    case 2140
+      feval(fun, vars.HH_Na.gate1.beta.th);
+    case 2738
+      feval(fun, handles.HH_user1.gate2.alpha.c);
+    case 2955
+      feval(fun, handles.HH_user1.gate1.exponent);
+    case 2316
+      feval(fun, handles.HH_K.gate1.alpha.c);
+    case 2133
+      feval(fun, vars.HH_Na.gate2.beta.fn);
+    case 2035
+      feval(fun, vars.HH_Na.gate1.beta.s);
+    case 2437
+      feval(fun, handles.HH_K.gate1.alpha.th);
+    case 2744
+      feval(fun, handles.HH_user1.gate1.beta.fn);
+    case 1657
+      feval(fun, vars.switch_HH_Na);
+    case 2559
+      feval(fun, vars.HH_user1.gate1.alpha.fn);
+    case 904
+      feval(fun, vars.HH_Na);
+    case 2429
+      feval(fun, handles.HH_K.gate1.alpha.fn);
+    case 1093
+      feval(fun, vars.gmult2);
+    case 2851
+      feval(fun, handles.HH_user1.gate2.alpha.fn);
+    case 2754
+      feval(fun, handles.HH_user1.gate2.alpha.s);
+    case 666
+      feval(fun, vars.Cm);
+    case 1737
+      feval(fun, vars.HH_user1.gate1);
+    case 1958
+      feval(fun, handles.button_HH_Na);
+    case 1567
+      feval(fun, handles.HH_Na.ion);
+    case 2020
+      feval(fun, vars.HH_Na.gate2.beta.c);
+    case 2125
+      feval(fun, vars.HH_Na.gate1.alpha.c);
+    case 2158
+      if (strcmp(str,'handles.button_passNa'))
+        feval(fun, handles.button_passNa);
+      else
+        feval(fun, handles.button_passCl);
+      end
+    case 2462
+      if (strcmp(str,'vars.HH_user1.gate1.alpha.s'))
+        feval(fun, vars.HH_user1.gate1.alpha.s);
+      else
+        feval(fun, vars.HH_user1.gate2.beta.th);
+      end
+    case 1317
+      feval(fun, vars.HH_K.gate2);
+    case 2446
+      feval(fun, vars.HH_user1.gate1.alpha.c);
+    case 2019
+      feval(fun, vars.HH_Na.gate1.beta.c);
+    case 2238
+      feval(fun, vars.HH_Na.gate1.alpha.fn);
+    case 1670
+      feval(fun, handles.HH_Na.gmax);
+    case 2356
+      feval(fun, vars.HH_user1.gate1.beta.s);
+    case 1919
+      feval(fun, vars.HH_K.gate1.beta.c);
+    case 2324
+      feval(fun, handles.HH_K.gate2.beta.fn);
+    case 2233
+      feval(fun, vars.HH_user1.gate2.expt);
+    case 2430
+      feval(fun, handles.HH_K.gate2.alpha.fn);
+    case 2142
+      feval(fun, vars.HH_Na.gate2.alpha.s);
+    case 2210
+      feval(fun, handles.HH_K.gate1.beta.c);
+    case 2333
+      feval(fun, handles.HH_K.gate2.alpha.s);
+    case 776
+      if (strcmp(str,'vars.Clo'))
+        feval(fun, vars.Clo);
+      else
+        feval(fun, vars.Nao);
+      end
+    case 1416
+      feval(fun, vars.HH_Na.gate1);
+    case 1936
+      feval(fun, vars.HH_K.gate2.beta.s);
+    case 2567
+      feval(fun, vars.HH_user1.gate1.alpha.th);
+    case 1570
+      feval(fun, handles.HH_K.gmax);
+    case 1493
+      feval(fun, handles.g_passK);
+    case 2326
+      feval(fun, handles.HH_Na.gate1.beta.s);
+    case 2032
+      feval(fun, vars.HH_K.gate1.beta.fn);
+    case 2041
+      if (strcmp(str,'vars.HH_K.gate1.alpha.s'))
+        feval(fun, vars.HH_K.gate1.alpha.s);
+      else
+        feval(fun, vars.HH_K.gate2.beta.th);
+      end
+    case 1467
+      feval(fun, handles.HH_K.ion);
+    case 1264
+      feval(fun, handles.drug1);
+    case 1722
+      feval(fun, handles.HH_K_gates);
+    case 2058
+      feval(fun, handles.button_passK);
+    case 961
+      feval(fun, vars.ginh1);
+    case 681
+      feval(fun, vars.Rm);
+    case 1417
+      feval(fun, vars.HH_Na.gate2);
+    case 2631
+      feval(fun, handles.HH_user1.gate1.beta.c);
+    case 2537
+      feval(fun, handles.HH_Na.gate1.alpha.th);
+    case 1812
+      feval(fun, vars.HH_K.gate2.expt);
+    case 574
+      feval(fun, vars.T);
+    case 2340
+      feval(fun, vars.HH_user1.gate1.beta.c);
+    case 2042
+      feval(fun, vars.HH_K.gate2.alpha.s);
+    case 2033
+      feval(fun, vars.HH_K.gate2.beta.fn);
+    case 2143
+      feval(fun, handles.HH_user1_gates);
+    case 2310
+      feval(fun, handles.HH_Na.gate1.beta.c);
+    case 1202
+      feval(fun, vars.g_passK);
+    case 2438
+      feval(fun, handles.HH_K.gate2.alpha.th);
+    case 2132
+      feval(fun, vars.HH_Na.gate1.beta.fn);
+    case 2317
+      feval(fun, handles.HH_K.gate2.alpha.c);
+    case 2859
+      feval(fun, handles.HH_user1.gate2.alpha.th);
+    case 1757
+      feval(fun, vars.switch_passK);
+    case 1912
+      feval(fun, vars.HH_Na.gate2.expt);
+    case 2227
+      feval(fun, handles.HH_K.gate2.beta.s);
+    case 690
+      feval(fun, vars.Vr);
+    case 676
+      feval(fun, vars.Ko);
+    case 2416
+      feval(fun, handles.HH_Na.gate1.alpha.c);
+    case 1275
+      feval(fun, handles.stim1);
+    case 2211
+      feval(fun, handles.HH_K.gate2.beta.c);
+    case 2433
+      feval(fun, handles.HH_Na.gate2.alpha.s);
+    case 2529
+      feval(fun, handles.HH_Na.gate1.alpha.fn);
+    case 2454
+      feval(fun, vars.HH_user1.gate2.beta.fn);
+    case 2036
+      feval(fun, vars.HH_Na.gate2.beta.s);
+    case 2357
+      feval(fun, vars.HH_user1.gate2.beta.s);
+    case 1857
+      if (strcmp(str,'vars.switch_passNa'))
+        feval(fun, vars.switch_passNa);
+      else
+        feval(fun, vars.switch_passCl);
+      end
+    case 1618
+      feval(fun, handles.v3button);
+    case 670
+      feval(fun, vars.Ki);
+    case 2423
+      feval(fun, handles.HH_Na.gate1.beta.fn);
+    case 1225
+      feval(fun, vars.HH_user1);
+    case 2246
+      feval(fun, vars.HH_Na.gate1.alpha.th);
+    case 2431
+      feval(fun, handles.HH_Na.gate1.beta.th);
+    case 2534
+      feval(fun, handles.HH_K.gate1.exponent);
+    case 2417
+      feval(fun, handles.HH_Na.gate2.alpha.c);
+    case 1616
+      feval(fun, handles.v1button);
+    case 1978
+      feval(fun, vars.switch_HH_user1);
+    case 2850
+      feval(fun, handles.HH_user1.gate1.alpha.fn);
+    case 2753
+      if (strcmp(str,'handles.HH_user1.gate1.alpha.s'))
+        feval(fun, handles.HH_user1.gate1.alpha.s);
+      else
+        feval(fun, handles.HH_user1.gate2.beta.th);
+      end
+    case 2560
+      feval(fun, vars.HH_user1.gate2.alpha.fn);
+    case 2461
+      feval(fun, vars.HH_user1.gate1.beta.th);
+    case 2141
+      if (strcmp(str,'vars.HH_Na.gate1.alpha.s'))
+        feval(fun, vars.HH_Na.gate1.alpha.s);
+      else
+        feval(fun, vars.HH_Na.gate2.beta.th);
+      end
+    case 2139
+      feval(fun, vars.HH_K.gate2.alpha.fn);
+    case 1092
+      feval(fun, vars.gmult1);
+    case 2026
+      feval(fun, vars.HH_K.gate2.alpha.c);
+    case 770
+      if (strcmp(str,'vars.Cli'))
+        feval(fun, vars.Cli);
+      else
+        feval(fun, vars.Nai);
+      end
+    case 2138
+      feval(fun, vars.HH_K.gate1.alpha.fn);
+    case 734
+      if (strcmp(str,'vars.ENa'))
+        feval(fun, vars.ENa);
+      else
+        feval(fun, vars.ECl);
+      end
+    case 2447
+      feval(fun, vars.HH_user1.gate2.alpha.c);
+    case 1276
+      if (strcmp(str,'handles.stim2'))
+        feval(fun, handles.stim2);
+      else
+        feval(fun, vars.HH_Na.ion);
+      end
+    case 1176
+      feval(fun, vars.HH_K.ion);
+    case 1279
+      feval(fun, vars.HH_K.gmax);
+    case 2146
+      feval(fun, vars.HH_K.gate1.alpha.th);
+    case 2737
+      feval(fun, handles.HH_user1.gate1.alpha.c);
+    case 804
+      feval(fun, vars.HH_K);
+    case 2568
+      feval(fun, vars.HH_user1.gate2.alpha.th);
+    case 1935
+      feval(fun, vars.HH_K.gate1.beta.s);
+    case 2232
+      feval(fun, vars.HH_user1.gate1.expt);
+    case 2530
+      feval(fun, handles.HH_Na.gate2.alpha.fn);
+    case 1265
+      feval(fun, handles.drug2);
+    case 2332
+      if (strcmp(str,'handles.HH_K.gate1.alpha.s'))
+        feval(fun, handles.HH_K.gate1.alpha.s);
+      else
+        feval(fun, handles.HH_K.gate2.beta.th);
+      end
+    case 2432
+      if (strcmp(str,'handles.HH_Na.gate1.alpha.s'))
+        feval(fun, handles.HH_Na.gate1.alpha.s);
+      else
+        feval(fun, handles.HH_Na.gate2.beta.th);
+      end
+    case 1617
+      feval(fun, handles.v2button);
+    case 2956
+      feval(fun, handles.HH_user1.gate2.exponent);
+    case 962
+      feval(fun, vars.ginh2);
+    case 2648
+      feval(fun, handles.HH_user1.gate2.beta.s);
+    case 1302
+      if (strcmp(str,'vars.g_passNa'))
+        feval(fun, vars.g_passNa);
+      else
+        feval(fun, vars.g_passCl);
+      end
+    case 2247
+      feval(fun, vars.HH_Na.gate2.alpha.th);
+    case 2635
+      feval(fun, handles.HH_Na.gate2.exponent);
+    case 2239
+      feval(fun, vars.HH_Na.gate2.alpha.fn);
+    case 2126
+      feval(fun, vars.HH_Na.gate2.alpha.c);
+    case 2858
+      feval(fun, handles.HH_user1.gate1.alpha.th);
+    case 1991
+      feval(fun, handles.HH_user1.gmax);
+    case 2323
+      feval(fun, handles.HH_K.gate1.beta.fn);
+    case 1316
+      feval(fun, vars.HH_K.gate1);
+    case 2463
+      feval(fun, vars.HH_user1.gate2.alpha.s);
+    case 1811
+      feval(fun, vars.HH_K.gate1.expt);
+    case 2327
+      feval(fun, handles.HH_Na.gate2.beta.s);
+    case 1557
+      feval(fun, vars.switch_HH_K);
+    case 1822
+      feval(fun, handles.HH_Na_gates);
+    case 2745
+      feval(fun, handles.HH_user1.gate2.beta.fn);
+    case 1379
+      feval(fun, vars.HH_Na.gmax);
+    case 1593
+      if (strcmp(str,'handles.g_passNa'))
+        feval(fun, handles.g_passNa);
+      else
+        feval(fun, handles.g_passCl);
+      end
+    case 1642
+      feval(fun, handles.vc_curve);
+    case 1911
+      feval(fun, vars.HH_Na.gate1.expt);
+    case 2341
+      feval(fun, vars.HH_user1.gate2.beta.c);
+    case 2040
+      feval(fun, vars.HH_K.gate1.beta.th);
+    otherwise
+      disp 'unknown variable name to str_feval';
+  end
+else
+  disp 'str_feval called with incorrect no of parameters';
+end
